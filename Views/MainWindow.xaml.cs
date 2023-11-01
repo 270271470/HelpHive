@@ -17,13 +17,31 @@ using HelpHive.Views.Pages;
 namespace HelpHive.Views
 {
     /// Interaction logic for MainWindow.xaml
-    public partial class MainWindow : NavigationWindow
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            this.Navigate(new WelcomePage());
+            MainFrame.Navigate(new WelcomePage());
 
         }
+
+        // Add link methods here:
+        private void OnNewTicketClicked(object sender, RoutedEventArgs e)
+        {
+            // Handle the button click here.
+            // For example, navigate to a new page or open a dialog.
+        }
+        private void OnActiveTicketsClicked(object sender, RoutedEventArgs e)
+        {
+            // Handle the button click here.
+            // For example, navigate to a new page or open a dialog.
+        }
+        private void OnTicketHistoryClicked(object sender, RoutedEventArgs e)
+        {
+            // Handle the button click here.
+            // For example, navigate to a new page or open a dialog.
+        }
+
     }
 }
