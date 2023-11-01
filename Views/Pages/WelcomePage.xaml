@@ -1,0 +1,11 @@
+﻿<Page x:Class="HelpHive.Views.Pages.WelcomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="clr-namespace:HelpHive.Views.Pages"
+      xmlns:vm="clr-namespace:HelpHive.ViewModels"
+    Title="Welcome Page">
+
+    <Page.DataContext>
+        <vm:MainWindowVM />
+    </Page.DataContext>
+</Page>
