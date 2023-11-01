@@ -108,6 +108,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\MainWindowVM.cs" />
+    <Compile Include="ViewModels\ViewModelsBaseClass.cs" />
     <Compile Include="Views\Pages\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
