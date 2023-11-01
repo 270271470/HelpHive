@@ -12,31 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using HelpHive.Services;
+using HelpHive.Views.Pages;
 
 namespace HelpHive.Views
 {
     /// Interaction logic for MainWindow.xaml
-    public partial class MainWindow : Window
+    public partial class MainWindow : NavigationWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+            this.Navigate(new WelcomePage());
 
-            string connectionString = "Server=223.165.67.19;Database=helphive_db;User ID=helphive_admin;Password=qD7On3mDrwAr;SslMode=Required;";
-
-            var dbConnection = new DatabaseConnection(connectionString);
-
-            bool isConnected = dbConnection.TestConnection();
-
-            if (isConnected)
-            {
-                MessageBox.Show("Connected to the database successfully!");
-            }
-            else
-            {
-                MessageBox.Show("Failed to connect to the database.");
-            }
         }
     }
 }
