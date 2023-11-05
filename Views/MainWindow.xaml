@@ -21,7 +21,10 @@
         </StackPanel>
 
         <!-- Frame for Navigation -->
-        <Frame Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden"/>
+        <!-- Main Content Frame -->
+        <Frame x:Name="MainFrame" Grid.Column="1">
+            <!-- This is where your pages (like WelcomePage) will be displayed -->
+        </Frame>
     </Grid>
 
 </Window>
