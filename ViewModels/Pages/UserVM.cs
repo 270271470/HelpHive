@@ -46,7 +46,7 @@ namespace HelpHive.ViewModels
             }
         }
 
-        // This command will be bound to the Register button in the view
+        // This command will be bound to the Register button in the vie
         public RelayCommand RegisterCommand { get; }
 
 
