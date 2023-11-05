@@ -66,52 +66,26 @@ namespace HelpHive.ViewModels
         {
             bool isValidEmail = string.IsNullOrWhiteSpace(User?.Email) ? false
                                 : Regex.IsMatch(User.Email, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", RegexOptions.IgnoreCase);
-            Debug.WriteLine($"isValidEmail: {isValidEmail}");
-
             bool isValidPhoneNumber = string.IsNullOrWhiteSpace(User?.PhoneNumber) ? false
                                     : Regex.IsMatch(User.PhoneNumber, @"^(\+\d{1,3}[- ]?)?\d{10}$", RegexOptions.IgnoreCase);
-            Debug.WriteLine($"isValidPhoneNumber: {isValidPhoneNumber}");
-
             bool hasFirstName = !string.IsNullOrWhiteSpace(User.FirstName);
-            Debug.WriteLine($"hasFirstName: {hasFirstName}");
-
             bool hasLastName = !string.IsNullOrWhiteSpace(User.LastName);
-            Debug.WriteLine($"hasLastName: {hasLastName}");
-
             bool hasEmail = !string.IsNullOrWhiteSpace(User.Email);
-            Debug.WriteLine($"hasEmail: {hasEmail}");
-
             bool hasValidPassword = !string.IsNullOrWhiteSpace(User.Password);
-            Debug.WriteLine($"hasValidPassword: {hasValidPassword}");
-
-            bool passwordMatchesConfirmation = User.Password == _confirmPassword; // Assuming you have a _confirmPassword field in your ViewModel
-            Debug.WriteLine($"passwordMatchesConfirmation: {passwordMatchesConfirmation}");
-
+            bool passwordMatchesConfirmation = User.Password == _confirmPassword;
             bool hasAddress1 = !string.IsNullOrWhiteSpace(User.Address1);
-            Debug.WriteLine($"hasAddress1: {hasAddress1}");
-
             bool hasCity = !string.IsNullOrWhiteSpace(User.City);
-            Debug.WriteLine($"hasCity: {hasCity}");
-
             bool hasRegion = !string.IsNullOrWhiteSpace(User.Region);
-            Debug.WriteLine($"hasRegion: {hasRegion}");
-
             bool hasPostalCode = !string.IsNullOrWhiteSpace(User.PostalCode);
-            Debug.WriteLine($"hasPostalCode: {hasPostalCode}");
-
             bool hasCountry = !string.IsNullOrWhiteSpace(User.Country);
-            Debug.WriteLine($"hasCountry: {hasCountry}");
-
             bool hasStatus = !string.IsNullOrWhiteSpace(User.Status);
-            Debug.WriteLine($"hasStatus: {hasStatus}");
 
-            // Assuming country should be a valid two-letter country code.
+            // Country code must be in this format - NZ, AU etc.
             bool isValidCountryCode = !string.IsNullOrWhiteSpace(User.Country) && Regex.IsMatch(User.Country, @"^[A-Z]{2}$");
-            Debug.WriteLine($"isValidCountryCode: {isValidCountryCode}");
 
-            bool canRegister = hasFirstName;
+            bool canRegister = hasFirstName && hasLastName && hasEmail && hasValidPassword  && passwordMatchesConfirmation  && isValidPhoneNumber && hasAddress1 && hasCity && hasRegion && hasPostalCode && hasCountry;
 
-            Debug.WriteLine($"canRegister result: {canRegister}");
+            //Debug.WriteLine($"canRegister result: {canRegister}");
 
             return canRegister;
         }
@@ -124,10 +98,7 @@ namespace HelpHive.ViewModels
                 // Hash the password
                 User.Password = HashPassword(User.Password);
 
-                Debug.WriteLine("Password hash called");
-                // Set DateCreated to the current date/time - Check added above.
-                //User.DateCreated = DateTime.Now;
-
+                //Debug.WriteLine("Password hash called");
 
                 // Attempt to register the user
                 var success = _dataAccess.RegisterUser(User);
