@@ -12,7 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Configuration;
 using HelpHive.Services;
+
+// Code-behind - WelcomePage
 
 namespace HelpHive.Views.Pages
 {
@@ -25,8 +28,8 @@ namespace HelpHive.Views.Pages
         {
             InitializeComponent();
 
-            string connectionString = "Server=223.165.67.19;Database=helphive_db;User ID=helphive_admin;Password=qD7On3mDrwAr;SslMode=Required;";
-
+            /*
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             var dbConnection = new DatabaseConnection(connectionString);
 
             bool isConnected = dbConnection.TestConnection();
@@ -38,7 +41,8 @@ namespace HelpHive.Views.Pages
             else
             {
                 MessageBox.Show("Failed to connect to the database.");
-            }
+            }*/
+
         }
     }
 }
