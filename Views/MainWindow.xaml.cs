@@ -64,7 +64,7 @@ namespace HelpHive.Views
             InitializeComponent();
 
             // Create the navigation service with the MainFrame.
-            var navigationService = new HelpHive.Services.NavigationService(MainFrame);
+            var navigationService = new HelpHive.Services.AppNavigationService(MainFrame);
 
             // Set the DataContext for the WelcomePage.
             var welcomePageVM = new WelcomePageVM(navigationService);

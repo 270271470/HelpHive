@@ -12,26 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Configuration;
-using HelpHive.Services;
-using HelpHive.ViewModels.Pages;
-
-// Code-behind - WelcomePage
 
 namespace HelpHive.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for WelcomePage.xaml
+    /// Interaction logic for UserDash.xaml
     /// </summary>
-    public partial class WelcomePage : Page
+    public partial class UserDash : Page
     {
-        public WelcomePage()
+        public UserDash()
         {
             InitializeComponent();
-
-            var navigationService = new AppNavigationService(NavigationService);
-            DataContext = new WelcomePageVM(navigationService);
-
         }
     }
 }

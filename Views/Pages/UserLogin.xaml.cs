@@ -12,26 +12,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Configuration;
-using HelpHive.Services;
-using HelpHive.ViewModels.Pages;
-
-// Code-behind - WelcomePage
+using HelpHive.ViewModels;
+using System.Diagnostics;
 
 namespace HelpHive.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for WelcomePage.xaml
+    /// Interaction logic for UserLogin.xaml
     /// </summary>
-    public partial class WelcomePage : Page
+    public partial class UserLogin : Page
     {
-        public WelcomePage()
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext != null)
+            {
+                ((dynamic)this.DataContext).Password = ((PasswordBox)sender).Password;
+            }
+        }
+
+        public UserLogin()
         {
             InitializeComponent();
-
-            var navigationService = new AppNavigationService(NavigationService);
-            DataContext = new WelcomePageVM(navigationService);
-
+            DataContext = new UserLoginVM();
+            Debug.WriteLine("UserLogin Page");
         }
     }
 }
