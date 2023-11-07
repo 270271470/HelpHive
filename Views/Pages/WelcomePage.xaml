@@ -5,10 +5,6 @@
       xmlns:vm="clr-namespace:HelpHive.ViewModels"
       Title="Welcome Page">
 
-    <Page.DataContext>
-        <vm:MainWindowVM />
-    </Page.DataContext>
-
     <!-- Page Content -->
     <Grid>
         <!-- Central content alignment -->

@@ -13,6 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HelpHive.ViewModels;
+using HelpHive.Commands;
+using HelpHive.Models;
+using HelpHive.Services;
+using HelpHive.Utilities;
+using HelpHive.DataAccess;
 using System.Diagnostics;
 
 namespace HelpHive.Views.Pages
@@ -33,8 +38,7 @@ namespace HelpHive.Views.Pages
         public UserLogin()
         {
             InitializeComponent();
-            DataContext = new UserLoginVM();
-            Debug.WriteLine("UserLogin Page");
+            DataContext = IoCContainer.GetService<UserLoginVM>();
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Text.RegularExpressions;   // Included for Regex validation
 using System.Diagnostics;
+using System.Windows;
 
 // Namespace declaration for the ViewModel.
 namespace HelpHive.ViewModels
@@ -18,22 +19,22 @@ namespace HelpHive.ViewModels
     {
         // Private fields to hold data access logic.
         private readonly INavigationService _navigationService;
-        private readonly DataAccessLayer _dataAccess;
+        private readonly IDataAccessService _dataAccess;  // Use the interface here
 
-        // Constructor for UserLoginVM, initializes nav for redirect, data access layer
-        public UserLoginVM(INavigationService navigationService, DataAccessLayer dataAccess)
+        // Constructor for UserLoginVM, initializes navigation service and data access service
+        public UserLoginVM(INavigationService navigationService, IDataAccessService dataAccess)
         {
             _navigationService = navigationService;
             _dataAccess = dataAccess;
-            //LoginCommand = new RelayCommand(Login);
-            // Initialize the LoginCommand with actions to execute and conditions when to be executable.
-            LoginCommand = new RelayCommand(Login, CanLogin);
-        }
 
-        //This was added by VS Built-in Help on 07/11/23
-        //Constructor
-        public UserLoginVM()
-        {
+            // Initialize the LoginCommand with actions to execute and conditions when to be executable.
+            //A RelayCommand named 'LoginCommand' that is bound to the 'Login' button in 'UserLogin.xaml'
+            //Command has two parts:
+            //Execute: A method that runs when the command is executed. In this case, the Login method.
+            //CanExecute: A method that determines if the command can execute. In this case, the CanLogin method.
+            //We are assigning them here in the constructor of UserLoginVM
+            LoginCommand = new RelayCommand(Login, CanLogin);
+            //This sets up LoginCommand with both the execute delegate (Login) and the can-execute delegate (CanLogin).
         }
 
         //Email Info received from the form
@@ -45,6 +46,7 @@ namespace HelpHive.ViewModels
             {
                 _email = value;
                 OnPropertyChanged(nameof(Email));
+                LoginCommand.RaiseCanExecuteChanged();
                 Debug.WriteLine("Email is " + _email);
             }
         }
@@ -58,6 +60,7 @@ namespace HelpHive.ViewModels
             {
                 _password = value;
                 OnPropertyChanged(nameof(Password));
+                LoginCommand.RaiseCanExecuteChanged();
                 Debug.WriteLine("Password " + _password);
             }
         }
@@ -85,20 +88,26 @@ namespace HelpHive.ViewModels
 
         private void Login(object parameter)
         {
-            var hashedPassword = HashPassword(_password);
-            var user = _dataAccess.VerifyUser(_email, hashedPassword);
+            try
+            {
+                var hashedPassword = HashPassword(_password);
+                var user = _dataAccess.VerifyUser(_email, hashedPassword);
 
-            if (user != null)
-            {
-                // Assuming the VerifyUser method returns a user object on successful authentication.
-                _navigationService.NavigateTo("UserDash");
+                if (user != null)
+                {
+                    _navigationService.NavigateTo("UserDash");
+                }
+                else
+                {
+                    MessageBox.Show("Invalid email or password", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Show an error message or handle login failure
-                Debug.WriteLine("Cannot Login");
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private string HashPassword(string password)
         {

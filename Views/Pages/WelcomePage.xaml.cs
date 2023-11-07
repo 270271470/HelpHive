@@ -29,7 +29,14 @@ namespace HelpHive.Views.Pages
         {
             InitializeComponent();
 
-            var navigationService = new AppNavigationService(NavigationService);
+            // Incorrect instantiation if the constructor expects no arguments
+            //var navigationService = new AppNavigationService(NavigationService);
+
+            // Correct instantiation if using method injection
+            var navigationService = new AppNavigationService();
+            // Assuming IoCContainer is already configured and can resolve IAppNavigationService
+            // var navigationService = IoCContainer.GetService<IAppNavigationService>();
+
             DataContext = new WelcomePageVM(navigationService);
 
         }

@@ -1,4 +1,5 @@
 ﻿using HelpHive.Models;
+using HelpHive.Services;
 using MySql.Data.MySqlClient;
 using System;
 using System.Configuration;
@@ -6,7 +7,7 @@ using System.Diagnostics;
 
 namespace HelpHive.DataAccess
 {
-    public class DataAccessLayer
+    public class DataAccessLayer : IDataAccessService // Implementing the interface
     {
         private string _connectionString;
 

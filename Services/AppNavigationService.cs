@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Windows.Controls;
-using System.Windows.Navigation;
+using HelpHive.Views.Pages;
+using HelpHive.Utilities;
+using HelpHive.Services;
+using HelpHive.ViewModels.Pages;
 
 namespace HelpHive.Services
 {
     public class AppNavigationService : INavigationService
     {
-        private readonly Frame _frame;
+        private Frame _frame;
 
-        public AppNavigationService(Frame frame)
+        public AppNavigationService()
         {
-            _frame = frame ?? throw new ArgumentNullException(nameof(frame));
         }
 
-        public AppNavigationService(NavigationService navigationService)
+        // Method to set the main frame from MainWindow
+        public void SetMainFrame(Frame frame)
         {
+            _frame = frame ?? throw new ArgumentNullException(nameof(frame));
         }
 
         public void NavigateTo(string pageKey)

@@ -9,14 +9,15 @@ namespace HelpHive.ViewModels.Pages
 {
     public class WelcomePageVM
     {
-        private readonly AppNavigationService _navigationService;
+        private readonly INavigationService _navigationService;
 
         public RelayCommand NavigateToNewUserCommand { get; private set; }
         public RelayCommand NavigateToUserLoginCommand { get; private set; }
 
-        public WelcomePageVM(AppNavigationService navigationService)
+        public WelcomePageVM(INavigationService navigationService)
         {
             _navigationService = navigationService;
+
             // Initialize the command and pass the method to execute
             NavigateToNewUserCommand = new RelayCommand(ExecuteNavigateToNewUser);
             NavigateToUserLoginCommand = new RelayCommand(ExecuteNavigateToUserLogin);
