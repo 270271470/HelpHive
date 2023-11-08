@@ -19,20 +19,18 @@ namespace HelpHive.ViewModels
     {
         // Private fields to hold data access logic.
         private readonly INavigationService _navigationService;
-        private readonly IDataAccessService _dataAccess;  // Use the interface here
+
+        private readonly IDataAccessService _dataAccess;
+
+        private readonly IUserService _userService; // Depend on the interface
 
         // Constructor for UserLoginVM, initializes navigation service and data access service
-        public UserLoginVM(INavigationService navigationService, IDataAccessService dataAccess)
+        public UserLoginVM(INavigationService navigationService, IDataAccessService dataAccess, IUserService userService)
         {
             _navigationService = navigationService;
             _dataAccess = dataAccess;
+            _userService = userService;
 
-            // Initialize the LoginCommand with actions to execute and conditions when to be executable.
-            //A RelayCommand named 'LoginCommand' that is bound to the 'Login' button in 'UserLogin.xaml'
-            //Command has two parts:
-            //Execute: A method that runs when the command is executed. In this case, the Login method.
-            //CanExecute: A method that determines if the command can execute. In this case, the CanLogin method.
-            //We are assigning them here in the constructor of UserLoginVM
             LoginCommand = new RelayCommand(Login, CanLogin);
             //This sets up LoginCommand with both the execute delegate (Login) and the can-execute delegate (CanLogin).
         }
@@ -65,9 +63,6 @@ namespace HelpHive.ViewModels
             }
         }
 
-        //Removing this for now
-        //public ICommand LoginCommand { get; }
-
         // Command property to be bound to Login Button or action in the view.
         public RelayCommand LoginCommand { get; }
 
@@ -95,6 +90,9 @@ namespace HelpHive.ViewModels
 
                 if (user != null)
                 {
+                    // Inside the login method after successful authentication
+                    //_userService.Login(authenticatedUser);
+                    _userService.Login(user); // Pass 'user' to the login method
                     _navigationService.NavigateTo("UserDash");
                 }
                 else

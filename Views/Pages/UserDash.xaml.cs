@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HelpHive.Services;
+using HelpHive.ViewModels.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,13 @@ namespace HelpHive.Views.Pages
         public UserDash()
         {
             InitializeComponent();
+
+            // Retrieve the services from the App class
+            IDataAccessService dataAccess = App.DataAccessService;
+            IUserService userService = App.UserService;
+
+            // Set the DataContext for the UserDash view
+            DataContext = new UserDashVM(dataAccess, userService);
         }
     }
 }

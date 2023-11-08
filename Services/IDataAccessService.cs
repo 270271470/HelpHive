@@ -10,6 +10,7 @@ namespace HelpHive.Services
     public interface IDataAccessService
     {
         UserModel VerifyUser(string email, string hashedPassword);
+        UserModel GetUserDetails(string email);
         bool RegisterUser(UserModel user);
     }
 }
