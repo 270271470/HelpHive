@@ -35,7 +35,7 @@ namespace HelpHive.DataAccess
                         {
                             if (reader.Read())
                             {
-                                // Map the data to the UserModel or a custom UserModel class
+                                // Map the data to the UserModel
                                 var user = new UserModel();
                                 // Set properties on user from reader
                                 return user;
