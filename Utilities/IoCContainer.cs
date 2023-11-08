@@ -21,6 +21,7 @@ namespace HelpHive.Utilities
             var services = new ServiceCollection();
 
             // Register services with their interfaces
+            services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<INavigationService, AppNavigationService>();
             services.AddSingleton<IDataAccessService, DataAccessLayer>();
 
@@ -28,6 +29,7 @@ namespace HelpHive.Utilities
             services.AddTransient<MainWindowVM>();
             services.AddTransient<WelcomePageVM>();
             services.AddTransient<UserLoginVM>();
+            services.AddTransient<UserDashVM>();
 
             ServiceProvider = services.BuildServiceProvider();
         }

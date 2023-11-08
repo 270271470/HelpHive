@@ -119,8 +119,11 @@
     <Compile Include="Services\IDataAccessService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\AppNavigationService.cs" />
+    <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Utilities\IoCContainer.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
+    <Compile Include="ViewModels\Pages\UserDashVM.cs" />
     <Compile Include="ViewModels\Pages\UserLoginVM.cs" />
     <Compile Include="ViewModels\Pages\UserVM.cs" />
     <Compile Include="ViewModels\Pages\WelcomePageVM.cs" />

@@ -11,5 +11,7 @@
     <Grid>
         <!-- Content for the user dashboard here -->
         <TextBlock Text="Welcome to your dashboard!" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding LoggedInUser.FirstName}" />
+        <TextBlock Text="{Binding LoggedInUser.LastName}" />
     </Grid>
 </Page>

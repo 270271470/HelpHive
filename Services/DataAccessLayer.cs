@@ -55,6 +55,43 @@ namespace HelpHive.DataAccess
             return null; // Or throw exception, or handle accordingly
         }
 
+        public UserModel GetUserDetails(string email)
+        {
+            UserModel user = null;
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM tblusers WHERE email = @Email";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                user = new UserModel
+                                {
+                                    // Assuming you have a UserModel class with properties that map to your database columns
+                                    FirstName = reader["firstname"].ToString(),
+                                    LastName = reader["lastname"].ToString(),
+                                    Email = reader["email"].ToString(),
+                                    // More properties...
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions, possibly logging them
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return user;
+        }
+
 
         //Registering a New User
         public bool RegisterUser(UserModel user)
