@@ -48,25 +48,39 @@ namespace HelpHive.Views
             MainFrame.Navigate(welcomePage);
         }
 
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+            SidebarStackPanel.Children.Clear(); // Clear previous items
+
+            if (e.Content is NewUser)
+            {
+                // Create a Button that looks like a Hyperlink
+                Button loginButton = new Button
+                {
+                    Content = "Go to User Login",
+                    Style = (Style)FindResource("LinkButtonStyle") // Make sure you define this style in your resources
+                };
+
+                // Set the Click event handler for the button
+                loginButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserLogin());
+                };
+
+                // Add the button to the sidebar
+                SidebarStackPanel.Children.Add(loginButton);
+            }
+            // Handle other pages similarly
+            else if (e.Content is UserDash)
+            {
+                // Populate the sidebar with links for AnotherPage
+                SidebarStackPanel.Children.Add(new TextBlock { Text = "UserDash Link" });
+                // Add more links as needed
+            }
+        }
 
 
 
-        // Add link methods here:
-        private void OnNewTicketClicked(object sender, RoutedEventArgs e)
-        {
-            // Handle the button click here.
-            // For example, navigate to a new page or open a dialog.
-        }
-        private void OnActiveTicketsClicked(object sender, RoutedEventArgs e)
-        {
-            // Handle the button click here.
-            // For example, navigate to a new page or open a dialog.
-        }
-        private void OnTicketHistoryClicked(object sender, RoutedEventArgs e)
-        {
-            // Handle the button click here.
-            // For example, navigate to a new page or open a dialog.
-        }
 
     }
 }

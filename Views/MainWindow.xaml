@@ -1,9 +1,27 @@
 ﻿<Window x:Class="HelpHive.Views.MainWindow"
-                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                  Title="HelpHive" Height="640" Width="1024">
-    <!-- Source="Views/Pages/WelcomePage.xaml" -->
-    <!-- No direct content here for NavigationWindow -->
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="HelpHive" Height="640" Width="1024">
+
+    <!-- Define the style for buttons to look like hyperlinks -->
+    <Window.Resources>
+        <Style x:Key="LinkButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock TextDecorations="Underline">
+                            <ContentPresenter/>
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
     <Grid>
         <!-- Define grid columns -->
@@ -13,18 +31,13 @@
         </Grid.ColumnDefinitions>
 
         <!-- Sidebar -->
-        <StackPanel Grid.Column="0" Background="#343C66" Width="200">
-            <Button Content="New Ticket" Click="OnNewTicketClicked" Foreground="White"/>
-            <Button Content="Active Tickets" Click="OnActiveTicketsClicked" Foreground="White"/>
-            <Button Content="Ticket History" Click="OnTicketHistoryClicked" Foreground="White"/>
-            <!-- You can style these buttons further to match the Figma design -->
+        <StackPanel x:Name="SidebarStackPanel" Grid.Column="0" Background="#343C66" Width="200">
+            <!-- Dynamic content will be added here in the code-behind -->
         </StackPanel>
 
-        <!-- Frame for Navigation -->
         <!-- Main Content Frame -->
-        <Frame x:Name="MainFrame" Grid.Column="1">
-            <!-- This is where your pages (like WelcomePage) will be displayed -->
+        <Frame x:Name="MainFrame" Navigated="MainFrame_Navigated" Grid.Column="1">
+            <!-- Pages will be displayed here -->
         </Frame>
     </Grid>
-
 </Window>
