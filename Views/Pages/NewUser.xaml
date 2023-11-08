@@ -16,9 +16,9 @@
 
         <!-- Create Account Heading -->
         <TextBlock Grid.Row="0" Text="Create Account" 
-                   Foreground="Gray" 
-                   FontSize="24" 
-                   FontWeight="Bold" 
+                   Foreground="#22313f" 
+                   FontSize="26" 
+                   FontWeight="Medium" 
                    HorizontalAlignment="Center" 
                    Margin="0,20,0,20"/>
 

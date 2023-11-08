@@ -19,10 +19,8 @@ namespace HelpHive.ViewModels
     {
         // Private fields to hold data access logic.
         private readonly INavigationService _navigationService;
-
         private readonly IDataAccessService _dataAccess;
-
-        private readonly IUserService _userService; // Depend on the interface
+        private readonly IUserService _userService;
 
         // Constructor for UserLoginVM, initializes navigation service and data access service
         public UserLoginVM(INavigationService navigationService, IDataAccessService dataAccess, IUserService userService)

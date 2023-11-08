@@ -7,8 +7,22 @@
       mc:Ignorable="d" d:DesignWidth="800"
       Title="UserLogin">
 
-    <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+    <!-- Background and Layout -->
+    <Grid Background="#FFF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Create Account Heading -->
+        <TextBlock Grid.Row="0" Text="User Login" 
+                   Foreground="#22313f" 
+                   FontSize="26" 
+                   FontWeight="Medium" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,100,0,0"/>
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,150,0,50">
             <TextBox x:Name="Email" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5"/>
             <PasswordBox x:Name="Password" PasswordChanged="PasswordBox_PasswordChanged" Width="200" Margin="5"/>
             <Button Content="Login" Width="200" Margin="5" Command="{Binding LoginCommand}"/>

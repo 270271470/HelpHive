@@ -31,7 +31,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Sidebar -->
-        <StackPanel x:Name="SidebarStackPanel" Grid.Column="0" Background="#343C66" Width="200">
+        <StackPanel x:Name="SidebarStackPanel" Grid.Column="0" Background="#22313f" Width="200">
             <!-- Dynamic content will be added here in the code-behind -->
         </StackPanel>
 
