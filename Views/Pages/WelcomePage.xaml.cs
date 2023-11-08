@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Configuration;
 using HelpHive.Services;
+using HelpHive.ViewModels.Pages;
 
 // Code-behind - WelcomePage
 
@@ -28,20 +29,15 @@ namespace HelpHive.Views.Pages
         {
             InitializeComponent();
 
-            /*
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            var dbConnection = new DatabaseConnection(connectionString);
+            // Incorrect instantiation if the constructor expects no arguments
+            //var navigationService = new AppNavigationService(NavigationService);
 
-            bool isConnected = dbConnection.TestConnection();
+            // Correct instantiation if using method injection
+            var navigationService = new AppNavigationService();
+            // Assuming IoCContainer is already configured and can resolve IAppNavigationService
+            // var navigationService = IoCContainer.GetService<IAppNavigationService>();
 
-            if (isConnected)
-            {
-                MessageBox.Show("Connected to the database successfully!");
-            }
-            else
-            {
-                MessageBox.Show("Failed to connect to the database.");
-            }*/
+            DataContext = new WelcomePageVM(navigationService);
 
         }
     }
