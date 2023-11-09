@@ -16,6 +16,55 @@ namespace HelpHive.DataAccess
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+
+
+
+        //Create A New Ticket
+        public bool CreateNewTicket(TicketModel ticket)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = @"INSERT INTO tbltickets (tid, did, uid, name, email, date, title, message, ticketstatus, incidentstatus, urgency, admin, attachment, attachments_removed,lastreply,clientunread,adminread,replytime)
+                            VALUES (@TicketId, @DeptId, @UserId, @Name, @Email, CURRENT_TIMESTAMP, @Message, @TicketStatus @IncidentStatus, @Urgency, @Admin, @Attachment, @AttachmentsRemoved, CURRENT_TIMESTAMP, @ClientUnread, @AdminRead, CURRENT_TIMESTAMP)";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketId", ticket.TicketId);
+                        command.Parameters.AddWithValue("@DeptId", ticket.DeptId);
+                        command.Parameters.AddWithValue("@UserId", ticket.UserId);
+                        command.Parameters.AddWithValue("@Name", ticket.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Email", ticket.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Message", ticket.Message ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TicketStatus", ticket.TicketStatus ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@IncidentStatus", ticket.IncidentStatus ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Urgency", ticket.Urgency ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Admin", ticket.Admin ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Attachment", ticket.Attachment ?? (object)DBNull.Value);
+
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
+
+
+
         // VerifyUser before logging in
         public UserModel VerifyUser(string email, string hashedPassword)
         {

@@ -18,12 +18,12 @@
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
                 <!-- User Login Group -->
                 <StackPanel Width="200" Margin="0,0,20,0">
-                    <Button Command="{Binding NavigateToUserLoginCommand}" Content="User Login" Background="#d32d27" Foreground="White" Height="40" Margin="0,0,0,10"/>
+                    <Button Command="{Binding NavigateToUserLoginCommand}" Content="User Login" BorderBrush="Transparent" Background="#d32d27" Foreground="White" Height="40" Margin="0,0,0,10"/>
                     <Button Command="{Binding NavigateToNewUserCommand}" Content="New User Account" Background="Transparent" Foreground="Black" Height="40" />
                 </StackPanel>
                 <!-- Admin Login Group -->
                 <StackPanel Width="200">
-                    <Button Content="Admin Login" Background="#d32d27" Foreground="White" Height="40" Margin="0,0,0,10"/>
+                    <Button Content="Admin Login" BorderBrush="Transparent" Background="#d32d27" Foreground="White" Height="40" Margin="0,0,0,10"/>
                     <Button Content="New Admin Account" Background="Transparent" Foreground="Black" Height="40" />
                 </StackPanel>
             </StackPanel>

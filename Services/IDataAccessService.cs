@@ -12,5 +12,6 @@ namespace HelpHive.Services
         UserModel VerifyUser(string email, string hashedPassword);
         UserModel GetUserDetails(string email);
         bool RegisterUser(UserModel user);
+        bool CreateNewTicket(TicketModel ticket);
     }
 }

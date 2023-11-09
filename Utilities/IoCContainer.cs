@@ -24,6 +24,7 @@ namespace HelpHive.Utilities
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<INavigationService, AppNavigationService>();
             services.AddSingleton<IDataAccessService, DataAccessLayer>();
+            services.AddSingleton<ITicketService, TicketService>();
 
             // Register ViewModels
             services.AddTransient<MainWindowVM>();

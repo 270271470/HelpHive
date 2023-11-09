@@ -123,7 +123,9 @@
     <Compile Include="Services\IDataAccessService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\AppNavigationService.cs" />
+    <Compile Include="Services\ITicketService.cs" />
     <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\TicketService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Utilities\IoCContainer.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
@@ -210,8 +212,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="Views\UserControls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

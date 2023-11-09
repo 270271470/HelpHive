@@ -4,9 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HelpHive.Views.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="UserNewTicket">
+      mc:Ignorable="d" d:DesignWidth="800"
+      Title="UserNewTicket" Height="587.941">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -65,10 +64,10 @@
                 <Button Content="Browse"/>
                 <Button Content="Add More" Margin="5,0,0,0"/>
             </StackPanel>
-            <TextBlock Text="Allowed File Extensions: jpg, gif, jpeg, png, txt, pdf, zip, xls, xlsx, doc, docx (Max file size: 1024MB)" Margin="0,5"/>
+            <TextBlock Text="Allowed File Extensions: jpg, pdf, zip, xls, doc, docx (Max file size: 1024MB)" Margin="0,5"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20">
-                <Button Content="Submit" Margin="5,0"/>
+                <Button x:Name="CreateTicketButton" Command="{Binding CreateTicketCommand}" Content="Create Ticket" Margin="5,0"/>
                 <Button Content="Cancel" Margin="5,0"/>
             </StackPanel>
         </StackPanel>

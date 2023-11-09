@@ -70,18 +70,34 @@ namespace HelpHive.Views
                 // Add the button to the sidebar
                 SidebarStackPanel.Children.Add(loginButton);
             }
-            // UserDash
+            // Start of UserDash Button Links
             else if (e.Content is UserDash)
             {
-                // Populate the sidebar with links for AnotherPage
-                SidebarStackPanel.Children.Add(new TextBlock { Text = "Helpdesk Tools" });
-                // Add more links as needed
+                // Sidebar Heading for Helpdesk Tools
+                TextBlock heading = new TextBlock
+                {
+                    Text = "Helpdesk Tools",
+                    Style = (Style)FindResource("SidebarHeadingStyle")
+                };
+                SidebarStackPanel.Children.Add(heading);
 
-                // Create a New Ticket Button Link
+                // Create DashBoard Button Link
+                Button DashBoardButton = new Button
+                {
+                    Content = "DashBoard",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                DashBoardButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserDash());
+                };
+                SidebarStackPanel.Children.Add(DashBoardButton);
+
+                // Create New Ticket Button Link
                 Button newTicketButton = new Button
                 {
                     Content = "Create New Ticket",
-                    Style = (Style)FindResource("LinkButtonStyle")
+                    Style = (Style)FindResource("SidebarButtonStyle")
                 };
                 newTicketButton.Click += (s, args) =>
                 {
@@ -89,24 +105,43 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(newTicketButton);
 
+                // End of UserDash Button Links
             }
-            // UserNewTicket
+            // Start Of UserNewTicket Button Links
             else if (e.Content is UserNewTicket)
             {
-                SidebarStackPanel.Children.Add(new TextBlock { Text = "Helpdesk Tools" });
+                // Sidebar Heading for Helpdesk Tools
+                TextBlock heading = new TextBlock
+                {
+                    Text = "Helpdesk Tools",
+                    Style = (Style)FindResource("SidebarHeadingStyle")
+                };
+                SidebarStackPanel.Children.Add(heading);
 
-                // Create a New Ticket Button Link
+                // Create DashBoard Button Link
+                Button DashBoardButton = new Button
+                {
+                    Content = "DashBoard",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                DashBoardButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserDash());
+                };
+                SidebarStackPanel.Children.Add(DashBoardButton);
+
+                // Create New Ticket Button Link
                 Button newTicketButton = new Button
                 {
                     Content = "Create New Ticket",
-                    Style = (Style)FindResource("LinkButtonStyle")
+                    Style = (Style)FindResource("SidebarButtonStyle")
                 };
                 newTicketButton.Click += (s, args) =>
                 {
                     MainFrame.Navigate(new UserNewTicket());
                 };
                 SidebarStackPanel.Children.Add(newTicketButton);
-
+                // End of UserNewTicket Button Links
             }
         }
 
