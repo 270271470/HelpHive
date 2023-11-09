@@ -38,6 +38,21 @@ namespace HelpHive.DataAccess
                                 // Map the data to the UserModel
                                 var user = new UserModel();
                                 // Set properties on user from reader
+                                {
+                                    //user.UserId = reader["uid"].ToString();
+                                    user.FirstName = reader["firstname"].ToString();
+                                    user.LastName = reader["lastname"].ToString();
+                                    user.CompanyName = reader["companyname"].ToString();
+                                    user.Email = reader["email"].ToString();
+                                    user.Address1 = reader["address1"].ToString();
+                                    user.Address2 = reader["address2"].ToString();
+                                    user.City = reader["city"].ToString();
+                                    user.Region = reader["region"].ToString();
+                                    user.PostalCode = reader["postalcode"].ToString();
+                                    user.Country = reader["country"].ToString();
+                                    user.PhoneNumber = reader["phonenumber"].ToString();
+                                    user.Status = reader["Status"].ToString();
+                                }
                                 return user;
                             }
                         }

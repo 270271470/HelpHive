@@ -88,9 +88,9 @@ namespace HelpHive.ViewModels
 
                 if (user != null)
                 {
+                    _navigationService.NavigateTo("UserDash");
                     // Inside the login method after successful authentication
                     _userService.Login(user); // Pass 'user' to the login method
-                    _navigationService.NavigateTo("UserDash");
                 }
                 else
                 {

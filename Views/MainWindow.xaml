@@ -36,7 +36,7 @@
         </StackPanel>
 
         <!-- Main Content Frame -->
-        <Frame x:Name="MainFrame" Navigated="MainFrame_Navigated" Grid.Column="1">
+        <Frame x:Name="MainFrame" Navigated="MainFrame_Navigated" Grid.Column="1" NavigationUIVisibility="Hidden">
             <!-- Pages will be displayed here -->
         </Frame>
     </Grid>
