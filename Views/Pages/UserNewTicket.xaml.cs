@@ -19,18 +19,18 @@ using System.Windows.Shapes;
 namespace HelpHive.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for UserDash.xaml
+    /// Interaction logic for UserNewTicket.xaml
     /// </summary>
-    public partial class UserDash : Page
+    public partial class UserNewTicket : Page
     {
-        public UserDash()
+        public UserNewTicket()
         {
             InitializeComponent();
 
             IDataAccessService dataAccess = IoCContainer.GetService<IDataAccessService>();
             IUserService userService = IoCContainer.GetService<IUserService>();
 
-            DataContext = new UserDashVM(dataAccess, userService);
+            DataContext = new UserNewTicketVM(dataAccess, userService);
         }
     }
 }

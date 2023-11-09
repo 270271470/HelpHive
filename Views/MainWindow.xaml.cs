@@ -70,12 +70,43 @@ namespace HelpHive.Views
                 // Add the button to the sidebar
                 SidebarStackPanel.Children.Add(loginButton);
             }
-            // Handle other pages similarly
+            // UserDash
             else if (e.Content is UserDash)
             {
                 // Populate the sidebar with links for AnotherPage
-                SidebarStackPanel.Children.Add(new TextBlock { Text = "UserDash Link" });
+                SidebarStackPanel.Children.Add(new TextBlock { Text = "Helpdesk Tools" });
                 // Add more links as needed
+
+                // Create a New Ticket Button Link
+                Button newTicketButton = new Button
+                {
+                    Content = "Create New Ticket",
+                    Style = (Style)FindResource("LinkButtonStyle")
+                };
+                newTicketButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserNewTicket());
+                };
+                SidebarStackPanel.Children.Add(newTicketButton);
+
+            }
+            // UserNewTicket
+            else if (e.Content is UserNewTicket)
+            {
+                SidebarStackPanel.Children.Add(new TextBlock { Text = "Helpdesk Tools" });
+
+                // Create a New Ticket Button Link
+                Button newTicketButton = new Button
+                {
+                    Content = "Create New Ticket",
+                    Style = (Style)FindResource("LinkButtonStyle")
+                };
+                newTicketButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserNewTicket());
+                };
+                SidebarStackPanel.Children.Add(newTicketButton);
+
             }
         }
 

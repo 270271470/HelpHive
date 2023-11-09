@@ -40,6 +40,7 @@ namespace HelpHive.DataAccess
                                 // Set properties on user from reader
                                 {
                                     //user.UserId = reader["uid"].ToString();
+                                    user.UserId = reader["uid"] != DBNull.Value ? Convert.ToInt32(reader["uid"]) : default(int);
                                     user.FirstName = reader["firstname"].ToString();
                                     user.LastName = reader["lastname"].ToString();
                                     user.CompanyName = reader["companyname"].ToString();
@@ -88,12 +89,21 @@ namespace HelpHive.DataAccess
                             {
                                 user = new UserModel
                                 {
-                                    // Assuming you have a UserModel class with properties that map to your database columns
+                                    // UserModel class with properties that map to your database columns
+                                    UserId = reader["uid"] != DBNull.Value ? Convert.ToInt32(reader["uid"]) : default(int),
                                     FirstName = reader["firstname"].ToString(),
                                     LastName = reader["lastname"].ToString(),
+                                    CompanyName = reader["companyname"].ToString(),
                                     Email = reader["email"].ToString(),
-                                    // More properties...
-                                };
+                                    Address1 = reader["address1"].ToString(),
+                                    Address2 = reader["address2"].ToString(),
+                                    City = reader["city"].ToString(),
+                                    Region = reader["region"].ToString(),
+                                    PostalCode = reader["postalcode"].ToString(),
+                                    Country = reader["country"].ToString(),
+                                    PhoneNumber = reader["phonenumber"].ToString(),
+                                    Status = reader["Status"].ToString(),
+                            };
                             }
                         }
                     }
