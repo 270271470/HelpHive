@@ -7,6 +7,7 @@ using HelpHive.Commands;
 using HelpHive.Models;
 using HelpHive.Services;
 using HelpHive.DataAccess;
+using System.Collections.ObjectModel;
 
 namespace HelpHive.ViewModels.Pages
 {
@@ -16,6 +17,7 @@ namespace HelpHive.ViewModels.Pages
         private readonly IDataAccessService _dataAccess;
         private readonly IUserService _userService;
         private UserModel _loggedInUser;
+        public ObservableCollection<TicketModel> UserOpenTickets { get; private set; }
 
         // Bindable property for the View
         public UserModel LoggedInUser
@@ -33,7 +35,9 @@ namespace HelpHive.ViewModels.Pages
         {
             _dataAccess = dataAccess;
             _userService = userService;
+            UserOpenTickets = new ObservableCollection<TicketModel>(); //NB!
             LoadUserDetails();
+            LoadOpenTickets();
         }
 
         // Method to load user details
@@ -42,6 +46,18 @@ namespace HelpHive.ViewModels.Pages
             if (_userService.CurrentUser != null)
             {
                 LoggedInUser = _dataAccess.GetUserDetails(_userService.CurrentUser.Email);
+            }
+        }
+        // Method to load tickets
+        private void LoadOpenTickets()
+        {
+            var uid = LoggedInUser.UserId;
+            var tickets = _dataAccess.GetUserOpenTickets(uid);
+
+            UserOpenTickets.Clear(); // Clear the existing collection
+            foreach (var ticket in tickets)
+            {
+                UserOpenTickets.Add(ticket); // Add items to the existing collection
             }
         }
 

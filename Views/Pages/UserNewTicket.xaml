@@ -40,25 +40,33 @@
 
         <!-- This StackPanel is the main container for the form elements -->
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20">
-            <TextBlock Text="Subject" />
-            <TextBox Margin="0,5"/>
+            <!-- Bind the TextBox's Text property to the Subject property in your ViewModel -->
+            <TextBlock Text="Subject"/>
+            <TextBox Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" Height="25" FontSize="16"/>
 
+            <!-- Bind the ComboBox's SelectedItem property to the SelectedDepartment property in your ViewModel -->
             <TextBlock Text="Department" />
-            <ComboBox SelectedIndex="0" Margin="0,5">
-                <ComboBoxItem Content="Support"/>
-                <!-- Add other departments here -->
-            </ComboBox>
+                <ComboBox ItemsSource="{Binding Departments}"
+                    DisplayMemberPath="Name"
+                    SelectedValuePath="Id"
+                    Height="25" FontSize="16"
+                    SelectedValue="{Binding SelectedDepartmentId, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="0,5">
+                </ComboBox>
 
+            <!-- Bind the ComboBox's SelectedItem property to the SelectedPriority property in your ViewModel -->
             <TextBlock Text="Priority" />
-            <ComboBox SelectedIndex="1" Margin="0,5">
+            <ComboBox SelectedValue="{Binding SelectedPriority, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Height="25" FontSize="16" Margin="0,5">
                 <ComboBoxItem Content="Low"/>
                 <ComboBoxItem Content="Medium"/>
                 <ComboBoxItem Content="High"/>
             </ComboBox>
 
+            <!-- Bind the TextBox's Text property to the Message property in your ViewModel -->
             <TextBlock Text="Message" />
-            <TextBox Margin="0,5" TextWrapping="Wrap" AcceptsReturn="True" Height="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
+            <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" TextWrapping="Wrap" AcceptsReturn="True" Height="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
 
+            <!-- Here, you will need to implement the logic to handle file attachments -->
             <TextBlock Text="Attachments" />
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <Button Content="Browse"/>
@@ -66,10 +74,12 @@
             </StackPanel>
             <TextBlock Text="Allowed File Extensions: jpg, pdf, zip, xls, doc, docx (Max file size: 1024MB)" Margin="0,5"/>
 
+            <!-- The command for the CreateTicketButton is already correctly bound to CreateTicketCommand in your ViewModel -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20">
                 <Button x:Name="CreateTicketButton" Command="{Binding CreateTicketCommand}" Content="Create Ticket" Margin="5,0"/>
                 <Button Content="Cancel" Margin="5,0"/>
             </StackPanel>
         </StackPanel>
+
     </Grid>
 </Page>

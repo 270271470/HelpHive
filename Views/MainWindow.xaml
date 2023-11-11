@@ -1,7 +1,7 @@
 ﻿<Window x:Class="HelpHive.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="HelpHive" Height="640" Width="1024">
+        Title="HelpHive" Height="800" Width="1200">
 
     <!-- Define the style for buttons to look like hyperlinks -->
     <Window.Resources>

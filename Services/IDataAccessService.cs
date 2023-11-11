@@ -11,6 +11,8 @@ namespace HelpHive.Services
     {
         UserModel VerifyUser(string email, string hashedPassword);
         UserModel GetUserDetails(string email);
+        List<TicketDeptsModel> GetDepartments();
+        List<TicketModel> GetUserOpenTickets(int userId);
         bool RegisterUser(UserModel user);
         bool CreateNewTicket(TicketModel ticket);
     }

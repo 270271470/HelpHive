@@ -10,10 +10,12 @@ namespace HelpHive.Models
     {
         public string TicketId { get; set; }
         public int DeptId { get; set; }
+        public string DepartmentName { get; set; }
         public int UserId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public DateTime Date { get; set; }
+        public string Title { get; set; }
         public string Message { get; set; }
         public string TicketStatus { get; set; }
         public string IncidentStatus { get; set; }
@@ -25,6 +27,5 @@ namespace HelpHive.Models
         public int ClientUnread { get; set; }
         public string AdminRead { get; set; }
         public DateTime ReplyTime { get; set; }
-
     }
 }

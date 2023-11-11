@@ -7,25 +7,58 @@
       mc:Ignorable="d" d:DesignWidth="800"
       Title="UserLogin">
 
-    <!-- Background and Layout -->
-    <Grid Background="#FFF">
+    <Grid Background="#FFF" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-50,-150,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Create Account Heading -->
         <TextBlock Grid.Row="0" Text="User Login" 
                    Foreground="#22313f" 
                    FontSize="26" 
                    FontWeight="Medium" 
                    HorizontalAlignment="Center" 
-                   Margin="0,100,0,0"/>
+                   Margin="60,90,0,0"/>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,150,0,50">
-            <TextBox x:Name="Email" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5"/>
-            <PasswordBox x:Name="Password" PasswordChanged="PasswordBox_PasswordChanged" Width="200" Margin="5"/>
-            <Button Content="Login" Width="200" Margin="5" Command="{Binding LoginCommand}"/>
-        </StackPanel>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,150,0,50">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <!-- Label column with size to content -->
+                <ColumnDefinition Width="*" />
+                <!-- Input fields column taking the remaining space -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Email Address Label -->
+            <TextBlock Text="Email Address" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+
+            <!-- Email TextBox -->
+            <TextBox x:Name="Email" 
+             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" 
+             Grid.Row="0" Grid.Column="1" 
+             Margin="0,0,0,10" Height="25" FontSize="16" 
+             VerticalAlignment="Center"/>
+
+            <!-- Password Label -->
+            <TextBlock Text="Password" Grid.Row="1" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+
+            <!-- Password PasswordBox -->
+            <PasswordBox x:Name="Password" 
+                 PasswordChanged="PasswordBox_PasswordChanged" 
+                 Grid.Row="1" Grid.Column="1" 
+                 Margin="0,0,0,10" Height="25" FontSize="16" 
+                 VerticalAlignment="Center"/>
+
+            <!-- Login Button -->
+            <Button Content="Login" 
+            Grid.Row="2" Grid.Column="1" 
+            Width="200" Height="25" 
+            Command="{Binding LoginCommand}"
+            VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </Page>

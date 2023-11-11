@@ -2,6 +2,7 @@
 using HelpHive.Services;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 
@@ -18,6 +19,88 @@ namespace HelpHive.DataAccess
 
 
 
+        //Getting UserOpenTickets from DB
+        public List<TicketModel> GetUserOpenTickets(int userId)
+        {
+            var opentickets = new List<TicketModel>();
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    //string sql = "SELECT d.name AS Department, t.title AS Subject, t.ticketstatus AS Status, t.lastreply AS LastUpdate FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Open', 'On Hold'); ";
+                    //string sql = "SELECT tid, did, uid, title, ticketstatus, lastreply FROM tbltickets WHERE uid = @UserId AND ticketstatus IN('Open', 'On Hold')";
+                    string sql = "SELECT t.tid, t.did, t.uid, t.title, t.ticketstatus, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Open', 'On Hold')";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+
+                        // Binding the userId parameter - This is NB for the correct filtering.
+                        command.Parameters.AddWithValue("@UserId", userId);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var openticket = new TicketModel
+                                {
+                                    TicketId = reader.GetString("tid"),
+                                    //DeptId = reader.GetInt32("did"),
+                                    DepartmentName = reader["DepartmentName"].ToString(),
+                                    UserId = reader.GetInt32("uid"),
+                                    Title = reader.GetString("title"),
+                                    TicketStatus = reader.GetString("ticketstatus"),
+                                    LastReply = reader.GetDateTime("lastreply")
+                                };
+                                opentickets.Add(openticket);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return opentickets;
+        }
+
+
+
+        //Getting Departments from DB
+        public List<TicketDeptsModel> GetDepartments()
+        {
+            var departments = new List<TicketDeptsModel>();
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM tblticketdepartments";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var department = new TicketDeptsModel
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("id")),
+                                    Name = reader["name"].ToString(),
+                                };
+                                departments.Add(department);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return departments;
+        }
+
+
 
         //Create A New Ticket
         public bool CreateNewTicket(TicketModel ticket)
@@ -27,8 +110,8 @@ namespace HelpHive.DataAccess
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string sql = @"INSERT INTO tbltickets (tid, did, uid, name, email, date, title, message, ticketstatus, incidentstatus, urgency, admin, attachment, attachments_removed,lastreply,clientunread,adminread,replytime)
-                            VALUES (@TicketId, @DeptId, @UserId, @Name, @Email, CURRENT_TIMESTAMP, @Message, @TicketStatus @IncidentStatus, @Urgency, @Admin, @Attachment, @AttachmentsRemoved, CURRENT_TIMESTAMP, @ClientUnread, @AdminRead, CURRENT_TIMESTAMP)";
+                    string sql = @"INSERT INTO tbltickets (tid, did, uid, name, email, date, title, message, ticketstatus, incidentstatus, urgency, lastreply,clientunread,adminread,replytime)
+                            VALUES (@TicketId, @DeptId, @UserId, @Name, @Email, @DateTime, @Title, @Message, 'Open', 'Not Resolved', @Urgency, @DateTime, 0, 0, @DateTime)";
 
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
@@ -37,12 +120,10 @@ namespace HelpHive.DataAccess
                         command.Parameters.AddWithValue("@UserId", ticket.UserId);
                         command.Parameters.AddWithValue("@Name", ticket.Name ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Email", ticket.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DateTime", ticket.Date);
+                        command.Parameters.AddWithValue("@Title", ticket.Title);
                         command.Parameters.AddWithValue("@Message", ticket.Message ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@TicketStatus", ticket.TicketStatus ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@IncidentStatus", ticket.IncidentStatus ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Urgency", ticket.Urgency ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@Admin", ticket.Admin ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@Attachment", ticket.Attachment ?? (object)DBNull.Value);
 
                         command.ExecuteNonQuery();
                     }

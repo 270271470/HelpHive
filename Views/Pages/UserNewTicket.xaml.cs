@@ -29,8 +29,10 @@ namespace HelpHive.Views.Pages
 
             IDataAccessService dataAccess = IoCContainer.GetService<IDataAccessService>();
             IUserService userService = IoCContainer.GetService<IUserService>();
+            ITicketService ticketService = IoCContainer.GetService<ITicketService>();
+            INavigationService navigationService = IoCContainer.GetService<INavigationService>();
 
-            DataContext = new UserNewTicketVM(dataAccess, userService);
+            DataContext = new UserNewTicketVM(dataAccess, userService,ticketService,navigationService);
         }
     }
 }
