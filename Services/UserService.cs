@@ -13,12 +13,12 @@ namespace HelpHive.Services
 
         public void Login(UserModel user)
         {
-            CurrentUser = user; // Set the user as logged-in
+            CurrentUser = user; // Set user as logged-in
         }
 
         public void Logout()
         {
-            CurrentUser = null; // Clear the user on logout
+            CurrentUser = null; // Clear user on logout
         }
     }
 }

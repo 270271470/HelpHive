@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="Auto" />
                 <!-- Label column with size to content -->
                 <ColumnDefinition Width="*" />
-                <!-- Input fields column taking the remaining space -->
+                <!-- Input fields column take remaining space -->
             </Grid.ColumnDefinitions>
 
             <!-- Email Address Label -->

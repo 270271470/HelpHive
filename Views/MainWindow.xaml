@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="HelpHive" Height="800" Width="1200">
 
-    <!-- Define the style for buttons to look like hyperlinks -->
+    <!-- Style for buttons to look like hyperlinks -->
     <Window.Resources>
         <Style x:Key="LinkButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>

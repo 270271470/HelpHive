@@ -18,7 +18,7 @@ namespace HelpHive.ViewModels.Pages
         {
             _navigationService = navigationService;
 
-            // Initialize the command and pass the method to execute
+            // Init command and pass the method to execute
             NavigateToNewUserCommand = new RelayCommand(ExecuteNavigateToNewUser);
             NavigateToUserLoginCommand = new RelayCommand(ExecuteNavigateToUserLogin);
         }

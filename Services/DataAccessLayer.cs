@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace HelpHive.DataAccess
 {
-    public class DataAccessLayer : IDataAccessService // Implementing the interface
+    public class DataAccessLayer : IDataAccessService
     {
         private string _connectionString;
 
@@ -165,7 +165,7 @@ namespace HelpHive.DataAccess
                         {
                             if (reader.Read())
                             {
-                                // Map the data to the UserModel
+                                // Map data to the UserModel
                                 var user = new UserModel();
                                 // Set properties on user from reader
                                 {

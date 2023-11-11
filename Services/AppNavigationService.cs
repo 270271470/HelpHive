@@ -15,7 +15,7 @@ namespace HelpHive.Services
         {
         }
 
-        // Method to set the main frame from MainWindow
+        // Method to set main frame from MainWindow
         public void SetMainFrame(Frame frame)
         {
             _frame = frame ?? throw new ArgumentNullException(nameof(frame));
@@ -34,7 +34,7 @@ namespace HelpHive.Services
                 case "UserDash":
                     _frame.Navigate(new Uri("/Views/Pages/UserDash.xaml", UriKind.Relative));
                     break;
-                // Add cases for other pages as needed
+                // Add cases for other pages
                 default:
                     throw new ArgumentException("Unknown page key", nameof(pageKey));
             }

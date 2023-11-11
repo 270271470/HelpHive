@@ -16,9 +16,7 @@ using System.Windows.Shapes;
 
 namespace HelpHive.Views.Pages
 {
-    /// <summary>
     /// Interaction logic for NewUser.xaml
-    /// </summary>
     public partial class NewUser : Page
     {
 

@@ -14,16 +14,16 @@
             <RowDefinition Height="Auto"/>
             <!-- For welcome message -->
             <RowDefinition Height="Auto"/>
-            <!-- For the heading title -->
+            <!-- For heading title -->
             <RowDefinition Height="*"/>
-            <!-- For the rest of the content -->
+            <!-- For Active Ticket Overview -->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Welcome message in the top right corner -->
+        <!-- Welcome message - top right corner -->
         <TextBlock Text="{Binding LoggedInUser.FirstName, StringFormat='Welcome back, {0}'}" 
                    Foreground="#22313f"
                    HorizontalAlignment="Right"
@@ -33,7 +33,7 @@
                    Grid.Row="0" 
                    Grid.Column="1"/>
 
-        <!-- Big Heading Title "User Dashboard" in the center below the welcome message -->
+        <!-- Heading Title "User Dashboard" -->
         <TextBlock Text="User Dashboard"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
@@ -44,7 +44,7 @@
                    Grid.Row="1" 
                    Grid.ColumnSpan="2"/>
 
-        <!-- Rest of the dashboard content -->
+        <!-- Active Ticket Style -->
         <TextBlock Text="Active Ticket Overview"
                    Foreground="#22313f"
                    FontSize="18"
@@ -52,8 +52,7 @@
                    Margin="25,75,0,0"
                    Grid.Row="1" Grid.RowSpan="2"/>
 
-        <!-- DataGrid to display tickets -->
-        <!-- DataGrid to display tickets with additional styling -->
+        <!-- DataGrid to display tickets with styling -->
         <DataGrid ItemsSource="{Binding UserOpenTickets}"
           CanUserAddRows="False"
           CanUserDeleteRows="False"

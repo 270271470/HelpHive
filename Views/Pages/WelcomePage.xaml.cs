@@ -20,22 +20,16 @@ using HelpHive.ViewModels.Pages;
 
 namespace HelpHive.Views.Pages
 {
-    /// <summary>
     /// Interaction logic for WelcomePage.xaml
-    /// </summary>
     public partial class WelcomePage : Page
     {
         public WelcomePage()
         {
             InitializeComponent();
 
-            // Incorrect instantiation if the constructor expects no arguments
-            //var navigationService = new AppNavigationService(NavigationService);
-
-            // Correct instantiation if using method injection
+            //Setting DataContext to WelcomePageVM
+ 
             var navigationService = new AppNavigationService();
-            // Assuming IoCContainer is already configured and can resolve IAppNavigationService
-            // var navigationService = IoCContainer.GetService<IAppNavigationService>();
 
             DataContext = new WelcomePageVM(navigationService);
 

@@ -38,13 +38,13 @@
                    Grid.Row="1" 
                    Grid.Column="1"/>
 
-        <!-- This StackPanel is the main container for the form elements -->
+        <!-- This StackPanel is main container for form elements -->
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20">
-            <!-- Bind the TextBox's Text property to the Subject property in your ViewModel -->
+            <!-- Bind TextBox Text to Subject in VM -->
             <TextBlock Text="Subject"/>
             <TextBox Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" Height="25" FontSize="16"/>
 
-            <!-- Bind the ComboBox's SelectedItem property to the SelectedDepartment property in your ViewModel -->
+            <!-- Bind ComboBox's SelectedItem to SelectedDepartment property in VM -->
             <TextBlock Text="Department" />
                 <ComboBox ItemsSource="{Binding Departments}"
                     DisplayMemberPath="Name"
@@ -54,7 +54,7 @@
                     Margin="0,5">
                 </ComboBox>
 
-            <!-- Bind the ComboBox's SelectedItem property to the SelectedPriority property in your ViewModel -->
+            <!-- Bind ComboBox's SelectedItem to SelectedPriority property in VM -->
             <TextBlock Text="Priority" />
             <ComboBox SelectedValue="{Binding SelectedPriority, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Height="25" FontSize="16" Margin="0,5">
                 <ComboBoxItem Content="Low"/>
@@ -62,11 +62,11 @@
                 <ComboBoxItem Content="High"/>
             </ComboBox>
 
-            <!-- Bind the TextBox's Text property to the Message property in your ViewModel -->
+            <!-- Bind Text prop to Message in VM -->
             <TextBlock Text="Message" />
             <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" TextWrapping="Wrap" AcceptsReturn="True" Height="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
 
-            <!-- Here, you will need to implement the logic to handle file attachments -->
+            <!-- Will handle file attachment here is enough time -->
             <TextBlock Text="Attachments" />
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <Button Content="Browse"/>
@@ -74,7 +74,7 @@
             </StackPanel>
             <TextBlock Text="Allowed File Extensions: jpg, pdf, zip, xls, doc, docx (Max file size: 1024MB)" Margin="0,5"/>
 
-            <!-- The command for the CreateTicketButton is already correctly bound to CreateTicketCommand in your ViewModel -->
+            <!-- Bind Command for CreateTicketButton in VM -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20">
                 <Button x:Name="CreateTicketButton" Command="{Binding CreateTicketCommand}" Content="Create Ticket" Margin="5,0"/>
                 <Button Content="Cancel" Margin="5,0"/>

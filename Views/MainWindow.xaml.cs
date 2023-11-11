@@ -22,55 +22,54 @@ using HelpHive.ViewModels.Pages;
 
 namespace HelpHive.Views
 {
-    /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
 
-            // Retrieve the navigation service from the IoC container
+            // Retrieve the nav service from IoC container
             var navigationService = IoCContainer.GetService<INavigationService>();
 
-            // Set the main frame to navigation service
+            // Set main frame
             navigationService.SetMainFrame(MainFrame);
 
-            // Initialize the WelcomePage with the ViewModel
+            // Init WelcomePage with ViewModel
             var welcomePageVM = new WelcomePageVM(navigationService);
             var welcomePage = new WelcomePage
             {
                 DataContext = welcomePageVM
             };
 
-            // Navigate to WelcomePage using the Frame.
+            // Nav to WelcomePage using frame.
             MainFrame.Navigate(welcomePage);
         }
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            SidebarStackPanel.Children.Clear(); // Clear previous items
+            // Clear previous items
+            SidebarStackPanel.Children.Clear();
 
             if (e.Content is NewUser)
             {
-                // Create a Button that looks like a Hyperlink
+                // Create button that looks like hyperlink
                 Button loginButton = new Button
                 {
                     Content = "Go to User Login",
-                    Style = (Style)FindResource("LinkButtonStyle") // Make sure you define this style in your resources
+                    Style = (Style)FindResource("LinkButtonStyle")
                 };
 
-                // Set the Click event handler for the button
+                // Set Click event handler for button
                 loginButton.Click += (s, args) =>
                 {
                     MainFrame.Navigate(new UserLogin());
                 };
 
-                // Add the button to the sidebar
+                // Add button to sidebar
                 SidebarStackPanel.Children.Add(loginButton);
             }
-            // Start of UserDash Button Links
+            // Start UserDash button links
             else if (e.Content is UserDash)
             {
                 // Sidebar Heading for Helpdesk Tools
@@ -81,7 +80,7 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(heading);
 
-                // Create DashBoard Button Link
+                // Create DashBoard button link
                 Button DashBoardButton = new Button
                 {
                     Content = "DashBoard",
@@ -93,7 +92,7 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(DashBoardButton);
 
-                // Create New Ticket Button Link
+                // Create New Ticket button link
                 Button newTicketButton = new Button
                 {
                     Content = "Create New Ticket",
@@ -105,9 +104,9 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(newTicketButton);
 
-                // End of UserDash Button Links
+                // End of UserDash button links
             }
-            // Start Of UserNewTicket Button Links
+            // Start UserNewTicket button links
             else if (e.Content is UserNewTicket)
             {
                 // Sidebar Heading for Helpdesk Tools
@@ -118,7 +117,7 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(heading);
 
-                // Create DashBoard Button Link
+                // Create DashBoard button link
                 Button DashBoardButton = new Button
                 {
                     Content = "DashBoard",
@@ -130,7 +129,7 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(DashBoardButton);
 
-                // Create New Ticket Button Link
+                // Create New Ticket button link
                 Button newTicketButton = new Button
                 {
                     Content = "Create New Ticket",
@@ -141,12 +140,9 @@ namespace HelpHive.Views
                     MainFrame.Navigate(new UserNewTicket());
                 };
                 SidebarStackPanel.Children.Add(newTicketButton);
-                // End of UserNewTicket Button Links
+                // End of UserNewTicket button links
             }
         }
-
-
-
 
     }
 }

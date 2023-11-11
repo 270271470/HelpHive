@@ -22,9 +22,7 @@ using System.Diagnostics;
 
 namespace HelpHive.Views.Pages
 {
-    /// <summary>
     /// Interaction logic for UserLogin.xaml
-    /// </summary>
     public partial class UserLogin : Page
     {
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

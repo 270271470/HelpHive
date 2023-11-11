@@ -12,12 +12,10 @@ using HelpHive.Views;
 
 namespace HelpHive
 {
-    /// <summary>
     /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
-        // Static properties to hold the services
+        // Static props to hold services
         public static IDataAccessService DataAccessService { get; private set; }
         public static IUserService UserService { get; private set; }
 
@@ -26,13 +24,15 @@ namespace HelpHive
         {
             base.OnStartup(e);
 
-            // Initialize your services here
+            // Init services
             DataAccessService = new DataAccessLayer();
             UserService = new UserService();
 
-            IoCContainer.Setup(); // Set up the DI container
+            // DI container
+            IoCContainer.Setup();
 
-            var mainWindow = new MainWindow(); // Assuming MainWindow is your entry point
+            // MainWindow is our entry point
+            var mainWindow = new MainWindow();
             mainWindow.Show();
         }
     }

@@ -36,13 +36,13 @@ namespace HelpHive.ViewModels.Pages
             _ticketService = ticketService;
             _navigationService = navigationService;
 
-            // Initialize the command and pass the method to execute
+            // Init command and pass the method to execute
             NavigateToUserDashCommand = new RelayCommand(ExecuteNavigateToUserDash);
 
             LoadUserDetails();
 
-            // Initialize the TicketModel without setting TicketId and DeptId.
-            // TicketId will be set in CreateTicket method and DeptId will be set based on user selection.
+            // Init the TicketModel
+            // TicketId will be set in CreateTicket method and DeptId will be set based on user selection
             _ticket = new TicketModel {
 
                 UserId = LoggedInUser.UserId,
@@ -51,12 +51,12 @@ namespace HelpHive.ViewModels.Pages
             };
 
             //Departments from DB
-            // Initialize the ObservableCollection
+            // Init the ObservableCollection
             Departments = new ObservableCollection<TicketDeptsModel>();
             // Load departments from the database
             LoadDepartments();
 
-            // Initialize CreateTicketCommand with actions to execute and conditions when to be executable.
+            // Init CreateTicketCommand with actions to execute and conditions when to be executable.
             CreateTicketCommand = new RelayCommand(CreateTicket, CanCreateTicket);
         }
 
@@ -69,7 +69,7 @@ namespace HelpHive.ViewModels.Pages
             set
             {
                 _loggedInUser = value;
-                OnPropertyChanged(nameof(LoggedInUser)); // Notify the view of the property change
+                OnPropertyChanged(nameof(LoggedInUser)); // Notify view of property change
             }
         }
 
@@ -109,7 +109,7 @@ namespace HelpHive.ViewModels.Pages
 
 
 
-        // Public property to get and set the TicketModel. Raises property changed notifications.
+        // Public property to get and set the TicketModel. Raises property changed notifications
         public TicketModel Ticket
         {
             get => _ticket;
@@ -119,7 +119,7 @@ namespace HelpHive.ViewModels.Pages
                 {
                     _ticket = value;
                     OnPropertyChanged(nameof(Ticket));
-                    // Notify that the CreateTicketCommand may need to reevaluate its executable status.
+                    // Notify that CreateTicketCommand may need to reevaluate its executable status
                     CreateTicketCommand.RaiseCanExecuteChanged();
                 }
             }
@@ -127,7 +127,7 @@ namespace HelpHive.ViewModels.Pages
 
 
 
-        // Method to determine if the RegisterCommand can execute based on the current state of the UserModel properties.
+        // Method to determine if the RegisterCommand can execute based on the current state of the UserModel props
         private bool CanCreateTicket(object parameter)
         {
             // Updated validation logic to use SelectedDepartmentId - 10/11/23
@@ -146,7 +146,7 @@ namespace HelpHive.ViewModels.Pages
             Debug.WriteLine("Create Ticket method called");
             try
             {
-                //Get the current date time
+                //Get current date time
                 Ticket.Date = DateTime.Now;
                 Ticket.LastReply = DateTime.Now;
                 Ticket.ReplyTime = DateTime.Now;
@@ -186,11 +186,11 @@ namespace HelpHive.ViewModels.Pages
         private Random _random = new Random();
         private string GenerateTicketId()
         {
-            int id = _random.Next(100000, 999999); // Generates a random number between 100000 and 999999
+            int id = _random.Next(100000, 999999); // Generate random num between 100000 and 999999
             return id.ToString();
         }
 
-        // Command property to be bound to a create ticket button.
+        // Command property to be bound to a create ticket button
         public RelayCommand CreateTicketCommand { get; private set; }
 
         // Method to load user details
@@ -216,7 +216,7 @@ namespace HelpHive.ViewModels.Pages
 
 
 
-        //Collection of Department property to hold the selected department's ID
+        // Collection of Dept prop to hold the selected department's ID
         public ObservableCollection<TicketDeptsModel> Departments { get; set; }
 
         private int _selectedDepartmentId;

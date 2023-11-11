@@ -11,9 +11,8 @@ using System.Collections.ObjectModel;
 
 namespace HelpHive.ViewModels.Pages
 {
-    public class UserDashVM : ViewModelBaseClass // Assuming you inherit from a base ViewModel class
+    public class UserDashVM : ViewModelBaseClass
     {
-        //private readonly DataAccessLayer _dataAccessLayer;
         private readonly IDataAccessService _dataAccess;
         private readonly IUserService _userService;
         private UserModel _loggedInUser;
@@ -26,7 +25,7 @@ namespace HelpHive.ViewModels.Pages
             set
             {
                 _loggedInUser = value;
-                OnPropertyChanged(nameof(LoggedInUser)); // Notify the view of the property change
+                OnPropertyChanged(nameof(LoggedInUser)); // Notify view of the property change
             }
         }
 
@@ -54,10 +53,10 @@ namespace HelpHive.ViewModels.Pages
             var uid = LoggedInUser.UserId;
             var tickets = _dataAccess.GetUserOpenTickets(uid);
 
-            UserOpenTickets.Clear(); // Clear the existing collection
+            UserOpenTickets.Clear(); // Clear existing collection
             foreach (var ticket in tickets)
             {
-                UserOpenTickets.Add(ticket); // Add items to the existing collection
+                UserOpenTickets.Add(ticket); // Add items to existing collection
             }
         }
 

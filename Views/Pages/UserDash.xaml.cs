@@ -18,9 +18,7 @@ using System.Windows.Shapes;
 
 namespace HelpHive.Views.Pages
 {
-    /// <summary>
     /// Interaction logic for UserDash.xaml
-    /// </summary>
     public partial class UserDash : Page
     {
         public UserDash()

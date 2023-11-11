@@ -1,5 +1,4 @@
-﻿// ViewModels/UserLoginVM.cs
-using HelpHive.Commands;
+﻿using HelpHive.Commands;
 using HelpHive.Models;
 using HelpHive.Services;
 using HelpHive.DataAccess;
@@ -11,29 +10,26 @@ using System.Text.RegularExpressions;   // Included for Regex validation
 using System.Diagnostics;
 using System.Windows;
 
-// Namespace declaration for the ViewModel.
 namespace HelpHive.ViewModels
 {
-    // Define UserLoginVM class that inherits from ViewModelBaseClass following the MVVM pattern.
     public class UserLoginVM : ViewModelBaseClass
     {
-        // Private fields to hold data access logic.
         private readonly INavigationService _navigationService;
         private readonly IDataAccessService _dataAccess;
         private readonly IUserService _userService;
 
-        // Constructor for UserLoginVM, initializes navigation service and data access service
+        // Constructor for UserLoginVM
         public UserLoginVM(INavigationService navigationService, IDataAccessService dataAccess, IUserService userService)
         {
             _navigationService = navigationService;
             _dataAccess = dataAccess;
             _userService = userService;
 
+            // Sets up LoginCommand with both the execute (Login) & can-execute (CanLogin).
             LoginCommand = new RelayCommand(Login, CanLogin);
-            //This sets up LoginCommand with both the execute delegate (Login) and the can-execute delegate (CanLogin).
         }
 
-        //Email Info received from the form
+        // Email info received from the form
         private string _email;
         public string Email
         {
@@ -47,7 +43,7 @@ namespace HelpHive.ViewModels
             }
         }
 
-        //Password Info received from the form
+        // Passwd info received from the form
         private string _password;
         public string Password
         {
@@ -61,20 +57,20 @@ namespace HelpHive.ViewModels
             }
         }
 
-        // Command property to be bound to Login Button or action in the view.
+        // Command prop to bind to Login Button
         public RelayCommand LoginCommand { get; }
 
-        // Method to determine if the LoginCommand can execute based on info provided by the user
+        // Method to determine if LoginCommand can exe based on info from user
         private bool CanLogin(object parameter)
         {
             Debug.WriteLine("Check if we can login - Trap 1");
-            // Validation logic to check the completeness and correctness of user information.
-            // Email, phone number, and country code are validated using regex. Other fields are checked for non-emptiness.
+
+            // Validation logic to check completeness and correctness of user information
             bool canLogin =
                 !string.IsNullOrWhiteSpace(_email) && Regex.IsMatch(_email, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", RegexOptions.IgnoreCase) &&
                 !string.IsNullOrWhiteSpace(_password);
 
-            // Return the result of the validation.
+            // Return result of the validation
             Debug.WriteLine("CanLogin: " + canLogin);
             return canLogin;
         }
@@ -89,8 +85,9 @@ namespace HelpHive.ViewModels
                 if (user != null)
                 {
                     _navigationService.NavigateTo("UserDash");
-                    // Inside the login method after successful authentication
-                    _userService.Login(user); // Pass 'user' to the login method
+                    
+                    // Login method after successful authentication
+                    _userService.Login(user); // Pass 'user' to login method
                 }
                 else
                 {

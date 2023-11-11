@@ -27,14 +27,14 @@ namespace HelpHive.Services
             {
                 using (MySqlConnection connection = CreateConnection())
                 {
-                    connection.Open(); // This will throw an exception if there's an issue connecting.
+                    connection.Open();  // This will throw an exception if there's an issue connecting
                     connection.Close();
-                    return true; // Returns true if connection is successful.
+                    return true;        // Returns true if connection is successful
                 }
             }
             catch
             {
-                return false; // Returns false if any exception occurs.
+                return false;           // Returns false if exception occurs
             }
         }
 

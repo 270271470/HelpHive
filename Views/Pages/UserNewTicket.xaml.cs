@@ -18,9 +18,7 @@ using System.Windows.Shapes;
 
 namespace HelpHive.Views.Pages
 {
-    /// <summary>
     /// Interaction logic for UserNewTicket.xaml
-    /// </summary>
     public partial class UserNewTicket : Page
     {
         public UserNewTicket()
