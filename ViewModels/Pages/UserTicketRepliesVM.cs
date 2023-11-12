@@ -59,8 +59,7 @@ namespace HelpHive.ViewModels.Pages
         // Method to load ticket details. Call this method from the view's code-behind
         public void LoadTicketDetails(string ticketId)
         {
-            // Replace with actual method to retrieve ticket details by ID
-            // This is just a placeholder for illustration
+            // Method to retrieve CurrentTicket details by ID
             CurrentTicket = _dataAccess.GetTicketDetails(ticketId);
         }
 
