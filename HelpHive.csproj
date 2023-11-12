@@ -114,6 +114,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\TicketDeptsModel.cs" />
     <Compile Include="Models\TicketLogModel.cs" />
     <Compile Include="Models\TicketModel.cs" />
