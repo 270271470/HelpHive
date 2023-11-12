@@ -21,6 +21,7 @@ namespace HelpHive.Views.Pages
     /// Interaction logic for UserNewTicket.xaml
     public partial class UserNewTicket : Page
     {
+
         public UserNewTicket()
         {
             InitializeComponent();
