@@ -131,6 +131,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Utilities\IoCContainer.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
+    <Compile Include="ViewModels\Pages\AdminVM.cs" />
     <Compile Include="ViewModels\Pages\UserDashVM.cs" />
     <Compile Include="ViewModels\Pages\UserLoginVM.cs" />
     <Compile Include="ViewModels\Pages\UserNewTicketVM.cs" />
@@ -138,6 +139,9 @@
     <Compile Include="ViewModels\Pages\UserVM.cs" />
     <Compile Include="ViewModels\Pages\WelcomePageVM.cs" />
     <Compile Include="ViewModels\ViewModelsBaseClass.cs" />
+    <Compile Include="Views\Pages\NewAdmin.xaml.cs">
+      <DependentUpon>NewAdmin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\NewUser.xaml.cs">
       <DependentUpon>NewUser.xaml</DependentUpon>
     </Compile>
@@ -169,6 +173,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Pages\NewAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\NewUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

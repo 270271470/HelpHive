@@ -13,6 +13,8 @@ namespace HelpHive.ViewModels.Pages
 
         public RelayCommand NavigateToNewUserCommand { get; private set; }
         public RelayCommand NavigateToUserLoginCommand { get; private set; }
+        public RelayCommand NavigateToNewAdminCommand { get; private set; }
+        //public RelayCommand NavigateToUserLoginCommand { get; private set; }
 
         public WelcomePageVM(INavigationService navigationService)
         {
@@ -20,12 +22,17 @@ namespace HelpHive.ViewModels.Pages
 
             // Init command and pass the method to execute
             NavigateToNewUserCommand = new RelayCommand(ExecuteNavigateToNewUser);
+            NavigateToNewAdminCommand = new RelayCommand(ExecuteNavigateToNewAdmin);
             NavigateToUserLoginCommand = new RelayCommand(ExecuteNavigateToUserLogin);
         }
 
         private void ExecuteNavigateToNewUser(object parameter)
         {
             _navigationService.NavigateTo("NewUser");
+        }
+        private void ExecuteNavigateToNewAdmin(object parameter)
+        {
+            _navigationService.NavigateTo("NewAdmin");
         }
         private void ExecuteNavigateToUserLogin(object parameter)
         {

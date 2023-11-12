@@ -320,6 +320,45 @@ namespace HelpHive.DataAccess
             return user;
         }
 
+        //Registering a New Admin
+        public bool RegisterAdmin(AdminModel admin)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = @"INSERT INTO tbladmins (roleid, username, password, firstname, lastname, email, departments, ticketnotifications, datecreated)
+                            VALUES (@RoleId, @UserName, @Password, @FirstName, @LastName, @Email, @Departments, '0', CURRENT_TIMESTAMP)";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@RoleId", admin.RoleId);
+                        command.Parameters.AddWithValue("@UserName", admin.UserName ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Password", admin.Password ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@FirstName", admin.FirstName ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@LastName", admin.LastName ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Email", admin.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Departments", admin.Departments ?? (object)DBNull.Value);
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
+
 
         //Registering a New User
         public bool RegisterUser(UserModel user)

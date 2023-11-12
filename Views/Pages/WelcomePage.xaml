@@ -24,7 +24,7 @@
                 <!-- Admin Login -->
                 <StackPanel Width="200">
                     <Button Content="Admin Login" BorderBrush="Transparent" Background="#d32d27" Foreground="White" Height="40" Margin="0,0,0,10"/>
-                    <Button Content="New Admin Account" Background="Transparent" Foreground="Black" Height="40" />
+                    <Button Command="{Binding NavigateToNewAdminCommand}" Content="New Admin Account" Background="Transparent" Foreground="Black" Height="40" />
                 </StackPanel>
             </StackPanel>
         </Grid>
