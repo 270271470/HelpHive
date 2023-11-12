@@ -37,7 +37,7 @@ namespace HelpHive.Views.Pages
             INavigationService navigationService = IoCContainer.GetService<INavigationService>();
 
             // Instantiate the ViewModel and set it as the DataContext for this page
-            _viewModel = new UserTicketRepliesVM(dataAccess, userService);
+            _viewModel = new UserTicketRepliesVM(dataAccess, userService, ticketService);
             this.DataContext = _viewModel;
 
             // Load the ticket details into the ViewModel
@@ -50,7 +50,7 @@ namespace HelpHive.Views.Pages
             if (textBox != null && textBox.Text == "Enter your update message here...")
             {
                 textBox.Text = string.Empty;
-                // Set to the default TextBox text color
+
                 textBox.Foreground = new SolidColorBrush(Colors.Black);
             }
         }
@@ -60,9 +60,9 @@ namespace HelpHive.Views.Pages
             var textBox = sender as TextBox;
             if (textBox != null && string.IsNullOrWhiteSpace(textBox.Text))
             {
-                // Set to some light color to indicate placeholder text
+                // Set to light color to indicate placeholder text
                 textBox.Foreground = new SolidColorBrush(Colors.Gray);
-                textBox.Text = "Enter your update message here..."; // Your placeholder text
+                textBox.Text = "Enter your update message here...";
             }
         }
 

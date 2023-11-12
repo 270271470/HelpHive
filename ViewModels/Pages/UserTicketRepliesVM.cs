@@ -12,8 +12,10 @@ namespace HelpHive.ViewModels.Pages
     {
         private readonly IDataAccessService _dataAccess;
         private readonly IUserService _userService;
+        private readonly ITicketService _ticketService;
         private UserModel _loggedInUser;
         private TicketModel _currentTicket;
+        private TicketReplyModel _ticketreply;
 
         // Bindable property for the View
         public UserModel LoggedInUser
@@ -38,13 +40,23 @@ namespace HelpHive.ViewModels.Pages
         }
 
         // Constructor
-        public UserTicketRepliesVM(IDataAccessService dataAccess, IUserService userService)
+        public UserTicketRepliesVM(IDataAccessService dataAccess, IUserService userService, ITicketService ticketService)
         {
             _dataAccess = dataAccess;
             _userService = userService;
+            _ticketService = ticketService;
             //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
             LoadUserDetails();
             //LoadTicketReplies();
+
+            _ticketreply = new TicketReplyModel
+            {
+               
+                UserId = LoggedInUser.UserId,
+                Name = LoggedInUser.FirstName + " " + LoggedInUser.LastName,
+                Email = LoggedInUser.Email
+            };
+
         }
 
         // Method to load user details

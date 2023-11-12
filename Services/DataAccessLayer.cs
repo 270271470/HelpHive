@@ -177,6 +177,46 @@ namespace HelpHive.DataAccess
             }
         }
 
+        //Add Ticket Reply
+        public bool AddTicketReply(TicketReplyModel ticketreply)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = @"INSERT INTO tblticketreplies (tid, uid, name, email, date, message, admin, rating)
+                            VALUES (@TicketId, @UserId, @Name, @Email, @DateTime, @Message, @AdminName, @Rating)";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketId", ticketreply.Tid);
+                        command.Parameters.AddWithValue("@UserId", ticketreply.UserId);
+                        command.Parameters.AddWithValue("@Name", ticketreply.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Email", ticketreply.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DateTime", ticketreply.Date);
+                        command.Parameters.AddWithValue("@Message", ticketreply.Message ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@AdminName", ticketreply.Admin ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Rating", ticketreply.Rating);
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
+
 
 
         // VerifyUser before logging in
