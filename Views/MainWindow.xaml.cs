@@ -142,6 +142,42 @@ namespace HelpHive.Views
                 SidebarStackPanel.Children.Add(newTicketButton);
                 // End of UserNewTicket button links
             }
+            // Start UserTicketReplies button links
+            else if (e.Content is UserTicketReplies)
+            {
+                // Sidebar Heading for Helpdesk Tools
+                TextBlock heading = new TextBlock
+                {
+                    Text = "Helpdesk Tools",
+                    Style = (Style)FindResource("SidebarHeadingStyle")
+                };
+                SidebarStackPanel.Children.Add(heading);
+
+                // Create DashBoard button link
+                Button DashBoardButton = new Button
+                {
+                    Content = "DashBoard",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                DashBoardButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserDash());
+                };
+                SidebarStackPanel.Children.Add(DashBoardButton);
+
+                // Create New Ticket button link
+                Button newTicketButton = new Button
+                {
+                    Content = "Create New Ticket",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                newTicketButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserNewTicket());
+                };
+                SidebarStackPanel.Children.Add(newTicketButton);
+                // End of UserNewTicket button links
+            }
         }
 
     }

@@ -17,6 +17,39 @@ namespace HelpHive.DataAccess
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+        public TicketModel GetTicketDetails(string ticketId)
+        {
+            TicketModel ticket = null;
+
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                // Open the connection
+                connection.Open();
+
+                // Create a command to execute the query
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT * FROM tbltickets WHERE tid = @ticketId";
+                    command.Parameters.AddWithValue("@ticketId", ticketId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            ticket = new TicketModel
+                            {
+                                TicketId = reader["tid"].ToString(),
+                                Title = reader["title"].ToString(),
+                            };
+                        }
+                    }
+                }
+            }
+
+            return ticket;
+        }
+
+
 
 
         //Getting UserOpenTickets from DB

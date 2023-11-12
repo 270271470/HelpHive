@@ -1,6 +1,7 @@
 ﻿using HelpHive.Services;
 using HelpHive.Utilities;
 using HelpHive.ViewModels.Pages;
+using HelpHive.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,5 +31,17 @@ namespace HelpHive.Views.Pages
 
             DataContext = new UserDashVM(dataAccess, userService);
         }
+
+        // If user clicks on a subject, this will redirect to the ticket replies page
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var grid = sender as DataGrid;
+            var selectedTicket = grid.SelectedItem as TicketModel;
+            if (selectedTicket != null)
+            {
+                NavigationService.Navigate(new UserTicketReplies(selectedTicket.TicketId));
+            }
+        }
+
     }
 }

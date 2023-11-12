@@ -67,7 +67,8 @@
           HorizontalGridLinesBrush="#fff"
           VerticalGridLinesBrush="#fff"
           BorderThickness="0"
-          AutoGenerateColumns="False">
+          AutoGenerateColumns="False"
+          SelectionChanged="DataGrid_SelectionChanged">
 
             <DataGrid.Resources>
                 <Style x:Key="DataGridHeaderCenterStyle" TargetType="{x:Type DataGridColumnHeader}">
