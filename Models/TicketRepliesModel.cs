@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Models
 {
-    public class TicketReplies
+    public class TicketRepliesModel
     {
         public string Tid { get; set; }
         public int UserId { get; set; }

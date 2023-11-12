@@ -117,7 +117,7 @@
     <Compile Include="Models\TicketDeptsModel.cs" />
     <Compile Include="Models\TicketLogModel.cs" />
     <Compile Include="Models\TicketModel.cs" />
-    <Compile Include="Models\TicketReplies.cs" />
+    <Compile Include="Models\TicketRepliesModel.cs" />
     <Compile Include="Models\TicketStatusesModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Services\DataAccessLayer.cs" />
