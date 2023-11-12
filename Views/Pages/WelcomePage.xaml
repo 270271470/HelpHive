@@ -8,7 +8,7 @@
     <!-- Page Content -->
     <Grid>
         <!-- Content alignment -->
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-200,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="20"/>
