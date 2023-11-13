@@ -396,6 +396,54 @@ namespace HelpHive.DataAccess
             return null; // Or throw exception, or handle accordingly
         }
 
+
+
+
+        public AdminModel GetAdminDetails(string email)
+        {
+            AdminModel admin = null;
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM tbladmins WHERE email = @Email";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                admin = new AdminModel
+                                {
+                                    // AdminModel class with properties that map to database columns
+                                    AdminId = reader["aid"] != DBNull.Value ? Convert.ToInt32(reader["aid"]) : default(int),
+                                    RoleId = reader["roleid"] != DBNull.Value ? Convert.ToInt32(reader["roleid"]) : default(int),
+                                    UserName = reader["username"].ToString(),
+                                    FirstName = reader["firstname"].ToString(),
+                                    LastName = reader["lastname"].ToString(),
+                                    Email = reader["email"].ToString(),
+                                    Departments = reader["departments"].ToString(),
+                                    TicketNotifications = reader["ticketnotifications"].ToString()
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions, possibly logging them
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return admin;
+        }
+
+
+
+
+
         public UserModel GetUserDetails(string email)
         {
             UserModel user = null;
