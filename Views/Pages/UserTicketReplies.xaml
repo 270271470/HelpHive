@@ -38,16 +38,16 @@
                                            FontSize="14"
                                            Margin="0,10"/>
                                 <!-- Placeholder for Rating -->
-                                <!-- You will need to implement the rating display -->
+                                <!-- Still need to implement the rating display -->
                                 <StackPanel Orientation="Horizontal"
                                             Visibility="{Binding IsOperator}">
                                     <TextBlock Text="Operator" 
                                                FontWeight="Bold" 
                                                Margin="0,0,10,0"/>
                                     <!-- Placeholder for Star Rating -->
-                                    <!-- You will need to implement the star rating here -->
+                                    <!-- Still need to implement the star rating here -->
                                 </StackPanel>
-                                <TextBlock Text="Owner" 
+                                <TextBlock Text="Client Reply" 
                                            FontWeight="Bold" 
                                            Visibility="{Binding IsOwner}"/>
                             </StackPanel>
@@ -64,6 +64,7 @@
                          TextWrapping="Wrap"
                          VerticalScrollBarVisibility="Auto"
                          Margin="0,0,0,10"
+                         Text="{Binding UserMessage, UpdateSourceTrigger=PropertyChanged}"
                          LostFocus="TxtUpdateMessage_LostFocus"/>
                 <Button Content="Update"
                         Margin="0,10,0,0"

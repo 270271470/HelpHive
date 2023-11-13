@@ -17,6 +17,46 @@ namespace HelpHive.DataAccess
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+        public List<TicketReplyModel> GetTicketReplies(string ticketId)
+        {
+            List<TicketReplyModel> replies = new List<TicketReplyModel>();
+
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sql = @"SELECT tid, name, message, admin, rating, date 
+                       FROM tblticketreplies 
+                       WHERE tid = @TicketId 
+                       ORDER BY date DESC";
+
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@TicketId", ticketId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var reply = new TicketReplyModel
+                            {
+                                Tid = reader["tid"].ToString(),
+                                Name = reader["name"].ToString(),
+                                Message = reader["message"].ToString(),
+                                Admin = reader["admin"].ToString(),
+                                Rating = reader.IsDBNull(reader.GetOrdinal("rating")) ? 0 : reader.GetInt32("rating"),
+                                Date = reader.GetDateTime("date")
+                            };
+                            replies.Add(reply);
+                        }
+                    }
+                }
+            }
+
+            return replies;
+        }
+
+
         public TicketModel GetTicketDetails(string ticketId)
         {
             TicketModel ticket = null;
@@ -40,6 +80,12 @@ namespace HelpHive.DataAccess
                             {
                                 TicketId = reader["tid"].ToString(),
                                 Title = reader["title"].ToString(),
+                                Message = reader["message"].ToString(),
+                                TicketStatus = reader["ticketstatus"].ToString(),
+                                IncidentStatus = reader["incidentstatus"].ToString(),
+                                Urgency = reader["urgency"].ToString(),
+                                Admin = reader["admin"].ToString(),
+                                LastReply = reader.GetDateTime("lastreply")
                             };
                         }
                     }
@@ -177,6 +223,85 @@ namespace HelpHive.DataAccess
             }
         }
 
+        //Insert Admin Ticket Reply
+        public bool InsertAdminTicketReply(TicketReplyModel ticketReply)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = @"INSERT INTO tblticketreplies (tid, uid, name, email, date, message, admin, rating)
+                            VALUES (@TicketId, @UserId, @Name, @Email, @DateTime, @Message, @AdminName, @Rating)";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketId", ticketReply.Tid);
+                        command.Parameters.AddWithValue("@UserId", ticketReply.UserId);
+                        command.Parameters.AddWithValue("@Name", ticketReply.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Email", ticketReply.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DateTime", ticketReply.Date);
+                        command.Parameters.AddWithValue("@Message", ticketReply.Message ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@AdminName", ticketReply.Admin ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Rating", ticketReply.Rating);
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
+
+        //Insert User Ticket Reply
+        public bool InsertUserTicketReply(TicketReplyModel ticketReply)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = @"INSERT INTO tblticketreplies (tid, uid, name, email, date, message, rating)
+                            VALUES (@TicketId, @UserId, @Name, @Email, @DateTime, @Message, @Rating)";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketId", ticketReply.Tid);
+                        command.Parameters.AddWithValue("@UserId", ticketReply.UserId);
+                        command.Parameters.AddWithValue("@Name", ticketReply.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Email", ticketReply.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DateTime", ticketReply.Date);
+                        command.Parameters.AddWithValue("@Message", ticketReply.Message ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Rating", ticketReply.Rating);
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
+
 
 
         // VerifyUser before logging in
@@ -278,6 +403,45 @@ namespace HelpHive.DataAccess
                 Debug.WriteLine("An error occurred: " + ex.Message);
             }
             return user;
+        }
+
+        //Registering a New Admin
+        public bool RegisterAdmin(AdminModel admin)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = @"INSERT INTO tbladmins (roleid, username, password, firstname, lastname, email, departments, ticketnotifications, datecreated)
+                            VALUES (@RoleId, @UserName, @Password, @FirstName, @LastName, @Email, @Departments, '0', CURRENT_TIMESTAMP)";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@RoleId", admin.RoleId);
+                        command.Parameters.AddWithValue("@UserName", admin.UserName ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Password", admin.Password ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@FirstName", admin.FirstName ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@LastName", admin.LastName ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Email", admin.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Departments", admin.Departments ?? (object)DBNull.Value);
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
         }
 
 

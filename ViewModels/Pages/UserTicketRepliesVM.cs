@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using HelpHive.Commands;
 using HelpHive.Models;
 using HelpHive.Services;
+using System.Collections.ObjectModel;
 
 namespace HelpHive.ViewModels.Pages
 {
@@ -12,8 +16,16 @@ namespace HelpHive.ViewModels.Pages
     {
         private readonly IDataAccessService _dataAccess;
         private readonly IUserService _userService;
+        private readonly ITicketService _ticketService;
+        private readonly INavigationService _navigationService;
         private UserModel _loggedInUser;
         private TicketModel _currentTicket;
+        private TicketReplyModel _ticketreply;
+
+
+        public ObservableCollection<TicketReplyModel> Replies { get; set; }
+        public RelayCommand UpdateTicketCommand { get; private set; }
+        public RelayCommand NavigateToUserDashCommand { get; private set; }
 
         // Bindable property for the View
         public UserModel LoggedInUser
@@ -33,18 +45,105 @@ namespace HelpHive.ViewModels.Pages
             set
             {
                 _currentTicket = value;
-                OnPropertyChanged(nameof(CurrentTicket)); // Notify view of the property change
+                OnPropertyChanged(nameof(CurrentTicket));   // Notify view of the property change
+                LoadTicketReplies(_currentTicket.TicketId); // Load replies when the current ticket changes
             }
         }
 
         // Constructor
-        public UserTicketRepliesVM(IDataAccessService dataAccess, IUserService userService)
+        public UserTicketRepliesVM(IDataAccessService dataAccess, IUserService userService, INavigationService navigationService)
         {
             _dataAccess = dataAccess;
             _userService = userService;
+            _navigationService = navigationService;
+            //_ticketService = ticketService;
             //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
             LoadUserDetails();
             //LoadTicketReplies();
+
+            // initialise the Replies property
+            Replies = new ObservableCollection<TicketReplyModel>();
+
+            NavigateToUserDashCommand = new RelayCommand(ExecuteNavigateToUserDash);
+
+            UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
+
+        }
+
+        // method to call the GetTicketReplies method and populate the Replies property
+        public void LoadTicketReplies(string ticketId)
+        {
+            var repliesList = _dataAccess.GetTicketReplies(ticketId);
+            Replies.Clear();
+            foreach (var reply in repliesList)
+            {
+                Replies.Add(reply);
+            }
+        }
+
+        private bool CanUpdateTicket(object parameter)
+        {
+            // Updated validation logic
+            return !string.IsNullOrWhiteSpace(UserMessage);
+        }
+
+        // Method to handle ticket update
+        private void UpdateTicket(object parameter)
+        {
+            Debug.WriteLine("Create Ticket method called");
+            try
+            {
+                var ticketReply = new TicketReplyModel
+                {
+                    Tid = CurrentTicket.TicketId,
+                    UserId = LoggedInUser.UserId,
+                    Name = LoggedInUser.FirstName + " " + LoggedInUser.LastName,
+                    Email = LoggedInUser.Email,
+                    Date = DateTime.Now,
+                    Message = this.UserMessage,
+                    // Set Rating if applicable
+                };
+
+                // Use the data access layer to save the new ticket
+                var success = _dataAccess.InsertUserTicketReply(ticketReply);
+                if (success)
+                {
+                    MessageBox.Show("New ticket reply");
+
+                    _navigationService.NavigateTo("UserDash");
+
+                }
+                else
+                {
+                    MessageBox.Show("Ticket creation failed. Please check the entered information and try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
+                Debug.WriteLine($"Ticket creation failed: {ex.Message}");
+            }
+        }
+
+
+        private void ExecuteNavigateToUserDash(object parameter)
+        {
+            _navigationService.NavigateTo("UserDash");
+        }
+
+
+        private string _userMessage;
+        public string UserMessage
+        {
+            get { return _userMessage; }
+            set
+            {
+                if (_userMessage != value)
+                {
+                    _userMessage = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         // Method to load user details

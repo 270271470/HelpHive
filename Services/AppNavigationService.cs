@@ -28,6 +28,9 @@ namespace HelpHive.Services
                 case "NewUser":
                     _frame.Navigate(new Uri("/Views/Pages/NewUser.xaml", UriKind.Relative));
                     break;
+                case "NewAdmin":
+                    _frame.Navigate(new Uri("/Views/Pages/NewAdmin.xaml", UriKind.Relative));
+                    break;
                 case "UserLogin":
                     _frame.Navigate(new Uri("/Views/Pages/UserLogin.xaml", UriKind.Relative));
                     break;

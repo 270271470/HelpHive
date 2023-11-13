@@ -9,6 +9,10 @@ namespace HelpHive.Services
 {
     public class TicketService : ITicketService
     {
-
+        public TicketModel CurrentTicket { get; private set; }
+        public void Ticket(TicketModel ticket)
+        {
+            CurrentTicket = ticket;
+        }
     }
 }

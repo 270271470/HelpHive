@@ -9,5 +9,7 @@ namespace HelpHive.Services
 {
     public interface ITicketService
     {
+        TicketModel CurrentTicket { get; }
+        void Ticket(TicketModel ticket);
     }
 }

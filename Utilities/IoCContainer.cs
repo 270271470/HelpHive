@@ -33,6 +33,7 @@ namespace HelpHive.Utilities
             services.AddTransient<UserDashVM>();
             services.AddTransient<UserNewTicketVM>();
             services.AddTransient<UserTicketRepliesVM>();
+            services.AddTransient<AdminVM>();
 
             ServiceProvider = services.BuildServiceProvider();
         }
