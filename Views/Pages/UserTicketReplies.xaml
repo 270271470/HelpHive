@@ -64,6 +64,7 @@
                          TextWrapping="Wrap"
                          VerticalScrollBarVisibility="Auto"
                          Margin="0,0,0,10"
+                         Text="{Binding UserMessage, UpdateSourceTrigger=PropertyChanged}"
                          LostFocus="TxtUpdateMessage_LostFocus"/>
                 <Button Content="Update"
                         Margin="0,10,0,0"

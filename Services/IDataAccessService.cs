@@ -16,6 +16,7 @@ namespace HelpHive.Services
         TicketModel GetTicketDetails(string ticketId);
         bool RegisterUser(UserModel user);
         bool CreateNewTicket(TicketModel ticket);
-        bool AddTicketReply(TicketReplyModel ticketreply);
+        bool InsertUserTicketReply(TicketReplyModel ticketreply);
+        bool InsertAdminTicketReply(TicketReplyModel ticketreply);
     }
 }

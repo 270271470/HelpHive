@@ -177,8 +177,8 @@ namespace HelpHive.DataAccess
             }
         }
 
-        //Add Ticket Reply
-        public bool AddTicketReply(TicketReplyModel ticketreply)
+        //Insert Admin Ticket Reply
+        public bool InsertAdminTicketReply(TicketReplyModel ticketReply)
         {
             try
             {
@@ -190,14 +190,53 @@ namespace HelpHive.DataAccess
 
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
-                        command.Parameters.AddWithValue("@TicketId", ticketreply.Tid);
-                        command.Parameters.AddWithValue("@UserId", ticketreply.UserId);
-                        command.Parameters.AddWithValue("@Name", ticketreply.Name ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@Email", ticketreply.Email ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@DateTime", ticketreply.Date);
-                        command.Parameters.AddWithValue("@Message", ticketreply.Message ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@AdminName", ticketreply.Admin ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@Rating", ticketreply.Rating);
+                        command.Parameters.AddWithValue("@TicketId", ticketReply.Tid);
+                        command.Parameters.AddWithValue("@UserId", ticketReply.UserId);
+                        command.Parameters.AddWithValue("@Name", ticketReply.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Email", ticketReply.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DateTime", ticketReply.Date);
+                        command.Parameters.AddWithValue("@Message", ticketReply.Message ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@AdminName", ticketReply.Admin ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Rating", ticketReply.Rating);
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
+
+        //Insert User Ticket Reply
+        public bool InsertUserTicketReply(TicketReplyModel ticketReply)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = @"INSERT INTO tblticketreplies (tid, uid, name, email, date, message, rating)
+                            VALUES (@TicketId, @UserId, @Name, @Email, @DateTime, @Message, @Rating)";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketId", ticketReply.Tid);
+                        command.Parameters.AddWithValue("@UserId", ticketReply.UserId);
+                        command.Parameters.AddWithValue("@Name", ticketReply.Name ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Email", ticketReply.Email ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@DateTime", ticketReply.Date);
+                        command.Parameters.AddWithValue("@Message", ticketReply.Message ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Rating", ticketReply.Rating);
                         command.ExecuteNonQuery();
                     }
                     return true;
