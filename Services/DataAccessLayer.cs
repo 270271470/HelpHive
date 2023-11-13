@@ -40,6 +40,12 @@ namespace HelpHive.DataAccess
                             {
                                 TicketId = reader["tid"].ToString(),
                                 Title = reader["title"].ToString(),
+                                Message = reader["message"].ToString(),
+                                TicketStatus = reader["ticketstatus"].ToString(),
+                                IncidentStatus = reader["incidentstatus"].ToString(),
+                                Urgency = reader["urgency"].ToString(),
+                                Admin = reader["admin"].ToString(),
+                                LastReply = reader.GetDateTime("lastreply")
                             };
                         }
                     }

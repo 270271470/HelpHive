@@ -128,30 +128,6 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-        /*
-        private void UpdateTicket()
-        {
-            var ticketReply = new TicketReplyModel
-            {
-                Tid = CurrentTicket.TicketId,
-                UserId = LoggedInUser.UserId,
-                Name = LoggedInUser.FirstName + " " + LoggedInUser.LastName,
-                Email = LoggedInUser.Email,
-                Date = DateTime.Now,
-                Message = this.UserMessage,
-                // Set Rating if applicable
-            };
-
-            var result = _dataAccess.InsertUserTicketReply(ticketReply);
-            if (!result)
-            {
-                // Handle failure (e.g., display an error message to the user)
-            }
-        } */
-
-
-
         // Method to load user details
         public void LoadUserDetails()
         {
