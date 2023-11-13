@@ -47,7 +47,7 @@
                                     <!-- Placeholder for Star Rating -->
                                     <!-- Still need to implement the star rating here -->
                                 </StackPanel>
-                                <TextBlock Text="Owner" 
+                                <TextBlock Text="Client Reply" 
                                            FontWeight="Bold" 
                                            Visibility="{Binding IsOwner}"/>
                             </StackPanel>

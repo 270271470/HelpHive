@@ -8,6 +8,7 @@ using System.Windows;
 using HelpHive.Commands;
 using HelpHive.Models;
 using HelpHive.Services;
+using System.Collections.ObjectModel;
 
 namespace HelpHive.ViewModels.Pages
 {
@@ -21,6 +22,8 @@ namespace HelpHive.ViewModels.Pages
         private TicketModel _currentTicket;
         private TicketReplyModel _ticketreply;
 
+
+        public ObservableCollection<TicketReplyModel> Replies { get; set; }
         public RelayCommand UpdateTicketCommand { get; private set; }
         public RelayCommand NavigateToUserDashCommand { get; private set; }
 
@@ -42,7 +45,8 @@ namespace HelpHive.ViewModels.Pages
             set
             {
                 _currentTicket = value;
-                OnPropertyChanged(nameof(CurrentTicket)); // Notify view of the property change
+                OnPropertyChanged(nameof(CurrentTicket));   // Notify view of the property change
+                LoadTicketReplies(_currentTicket.TicketId); // Load replies when the current ticket changes
             }
         }
 
@@ -57,10 +61,24 @@ namespace HelpHive.ViewModels.Pages
             LoadUserDetails();
             //LoadTicketReplies();
 
+            // initialise the Replies property
+            Replies = new ObservableCollection<TicketReplyModel>();
+
             NavigateToUserDashCommand = new RelayCommand(ExecuteNavigateToUserDash);
 
             UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
 
+        }
+
+        // method to call the GetTicketReplies method and populate the Replies property
+        public void LoadTicketReplies(string ticketId)
+        {
+            var repliesList = _dataAccess.GetTicketReplies(ticketId);
+            Replies.Clear();
+            foreach (var reply in repliesList)
+            {
+                Replies.Add(reply);
+            }
         }
 
         private bool CanUpdateTicket(object parameter)

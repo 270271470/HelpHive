@@ -13,6 +13,7 @@ namespace HelpHive.Services
         UserModel GetUserDetails(string email);
         List<TicketDeptsModel> GetDepartments();
         List<TicketModel> GetUserOpenTickets(int userId);
+        List<TicketReplyModel> GetTicketReplies(string ticketId);
         TicketModel GetTicketDetails(string ticketId);
         bool RegisterUser(UserModel user);
         bool CreateNewTicket(TicketModel ticket);

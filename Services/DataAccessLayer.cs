@@ -17,6 +17,46 @@ namespace HelpHive.DataAccess
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+        public List<TicketReplyModel> GetTicketReplies(string ticketId)
+        {
+            List<TicketReplyModel> replies = new List<TicketReplyModel>();
+
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sql = @"SELECT tid, name, message, admin, rating, date 
+                       FROM tblticketreplies 
+                       WHERE tid = @TicketId 
+                       ORDER BY date DESC";
+
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@TicketId", ticketId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var reply = new TicketReplyModel
+                            {
+                                Tid = reader["tid"].ToString(),
+                                Name = reader["name"].ToString(),
+                                Message = reader["message"].ToString(),
+                                Admin = reader["admin"].ToString(),
+                                Rating = reader.IsDBNull(reader.GetOrdinal("rating")) ? 0 : reader.GetInt32("rating"),
+                                Date = reader.GetDateTime("date")
+                            };
+                            replies.Add(reply);
+                        }
+                    }
+                }
+            }
+
+            return replies;
+        }
+
+
         public TicketModel GetTicketDetails(string ticketId)
         {
             TicketModel ticket = null;
