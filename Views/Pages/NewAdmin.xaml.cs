@@ -1,4 +1,6 @@
-﻿using HelpHive.ViewModels;
+﻿using HelpHive.Services;
+using HelpHive.Utilities;
+using HelpHive.ViewModels;
 using HelpHive.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
@@ -40,7 +42,12 @@ namespace HelpHive.Views.Pages
         {
             InitializeComponent();
 
-            DataContext = new AdminVM();
+            IDataAccessService dataAccess = IoCContainer.GetService<IDataAccessService>();
+            IUserService userService = IoCContainer.GetService<IUserService>();
+            ITicketService ticketService = IoCContainer.GetService<ITicketService>();
+            INavigationService navigationService = IoCContainer.GetService<INavigationService>();
+
+            DataContext = new AdminVM(dataAccess, userService, ticketService, navigationService);
         }
     }
 }

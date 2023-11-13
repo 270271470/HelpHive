@@ -145,6 +145,43 @@ namespace HelpHive.DataAccess
 
 
 
+        //Getting Admin Roles from DB
+        public List<AdminRolesModel> GetAdminRoles()
+        {
+            var adminroles = new List<AdminRolesModel>();
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM tbladminroles";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var adminrole = new AdminRolesModel
+                                {
+                                    RoleId = reader.GetInt32(reader.GetOrdinal("id")),
+                                    RoleName = reader["name"].ToString(),
+                                };
+                                adminroles.Add(adminrole);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return adminroles;
+        }
+
+
+
+
         //Getting Departments from DB
         public List<TicketDeptsModel> GetDepartments()
         {

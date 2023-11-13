@@ -10,6 +10,7 @@ using System.Text;
 using System.Windows;
 using System.Text.RegularExpressions;   // Regex validation - 13/11/23 - Mauritz
 using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 namespace HelpHive.ViewModels.Pages
 {
@@ -19,13 +20,25 @@ namespace HelpHive.ViewModels.Pages
         private DataAccessLayer _dataAccess;
 
         // Constructor for AdminVM, init DAL + default admin model values
-        public AdminVM()
+        public AdminVM(IDataAccessService dataAccess, IUserService userService, ITicketService ticketService, INavigationService navigationService)
         {
             _dataAccess = new DataAccessLayer();
             _admin= new AdminModel
             {
                 DateCreated = DateTime.Now  // Default date created set to current date and time
             };
+
+            //Admin roles from DB
+            // Init the ObservableCollection
+            AdminRoles = new ObservableCollection<AdminRolesModel>();
+            // Load departments from the database
+            LoadAdminRoles();
+
+            //Departments from DB
+            // Init the ObservableCollection
+            Departments = new ObservableCollection<TicketDeptsModel>();
+            // Load departments from the database
+            LoadDepartments();
 
             // Init RegisterCommand with actions to execute and conditions when to be executable
             RegisterCommand = new RelayCommand(Register, CanRegister);
@@ -76,8 +89,7 @@ namespace HelpHive.ViewModels.Pages
                 !string.IsNullOrWhiteSpace(Admin?.UserName) &&
                 !string.IsNullOrWhiteSpace(Admin?.Email) && Regex.IsMatch(Admin.Email, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", RegexOptions.IgnoreCase) &&
                 !string.IsNullOrWhiteSpace(Admin?.Password) &&
-                Admin.Password == _confirmPassword &&
-                !string.IsNullOrWhiteSpace(Admin?.Departments);
+                Admin.Password == _confirmPassword;
 
             // Return result of validation
             return canRegister;
@@ -92,12 +104,16 @@ namespace HelpHive.ViewModels.Pages
                 // Hash users pass before registering
                 Admin.Password = HashPassword(Admin.Password);
 
+                Admin.RoleId = SelectedAdminRoleId;
+                Admin.Departments = SelectedDepartmentName;
+
+
                 // Try to register user using DAL
                 var success = _dataAccess.RegisterAdmin(Admin);
                 if (success)
                 {
-                    MessageBox.Show("User registered successfully!");
-                    // Maybe add redirect here to UserDash
+                    MessageBox.Show("Admin registered successfully!");
+                    // Maybe add redirect here to AdminDash
                 }
                 else
                 {
@@ -127,5 +143,69 @@ namespace HelpHive.ViewModels.Pages
                 return builder.ToString();
             }
         }
+
+        //Populate the AdminRoles collection from DB
+        private void LoadAdminRoles()
+        {
+            var adminroleList = _dataAccess.GetAdminRoles(); // Calling GetAdminRoles
+            foreach (var role in adminroleList)
+            {
+                AdminRoles.Add(role);
+            }
+        }
+
+
+
+        // Collection of AdminRoles prop to hold the selected role's ID
+        public ObservableCollection<AdminRolesModel> AdminRoles { get; set; }
+
+        private int _selectedAdminRoleId;
+        public int SelectedAdminRoleId
+        {
+            get => _selectedAdminRoleId;
+            set
+            {
+                if (_selectedAdminRoleId != value)
+                {
+                    _selectedAdminRoleId = value;
+                    OnPropertyChanged(nameof(SelectedAdminRoleId));
+                    // Re-evaluate the CanExecute of the command
+                    RegisterCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+
+
+        //Populate the Departments collection from DB
+        private void LoadDepartments()
+        {
+            var departmentList = _dataAccess.GetDepartments(); // Calling GetDepartments
+            foreach (var dept in departmentList)
+            {
+                Departments.Add(dept);
+            }
+        }
+
+
+        // Collection of Dept prop to hold the selected department's ID
+        public ObservableCollection<TicketDeptsModel> Departments { get; set; }
+
+        private string _selectedDepartmentName;
+        public string SelectedDepartmentName
+        {
+            get => _selectedDepartmentName;
+            set
+            {
+                if (_selectedDepartmentName != value)
+                {
+                    _selectedDepartmentName = value;
+                    OnPropertyChanged(nameof(SelectedDepartmentName));
+                    // Re-evaluate the CanExecute of the command
+                    RegisterCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
     }
 }

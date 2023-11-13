@@ -45,39 +45,58 @@
                     </Grid.RowDefinitions>
 
                     <!-- First Name -->
-                    <TextBlock Text="First Name" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="FirstNameTextBox" Text="{Binding Admin.FirstName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="First Name" Height="25" FontSize="16" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="FirstNameTextBox" Height="25" FontSize="16" Text="{Binding Admin.FirstName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Last Name -->
-                    <TextBlock Text="Last Name" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="LastNameTextBox" Text="{Binding Admin.LastName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Last Name" Height="25" FontSize="16" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="LastNameTextBox" Height="25" FontSize="16" Text="{Binding Admin.LastName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Username -->
-                    <TextBlock Text="Username" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="CompanyNameTextBox" Text="{Binding Admin.UserName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Username" Height="25" FontSize="16" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="CompanyNameTextBox" Height="25" FontSize="16" Text="{Binding Admin.UserName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Password -->
-                    <TextBlock Text="Password" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Password" Height="25" FontSize="16" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <PasswordBox x:Name="PasswordBox" Height="25" FontSize="16" PasswordChanged="PasswordBox_PasswordChanged" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Confirm Password -->
-                    <TextBlock Text="Confirm Password" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <PasswordBox x:Name="ConfirmPasswordBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged" Grid.Row="5" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Confirm Password" Height="25" FontSize="16" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <PasswordBox x:Name="ConfirmPasswordBox" Height="25" FontSize="16" PasswordChanged="ConfirmPasswordBox_PasswordChanged" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Email -->
-                    <TextBlock Text="Email" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="EmailTextBox" Text="{Binding Admin.Email, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Email" Grid.Row="5" Height="25" FontSize="16" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="EmailTextBox" Height="25" FontSize="16" Text="{Binding Admin.Email, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Role -->
-                    <TextBlock Text="Role" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="RoleTextBox" Text="{Binding Admin.Role, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Margin="0,5,0,5"/>
-
+                    <TextBlock Text="Role" Height="25" FontSize="16" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <ComboBox ItemsSource="{Binding AdminRoles}"
+                    DisplayMemberPath="RoleName"
+                    SelectedValuePath="RoleId"
+                    Height="25" FontSize="14"
+                    SelectedValue="{Binding SelectedAdminRoleId, UpdateSourceTrigger=PropertyChanged}"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Margin="0,5,0,5">
+                    </ComboBox>                    
+                    
                     <!-- Departments -->
-                    <TextBlock Text="Departments" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="DepartmentsTextBox" Text="{Binding Admin.Departments, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Departments" Height="25" FontSize="16" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <ComboBox ItemsSource="{Binding Departments}"
+                    DisplayMemberPath="Name"
+                    SelectedValuePath="Name"
+                    Height="25" FontSize="14"
+                    SelectedValue="{Binding SelectedDepartmentName, UpdateSourceTrigger=PropertyChanged}"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Margin="0,5,0,5">
+                    </ComboBox>
+
+
+
 
                     <!-- Register Button -->
-                    <Button x:Name="RegisterButton" Command="{Binding RegisterCommand}" Content="Create Admin Account" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="20"/>
+                    <Button x:Name="RegisterButton" Command="{Binding RegisterCommand}" Content="Create Admin Account" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="20"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
