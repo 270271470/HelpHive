@@ -35,12 +35,12 @@ namespace HelpHive.ViewModels.Pages
             _dataAccess = dataAccess;
             _adminService = adminService;
             AdminOpenTickets = new ObservableCollection<TicketModel>(); //NB!
-            LoadUserDetails();
-            LoadOpenTickets();
+            LoadAdminDetails();
+            GetOpenTicketsAsAdmin();
         }
 
-        // Method to load user details
-        public void LoadUserDetails()
+        // Method to load admin details
+        public void LoadAdminDetails()
         {
             if (_adminService.CurrentAdmin != null)
             {
@@ -48,16 +48,15 @@ namespace HelpHive.ViewModels.Pages
             }
         }
         // Method to load tickets
-        private void LoadOpenTickets()
+        private void GetOpenTicketsAsAdmin()
         {
-            //var uid = LoggedInUser.UserId;
-            /*var tickets = _dataAccess.GetUserOpenTickets(uid);
+            var tickets = _dataAccess.GetOpenTicketsAsAdmin();
 
             AdminOpenTickets.Clear(); // Clear existing collection
             foreach (var ticket in tickets)
             {
                 AdminOpenTickets.Add(ticket); // Add items to existing collection
-            } */
+            }
         }
 
     }

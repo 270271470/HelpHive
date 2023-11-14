@@ -40,7 +40,7 @@ namespace HelpHive.Views.Pages
             if (selectedTicket != null)
             {
                 //REMEMBER - Still need to change below to AdminTicketReplies.
-                NavigationService.Navigate(new UserTicketReplies(selectedTicket.TicketId));
+                NavigationService.Navigate(new AdminTicketReplies(selectedTicket.TicketId));
             }
         }
     }

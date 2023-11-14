@@ -135,6 +135,7 @@
     <Compile Include="Utilities\IoCContainer.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\Pages\AdminDashVM.cs" />
+    <Compile Include="ViewModels\Pages\AdminLoginVM.cs" />
     <Compile Include="ViewModels\Pages\AdminTicketRepliesVM.cs" />
     <Compile Include="ViewModels\Pages\AdminVM.cs" />
     <Compile Include="ViewModels\Pages\UserDashVM.cs" />
@@ -146,6 +147,9 @@
     <Compile Include="ViewModels\ViewModelsBaseClass.cs" />
     <Compile Include="Views\Pages\AdminDash.xaml.cs">
       <DependentUpon>AdminDash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\AdminLogin.xaml.cs">
+      <DependentUpon>AdminLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\AdminTicketReplies.xaml.cs">
       <DependentUpon>AdminTicketReplies.xaml</DependentUpon>
@@ -185,6 +189,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Pages\AdminDash.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\AdminLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
