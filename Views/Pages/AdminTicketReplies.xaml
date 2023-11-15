@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HelpHive.Views.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="800" d:DesignWidth="1200"
+      d:DesignHeight="800" d:DesignWidth="1000"
       Title="AdminTicketReplies"
       Background="White">
 
@@ -96,13 +96,48 @@
 
                             <!-- Buttons Section -->
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Button Content="Set Department" Margin="0,0,5,0"/>
-                                <Button Content="Assign Agent" Margin="0,0,5,0"/>
-                                <Button Content="Set Priority" Margin="0,0,5,0"/>
-                                <Button Content="Set Status"/>
+                                <!-- Set Department ComboBox -->
+                                <ComboBox SelectedValue="{Binding CurrentTicket.Department}" Height="25" FontSize="16" Margin="0,0,5,0">
+                                    <ComboBoxItem Content="Sales"/>
+                                    <ComboBoxItem Content="Billing"/>
+                                    <ComboBoxItem Content="Support"/>
+                                </ComboBox>
+
+                                <!-- Assign Agent ComboBox -->
+                                <ComboBox ItemsSource="{Binding Admins}"
+                                  DisplayMemberPath="Name"
+                                  SelectedValuePath="Id"
+                                  Height="25" FontSize="16"
+                                  SelectedValue="{Binding AdminFullName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="0,0,5,0">
+                                </ComboBox>
+
+
+                                <!-- Set Priority ComboBox -->
+                                <ComboBox SelectedValue="{Binding CurrentTicket.Priority}" Height="25" FontSize="16" Margin="0,0,5,0">
+                                    <ComboBoxItem Content="Low"/>
+                                    <ComboBoxItem Content="Medium"/>
+                                    <ComboBoxItem Content="High"/>
+                                </ComboBox>
+
+                                <!-- Set Status ComboBox -->
+                                <ComboBox SelectedValue="{Binding CurrentTicket.Status}" Height="25" FontSize="16" Margin="0,0,5,0">
+                                    <ComboBoxItem Content="Open"/>
+                                    <ComboBoxItem Content="Answered"/>
+                                    <ComboBoxItem Content="User Reply"/>
+                                    <ComboBoxItem Content="Resolved"/>
+                                    <ComboBoxItem Content="Not Resolved"/>
+                                    <ComboBoxItem Content="Closed"/>
+                                    <ComboBoxItem Content="On Hold"/>
+                                </ComboBox>
+
+                                <!-- Attach Files Button (Placeholder for future functionality) -->
                                 <Button Content="Attach Files" Margin="10,0,0,0"/>
-                                <Button Content="Reply" HorizontalAlignment="Right" Width="80" Margin="10,0,0,0"/>
+
+                                <!-- Reply Button -->
+                                <Button Content="Reply" Width="80" Margin="10,0,0,0"/>
                             </StackPanel>
+
                         </StackPanel>
                     </Border>
 

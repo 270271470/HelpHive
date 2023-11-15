@@ -125,6 +125,10 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
+        public string AdminFullName
+        {
+            get { return LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName; }
+        }
 
         private void ExecuteNavigateToAdminDash(object parameter)
         {

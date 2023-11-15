@@ -130,10 +130,10 @@ namespace HelpHive.Views
             // Start UserDash button links
             else if (e.Content is UserDash)
             {
-                // Sidebar Heading for Helpdesk Tools
+                // Sidebar Heading for User Tools
                 TextBlock heading = new TextBlock
                 {
-                    Text = "Helpdesk Tools",
+                    Text = "User Tools",
                     Style = (Style)FindResource("SidebarHeadingStyle")
                 };
                 SidebarStackPanel.Children.Add(heading);
@@ -167,7 +167,7 @@ namespace HelpHive.Views
                 {
                     Content = "Logout",
                     Style = (Style)FindResource("SidebarButtonStyle"),
-                    Margin = new Thickness(40, 50, 0, 0)
+                    Margin = new Thickness(30, 50, 0, 0)
                 };
 
                 logoutButton.Click += (s, args) =>
@@ -182,10 +182,10 @@ namespace HelpHive.Views
             // Start UserNewTicket button links
             else if (e.Content is UserNewTicket)
             {
-                // Sidebar Heading for Helpdesk Tools
+                // Sidebar Heading for User Tools
                 TextBlock heading = new TextBlock
                 {
-                    Text = "Helpdesk Tools",
+                    Text = "User Tools",
                     Style = (Style)FindResource("SidebarHeadingStyle")
                 };
                 SidebarStackPanel.Children.Add(heading);
@@ -219,7 +219,7 @@ namespace HelpHive.Views
                 {
                     Content = "Logout",
                     Style = (Style)FindResource("SidebarButtonStyle"),
-                    Margin = new Thickness(40, 50, 0, 0)
+                    Margin = new Thickness(30, 50, 0, 0)
                 };
 
                 logoutButton.Click += (s, args) =>
@@ -235,10 +235,10 @@ namespace HelpHive.Views
             // Start UserTicketReplies button links
             else if (e.Content is UserTicketReplies)
             {
-                // Sidebar Heading for Helpdesk Tools
+                // Sidebar Heading for User Tools
                 TextBlock heading = new TextBlock
                 {
-                    Text = "Helpdesk Tools",
+                    Text = "User Tools",
                     Style = (Style)FindResource("SidebarHeadingStyle")
                 };
                 SidebarStackPanel.Children.Add(heading);
@@ -272,7 +272,7 @@ namespace HelpHive.Views
                 {
                     Content = "Logout",
                     Style = (Style)FindResource("SidebarButtonStyle"),
-                    Margin = new Thickness(40, 50, 0, 0)
+                    Margin = new Thickness(30, 50, 0, 0)
                 };
 
                 logoutButton.Click += (s, args) =>
@@ -326,7 +326,7 @@ namespace HelpHive.Views
                 {
                     Content = "Logout",
                     Style = (Style)FindResource("SidebarButtonStyle"),
-                    Margin = new Thickness(40, 50, 0, 0)
+                    Margin = new Thickness(30, 50, 0, 0)
                 };
 
                 logoutButton.Click += (s, args) =>
@@ -379,7 +379,7 @@ namespace HelpHive.Views
                 {
                     Content = "Logout",
                     Style = (Style)FindResource("SidebarButtonStyle"),
-                    Margin = new Thickness(40, 50, 0, 0)
+                    Margin = new Thickness(30, 50, 0, 0)
                 };
 
                 logoutButton.Click += (s, args) =>
