@@ -69,7 +69,8 @@ namespace HelpHive.DataAccess
                 // Create a command to execute the query
                 using (var command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT * FROM tbltickets WHERE tid = @ticketId";
+                    //command.CommandText = "SELECT * FROM tbltickets WHERE tid = @ticketId";
+                    command.CommandText = "SELECT t.tid, t.did, t.uid, t.title, t.message, t.ticketstatus, t.incidentstatus , t.urgency, t.admin, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.tid = @ticketId";
                     command.Parameters.AddWithValue("@ticketId", ticketId);
 
                     using (var reader = command.ExecuteReader())
@@ -81,6 +82,7 @@ namespace HelpHive.DataAccess
                                 TicketId = reader["tid"].ToString(),
                                 Title = reader["title"].ToString(),
                                 Message = reader["message"].ToString(),
+                                DepartmentName = reader["DepartmentName"].ToString(),
                                 TicketStatus = reader["ticketstatus"].ToString(),
                                 IncidentStatus = reader["incidentstatus"].ToString(),
                                 Urgency = reader["urgency"].ToString(),

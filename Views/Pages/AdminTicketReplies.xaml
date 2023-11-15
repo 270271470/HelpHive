@@ -66,21 +66,35 @@
 
                             <!-- Ticket Information Section -->
                             <StackPanel Orientation="Vertical" Margin="0,0,0,10">
-                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#888888">
+                                <TextBlock FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10" Foreground="#888888">
                                     <TextBlock.Text>
-                                        <MultiBinding StringFormat="Ticket    : #{0} - {1}">
+                                        <MultiBinding StringFormat="Ticket #{0} : {1}">
                                             <Binding Path="CurrentTicket.TicketId" />
                                             <Binding Path="CurrentTicket.Title" />
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
-                                <TextBlock Text="Department: Billing" 
-                            FontSize="16" 
-                            Margin="0,0,0,10"
-                            Foreground="#888888"/>
-                                <TextBlock Text="Status    : On Hold" 
-                            FontSize="16"
-                            Foreground="#888888"/>
+                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#888888">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Department       : {0}">
+                                            <Binding Path="CurrentTicket.DepartmentName" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#888888">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Ticket Status      : {0}">
+                                            <Binding Path="CurrentTicket.TicketStatus" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#888888">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Incident Status  : {0}">
+                                            <Binding Path="CurrentTicket.IncidentStatus" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>                                
                             </StackPanel>
 
                             <!-- Reply Text Box -->
@@ -97,10 +111,34 @@
                             <!-- Buttons Section -->
                             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                 <!-- Set Department ComboBox -->
-                                <ComboBox SelectedValue="{Binding CurrentTicket.Department}" Height="25" FontSize="16" Margin="0,0,5,0">
+                                <ComboBox SelectedValue="{Binding CurrentTicket.DepartmentName, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Height="25" FontSize="15" Margin="0,0,5,0" Padding="10,1,3,0">
                                     <ComboBoxItem Content="Sales"/>
                                     <ComboBoxItem Content="Billing"/>
                                     <ComboBoxItem Content="Support"/>
+                                </ComboBox>
+
+                                <!-- Set Status ComboBox -->
+                                <ComboBox SelectedValue="{Binding CurrentTicket.TicketStatus, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Height="25" FontSize="15" Margin="0,0,5,0" Padding="10,1,3,0">
+                                    <ComboBoxItem Content="Open"/>
+                                    <ComboBoxItem Content="Answered"/>
+                                    <ComboBoxItem Content="User Reply"/>
+                                    <ComboBoxItem Content="Resolved"/>
+                                    <ComboBoxItem Content="Not Resolved"/>
+                                    <ComboBoxItem Content="Closed"/>
+                                    <ComboBoxItem Content="On Hold"/>
+                                </ComboBox>
+
+                                <!-- Set Status ComboBox -->
+                                <ComboBox SelectedValue="{Binding CurrentTicket.IncidentStatus, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Height="25" FontSize="15" Margin="0,0,5,0" Padding="10,1,3,0">
+                                    <ComboBoxItem Content="Resolved"/>
+                                    <ComboBoxItem Content="Not Resolved"/>
+                                </ComboBox>
+
+                                <!-- Set Priority ComboBox -->
+                                <ComboBox SelectedValue="{Binding CurrentTicket.Urgency, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Height="25" FontSize="15" Margin="0,0,5,0" Padding="10,1,3,0">
+                                    <ComboBoxItem Content="Low"/>
+                                    <ComboBoxItem Content="Medium"/>
+                                    <ComboBoxItem Content="High"/>
                                 </ComboBox>
 
                                 <!-- Assign Agent ComboBox -->
@@ -112,30 +150,11 @@
                                   Margin="0,0,5,0">
                                 </ComboBox>
 
-
-                                <!-- Set Priority ComboBox -->
-                                <ComboBox SelectedValue="{Binding CurrentTicket.Priority}" Height="25" FontSize="16" Margin="0,0,5,0">
-                                    <ComboBoxItem Content="Low"/>
-                                    <ComboBoxItem Content="Medium"/>
-                                    <ComboBoxItem Content="High"/>
-                                </ComboBox>
-
-                                <!-- Set Status ComboBox -->
-                                <ComboBox SelectedValue="{Binding CurrentTicket.Status}" Height="25" FontSize="16" Margin="0,0,5,0">
-                                    <ComboBoxItem Content="Open"/>
-                                    <ComboBoxItem Content="Answered"/>
-                                    <ComboBoxItem Content="User Reply"/>
-                                    <ComboBoxItem Content="Resolved"/>
-                                    <ComboBoxItem Content="Not Resolved"/>
-                                    <ComboBoxItem Content="Closed"/>
-                                    <ComboBoxItem Content="On Hold"/>
-                                </ComboBox>
-
                                 <!-- Attach Files Button (Placeholder for future functionality) -->
                                 <Button Content="Attach Files" Margin="10,0,0,0"/>
 
                                 <!-- Reply Button -->
-                                <Button Content="Reply" Width="80" Margin="10,0,0,0"/>
+                                <Button Content="Reply" HorizontalAlignment="Right" Width="80" Margin="10,0,0,0"/>
                             </StackPanel>
 
                         </StackPanel>

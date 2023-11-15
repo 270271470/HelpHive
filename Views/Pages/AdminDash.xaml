@@ -110,7 +110,7 @@
 
                 <DataGridTextColumn Header="Department"
                     Binding="{Binding DepartmentName}"
-                    Width="150"
+                    Width="130"
                     HeaderStyle="{StaticResource DataGridHeaderCenterStyle}">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
