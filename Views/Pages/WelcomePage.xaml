@@ -3,18 +3,18 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="clr-namespace:HelpHive.Views.Pages"
       xmlns:vm="clr-namespace:HelpHive.ViewModels"
-      Title="Welcome Page">
+      Title="Welcome Page" Height="800" Width="1000">
 
     <!-- Page Content -->
     <Grid>
         <!-- Content alignment -->
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-200,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" FontSize="36" FontWeight="SemiBold" Foreground="#22313f" Text="Welcome to HelpHive" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <TextBlock Grid.Row="0" FontSize="36" FontWeight="SemiBold" Foreground="#808598" Text="Welcome to HelpHive" HorizontalAlignment="Center" Margin="0,0,0,20"/>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
                 <!-- User Login -->
                 <StackPanel Width="200" Margin="0,0,20,0">
@@ -23,8 +23,8 @@
                 </StackPanel>
                 <!-- Admin Login -->
                 <StackPanel Width="200">
-                    <Button Content="Admin Login" BorderBrush="Transparent" Background="#d32d27" Foreground="White" Height="40" Margin="0,0,0,10"/>
-                    <Button Content="New Admin Account" Background="Transparent" Foreground="Black" Height="40" />
+                    <Button Command="{Binding NavigateToAdminLoginCommand}" Content="Admin Login" BorderBrush="Transparent" Background="#d32d27" Foreground="White" Height="40" Margin="0,0,0,10"/>
+                    <Button Command="{Binding NavigateToNewAdminCommand}" Content="New Admin Account" Background="Transparent" Foreground="Black" Height="40" />
                 </StackPanel>
             </StackPanel>
         </Grid>

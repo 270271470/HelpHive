@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Services
 {
-    public interface ITicketService
+    public interface IAdminService
     {
-        TicketModel CurrentTicket { get; }
-        void Ticket(TicketModel ticket);
+        AdminModel CurrentAdmin { get; }
+        void Login(AdminModel user);
+        void Logout();
     }
 }

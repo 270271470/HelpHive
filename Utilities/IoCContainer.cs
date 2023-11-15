@@ -21,6 +21,7 @@ namespace HelpHive.Utilities
             var services = new ServiceCollection();
 
             // Register services with their interfaces
+            services.AddSingleton<IAdminService, AdminService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<INavigationService, AppNavigationService>();
             services.AddSingleton<IDataAccessService, DataAccessLayer>();
@@ -33,6 +34,10 @@ namespace HelpHive.Utilities
             services.AddTransient<UserDashVM>();
             services.AddTransient<UserNewTicketVM>();
             services.AddTransient<UserTicketRepliesVM>();
+            services.AddTransient<AdminVM>();
+            services.AddTransient<AdminLoginVM>();
+            services.AddTransient<AdminDashVM>();
+            services.AddTransient<AdminTicketRepliesVM>();
 
             ServiceProvider = services.BuildServiceProvider();
         }

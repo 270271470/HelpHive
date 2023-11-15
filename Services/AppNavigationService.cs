@@ -28,11 +28,20 @@ namespace HelpHive.Services
                 case "NewUser":
                     _frame.Navigate(new Uri("/Views/Pages/NewUser.xaml", UriKind.Relative));
                     break;
+                case "NewAdmin":
+                    _frame.Navigate(new Uri("/Views/Pages/NewAdmin.xaml", UriKind.Relative));
+                    break;
                 case "UserLogin":
                     _frame.Navigate(new Uri("/Views/Pages/UserLogin.xaml", UriKind.Relative));
                     break;
+                case "AdminLogin":
+                    _frame.Navigate(new Uri("/Views/Pages/AdminLogin.xaml", UriKind.Relative));
+                    break;
                 case "UserDash":
                     _frame.Navigate(new Uri("/Views/Pages/UserDash.xaml", UriKind.Relative));
+                    break;
+                case "AdminDash":
+                    _frame.Navigate(new Uri("/Views/Pages/AdminDash.xaml", UriKind.Relative));
                     break;
                 // Add cases for other pages
                 default:

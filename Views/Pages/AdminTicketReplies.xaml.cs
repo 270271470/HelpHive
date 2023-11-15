@@ -18,26 +18,26 @@ using HelpHive.ViewModels.Pages;
 
 namespace HelpHive.Views.Pages
 {
-    /// Interaction logic for UserTicketReplies.xaml
-    public partial class UserTicketReplies : Page
+    /// Interaction logic for AdminTicketReplies.xaml
+    public partial class AdminTicketReplies : Page
     {
         private string _ticketId;
-        private UserTicketRepliesVM _viewModel;
+        private AdminTicketRepliesVM _viewModel;
 
         // Constructor that takes tid
-        public UserTicketReplies(string ticketId)
+        public AdminTicketReplies(string ticketId)
         {
             InitializeComponent();
 
             _ticketId = ticketId;
 
             IDataAccessService dataAccess = IoCContainer.GetService<IDataAccessService>();
-            IUserService userService = IoCContainer.GetService<IUserService>();
+            IAdminService adminService = IoCContainer.GetService<IAdminService>();
             ITicketService ticketService = IoCContainer.GetService<ITicketService>();
             INavigationService navigationService = IoCContainer.GetService<INavigationService>();
 
             // Instantiate the ViewModel and set it as the DataContext for this page
-            _viewModel = new UserTicketRepliesVM(dataAccess, userService, navigationService);
+            _viewModel = new AdminTicketRepliesVM(dataAccess, adminService, navigationService);
             this.DataContext = _viewModel;
 
             // Load the ticket details into the ViewModel

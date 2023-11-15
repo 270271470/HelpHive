@@ -12,13 +12,13 @@ using System.Collections.ObjectModel;
 
 namespace HelpHive.ViewModels.Pages
 {
-    public class UserTicketRepliesVM : ViewModelBaseClass
+    public class AdminTicketRepliesVM : ViewModelBaseClass
     {
         private readonly IDataAccessService _dataAccess;
-        private readonly IUserService _userService;
+        private readonly IAdminService _adminService;
         private readonly ITicketService _ticketService;
         private readonly INavigationService _navigationService;
-        private UserModel _loggedInUser;
+        private AdminModel _loggedInAdmin;
         private TicketModel _currentTicket;
         private TicketReplyModel _ticketreply;
 
@@ -28,13 +28,13 @@ namespace HelpHive.ViewModels.Pages
         public RelayCommand NavigateToUserDashCommand { get; private set; }
 
         // Bindable property for the View
-        public UserModel LoggedInUser
+        public AdminModel LoggedInAdmin
         {
-            get { return _loggedInUser; }
+            get { return _loggedInAdmin; }
             set
             {
-                _loggedInUser = value;
-                OnPropertyChanged(nameof(LoggedInUser)); // Notify view of the property change
+                _loggedInAdmin = value;
+                OnPropertyChanged(nameof(LoggedInAdmin)); // Notify view of the property change
             }
         }
 
@@ -51,20 +51,21 @@ namespace HelpHive.ViewModels.Pages
         }
 
         // Constructor
-        public UserTicketRepliesVM(IDataAccessService dataAccess, IUserService userService, INavigationService navigationService)
+        public AdminTicketRepliesVM(IDataAccessService dataAccess, IAdminService adminService, INavigationService navigationService)
         {
             _dataAccess = dataAccess;
-            _userService = userService;
+            _adminService = adminService;
             _navigationService = navigationService;
             //_ticketService = ticketService;
             //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
-            LoadUserDetails();
+            LoadAdminDetails();
             //LoadTicketReplies();
 
             // initialise the Replies property
             Replies = new ObservableCollection<TicketReplyModel>();
 
-            NavigateToUserDashCommand = new RelayCommand(ExecuteNavigateToUserDash);
+            //Looking into the issue below
+            //NavigateToAdminDashCommand = new RelayCommand(ExecuteNavigateToAdminDash);
 
             UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
 
@@ -90,32 +91,31 @@ namespace HelpHive.ViewModels.Pages
         // Method to handle ticket update
         private void UpdateTicket(object parameter)
         {
-            Debug.WriteLine("Create Ticket method called");
+            Debug.WriteLine("Update Ticket method called");
             try
             {
-                var ticketReply = new TicketReplyModel
+                var adminticketReply = new TicketReplyModel
                 {
                     Tid = CurrentTicket.TicketId,
-                    UserId = LoggedInUser.UserId,
-                    Name = LoggedInUser.FirstName + " " + LoggedInUser.LastName,
-                    Email = LoggedInUser.Email,
+                    Admin = LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName,
+                    Email = LoggedInAdmin.Email,
                     Date = DateTime.Now,
                     Message = this.UserMessage,
-                    // Set Rating if applicable
+                    // Set Rating - Implement if time permits
                 };
 
                 // Use the data access layer to save the new ticket
-                var success = _dataAccess.InsertUserTicketReply(ticketReply);
+                var success = _dataAccess.InsertAdminTicketReply(ticketReply);
                 if (success)
                 {
-                    MessageBox.Show("New ticket reply");
+                    MessageBox.Show("New Admin reply");
 
-                    _navigationService.NavigateTo("UserDash");
+                    _navigationService.NavigateTo("AdminDash");
 
                 }
                 else
                 {
-                    MessageBox.Show("Ticket creation failed. Please check the entered information and try again.");
+                    MessageBox.Show("Ticket update failed. Please check the entered information and try again.");
                 }
             }
             catch (Exception ex)
@@ -126,32 +126,34 @@ namespace HelpHive.ViewModels.Pages
         }
 
 
-        private void ExecuteNavigateToUserDash(object parameter)
+        private void ExecuteNavigateToAdminDash(object parameter)
         {
-            _navigationService.NavigateTo("UserDash");
+            _navigationService.NavigateTo("AdminDash");
         }
 
 
-        private string _userMessage;
+        private string _adminMessage;
+        private TicketReplyModel ticketReply;
+
         public string UserMessage
         {
-            get { return _userMessage; }
+            get { return _adminMessage; }
             set
             {
-                if (_userMessage != value)
+                if (_adminMessage != value)
                 {
-                    _userMessage = value;
+                    _adminMessage = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        // Method to load user details
-        public void LoadUserDetails()
+        // Method to load admin details
+        public void LoadAdminDetails()
         {
-            if (_userService.CurrentUser != null)
+            if (_adminService.CurrentAdmin != null)
             {
-                LoggedInUser = _dataAccess.GetUserDetails(_userService.CurrentUser.Email);
+                LoggedInAdmin = _dataAccess.GetAdminDetails(_adminService.CurrentAdmin.Email);
             }
         }
 
