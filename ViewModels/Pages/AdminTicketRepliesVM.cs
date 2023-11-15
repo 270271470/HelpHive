@@ -67,8 +67,13 @@ namespace HelpHive.ViewModels.Pages
             //Looking into the issue below
             //NavigateToAdminDashCommand = new RelayCommand(ExecuteNavigateToAdminDash);
 
-            UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
+            //Admin List from DB
+            // Init the ObservableCollection
+            AdminList = new ObservableCollection<AdminModel>();
+            // Load admins from the database
+            LoadAdminList();
 
+            UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
         }
 
         // method to call the GetTicketReplies method and populate the Replies property
@@ -167,6 +172,46 @@ namespace HelpHive.ViewModels.Pages
             // Method to retrieve CurrentTicket details by ID
             CurrentTicket = _dataAccess.GetTicketDetails(ticketId);
         }
+
+
+
+
+
+
+
+        //Populate Administrators collection from DB
+        private void LoadAdminList()
+        {
+            var adminList = _dataAccess.GetAdmins(); // Calling GetAdmin
+            foreach (var admn in adminList)
+            {
+                AdminList.Add(admn);
+            }
+        }
+
+
+
+        // Collection of Admin prop to hold the selected department's ID
+        public ObservableCollection<AdminModel> AdminList { get; set; }
+
+        private int _selectedAdminId;
+        public int SelectedAdminId
+        {
+            get => _selectedAdminId;
+            set
+            {
+                if (_selectedAdminId != value)
+                {
+                    _selectedAdminId = value;
+                    OnPropertyChanged(nameof(SelectedAdminId));
+                    // Re-evaluate the CanExecute of the command
+                    UpdateTicketCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+
+
 
     }
 }

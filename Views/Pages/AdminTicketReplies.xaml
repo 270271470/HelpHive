@@ -142,12 +142,12 @@
                                 </ComboBox>
 
                                 <!-- Assign Agent ComboBox -->
-                                <ComboBox ItemsSource="{Binding Admins}"
-                                  DisplayMemberPath="Name"
-                                  SelectedValuePath="Id"
-                                  Height="25" FontSize="16"
-                                  SelectedValue="{Binding AdminFullName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Margin="0,0,5,0">
+                                <ComboBox ItemsSource="{Binding AdminList}"
+                                    DisplayMemberPath="FirstName"
+                                    SelectedValuePath="AdminId"
+                                    Height="25" FontSize="16"
+                                    SelectedValue="{Binding SelectedAdminId, UpdateSourceTrigger=PropertyChanged}"
+                                    Margin="0,5">
                                 </ComboBox>
 
                                 <!-- Attach Files Button (Placeholder for future functionality) -->

@@ -236,6 +236,51 @@ namespace HelpHive.DataAccess
 
 
 
+        //Getting Admins from DB
+        public List<AdminModel> GetAdmins()
+        {
+            var admins = new List<AdminModel>();
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM tbladmins";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var admin = new AdminModel
+                                {
+                                    AdminId = reader.GetInt32(reader.GetOrdinal("aid")),
+                                    RoleId = reader.GetInt32(reader.GetOrdinal("roleid")),
+                                    UserName = reader["username"].ToString(),
+                                    FirstName = reader["firstname"].ToString(),
+                                    LastName = reader["lastname"].ToString(),
+                                    Email= reader["email"].ToString(),
+                                    Departments = reader["departments"].ToString(),
+                                    TicketNotifications = reader["ticketnotifications"].ToString(),
+                                };
+                                admins.Add(admin);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return admins;
+        }
+
+
+
+
+
+
         //Getting Departments from DB
         public List<TicketDeptsModel> GetDepartments()
         {
