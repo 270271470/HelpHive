@@ -10,6 +10,8 @@ namespace HelpHive.DataAccess
 {
     public class DataAccessLayer : IDataAccessService
     {
+        //Creating Access for the admin
+        //To the users information/Support. 
         private string _connectionString;
 
         public DataAccessLayer()

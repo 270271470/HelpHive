@@ -23,6 +23,8 @@ namespace HelpHive.Services
 
         public void NavigateTo(string pageKey)
         {
+            //Navigating throughout the main screen
+            //and pages for the user. 
             switch (pageKey)
             {
                 case "NewUser":
@@ -49,6 +51,7 @@ namespace HelpHive.Services
             }
         }
 
+        //For user to Navigate back
         public void GoBack()
         {
             if (_frame.CanGoBack)

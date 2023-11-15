@@ -8,6 +8,8 @@ namespace HelpHive.Models
 {
     public class TicketModel
     {
+        //Created class for the ticket model
+        //for the users. 
         public string TicketId { get; set; }
         public int DeptId { get; set; }
         public string DepartmentName { get; set; }

@@ -8,6 +8,8 @@ namespace HelpHive.Models
 {
     class TicketStatusesModel
     {
+        //Creating the following for 
+        //The ticket Status. 
         public string Title { get; set; }
         public string Color { get; set; }
         public int SortOrder { get; set; }

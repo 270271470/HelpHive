@@ -9,6 +9,8 @@ namespace HelpHive.Services
 {
     public interface IUserService
     {
+        //User Services
+        //for log-in. 
         UserModel CurrentUser { get; }
         void Login(UserModel user);
         void Logout();

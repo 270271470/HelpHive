@@ -13,6 +13,7 @@ using System.Windows.Controls;
 
 namespace HelpHive.Services
 {
+    //Navigation Services. 
     public interface INavigationService
     {
         void NavigateTo(string pageKey);

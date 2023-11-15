@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Models
 {
+    //Creating the Roles
+    //For the following admin user. 
     public class AdminRolesModel
     {
         public int RoleId { get; set; }
