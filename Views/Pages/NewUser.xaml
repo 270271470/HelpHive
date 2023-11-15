@@ -4,8 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:HelpHive.Views.Pages"
-      mc:Ignorable="d" d:DesignWidth="800"
-      Title="New Users Registration" Height="600">
+      mc:Ignorable="d"
+      d:DesignHeight="800" d:DesignWidth="1000"
+      Title="CreateUserAccount"
+      Background="White">      
 
     <!-- Background and Layout -->
     <Grid Background="#FFF">
@@ -15,9 +17,9 @@
         </Grid.RowDefinitions>
 
         <!-- Create Account Heading -->
-        <TextBlock Grid.Row="0" Text="Create Account" 
-                   Foreground="#22313f" 
-                   FontSize="26" 
+        <TextBlock Grid.Row="0" Text="Create User Account" 
+                   Foreground="#808598" 
+                   FontSize="32" 
                    FontWeight="Medium" 
                    HorizontalAlignment="Center" 
                    Margin="0,20,0,20"/>
@@ -50,59 +52,59 @@
                     </Grid.RowDefinitions>
 
                     <!-- First Name -->
-                    <TextBlock Text="First Name" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="FirstNameTextBox" Text="{Binding User.FirstName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="First Name" FontSize="16" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="FirstNameTextBox" Text="{Binding User.FirstName, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Last Name -->
-                    <TextBlock Text="Last Name" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="LastNameTextBox" Text="{Binding User.LastName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Last Name" FontSize="16" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="LastNameTextBox" Text="{Binding User.LastName, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Company Name (Optional) -->
-                    <TextBlock Text="Company Name (Optional)" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="CompanyNameTextBox" Text="{Binding User.CompanyName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Company Name (Optional)" FontSize="16" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="CompanyNameTextBox" Text="{Binding User.CompanyName, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Email -->
-                    <TextBlock Text="Email" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="EmailTextBox" Text="{Binding User.Email, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Email" FontSize="16" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="EmailTextBox" Text="{Binding User.Email, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Password -->
-                    <TextBlock Text="Password" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Password" FontSize="16" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" Height="25" FontSize="16" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Confirm Password -->
-                    <TextBlock Text="Confirm Password" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <PasswordBox x:Name="ConfirmPasswordBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged" Grid.Row="5" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Confirm Password" FontSize="16" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <PasswordBox x:Name="ConfirmPasswordBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged" Height="25" FontSize="16" Grid.Row="5" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Phone Number -->
-                    <TextBlock Text="Phone Number" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="PhoneNumberTextBox" Text="{Binding User.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Phone Number" FontSize="16" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="PhoneNumberTextBox" Text="{Binding User.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="6" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Address 1 -->
-                    <TextBlock Text="Address 1" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="Address1TextBox" Text="{Binding User.Address1, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Address 1" FontSize="16" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="Address1TextBox" Text="{Binding User.Address1, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="7" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Address 2 (Optional) -->
-                    <TextBlock Text="Address 2 (Optional)" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="Address2TextBox" Text="{Binding User.Address2, UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Address 2 (Optional)" FontSize="16" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="Address2TextBox" Text="{Binding User.Address2, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="8" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- City -->
-                    <TextBlock Text="City" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="CityTextBox" Text="{Binding User.City, UpdateSourceTrigger=PropertyChanged}" Grid.Row="9" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="City" FontSize="16" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="CityTextBox" Text="{Binding User.City, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="9" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Region -->
-                    <TextBlock Text="Region" Grid.Row="10" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="Region" Text="{Binding User.Region, UpdateSourceTrigger=PropertyChanged}" Grid.Row="10" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Region" FontSize="16" Grid.Row="10" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="Region" Text="{Binding User.Region, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="10" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Postal Code -->
-                    <TextBlock Text="Postal Code" Grid.Row="11" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="PostalCodeTextBox" Text="{Binding User.PostalCode, UpdateSourceTrigger=PropertyChanged}" Grid.Row="11" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Postal Code" FontSize="16" Grid.Row="11" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="PostalCodeTextBox" Text="{Binding User.PostalCode, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="11" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Country -->
-                    <TextBlock Text="Country" Grid.Row="12" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="CountryTextBox" Text="{Binding User.Country, UpdateSourceTrigger=PropertyChanged}" Grid.Row="12" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Country" FontSize="16" Grid.Row="12" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBox x:Name="CountryTextBox" Text="{Binding User.Country, UpdateSourceTrigger=PropertyChanged}" Height="25" FontSize="16" Grid.Row="12" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Register Button -->
-                    <Button x:Name="RegisterButton" Command="{Binding RegisterCommand}" Content="Register" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="20"/>
+                    <Button x:Name="RegisterButton"  FontSize="16" Command="{Binding RegisterCommand}" Content="Register" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="20"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

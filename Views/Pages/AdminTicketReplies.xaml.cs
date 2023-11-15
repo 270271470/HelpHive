@@ -18,9 +18,7 @@ using HelpHive.ViewModels.Pages;
 
 namespace HelpHive.Views.Pages
 {
-    /// <summary>
     /// Interaction logic for AdminTicketReplies.xaml
-    /// </summary>
     public partial class AdminTicketReplies : Page
     {
         private string _ticketId;

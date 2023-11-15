@@ -25,7 +25,7 @@
 
         <!-- Welcome message - top right corner -->
         <TextBlock Text="{Binding LoggedInUser.FirstName, StringFormat='Welcome back, {0}'}" 
-                   Foreground="#22313f"
+                   Foreground="#808598"
                    HorizontalAlignment="Right"
                    FontSize="16"
                    VerticalAlignment="Top"
@@ -35,18 +35,18 @@
 
         <!-- Heading Title "User Dashboard" -->
         <TextBlock Text="User Dashboard"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="LEft"
                    VerticalAlignment="Center"
-                   Foreground="#22313f"
+                   Foreground="#808598"
                    FontWeight="SemiBold"
-                   FontSize="28"
-                   Margin="0,20,0,20"
+                   FontSize="32"
+                   Margin="20,20,0,20"
                    Grid.Row="1" 
                    Grid.ColumnSpan="2"/>
 
         <!-- Active Ticket Style -->
         <TextBlock Text="Active Ticket Overview"
-                   Foreground="#22313f"
+                   Foreground="#808598"
                    FontSize="18"
                    FontWeight="Normal"
                    Margin="25,75,0,0"

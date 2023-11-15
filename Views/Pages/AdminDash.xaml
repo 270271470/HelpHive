@@ -143,7 +143,7 @@
 
                 <DataGridTextColumn Header="Requestor"
                     Binding="{Binding Name}"
-                    Width="150"
+                    Width="175"
                     HeaderStyle="{StaticResource DataGridHeaderCenterStyle}">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
@@ -157,7 +157,7 @@
 
                 <DataGridTextColumn Header="Status"
                     Binding="{Binding TicketStatus}"
-                    Width="75"
+                    Width="100"
                     HeaderStyle="{StaticResource DataGridHeaderCenterStyle}">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
