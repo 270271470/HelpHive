@@ -18,6 +18,7 @@ namespace HelpHive
         // Static props to hold services
         public static IDataAccessService DataAccessService { get; private set; }
         public static IUserService UserService { get; private set; }
+        public static IAdminService AdminService { get; private set; }
 
 
         protected override void OnStartup(StartupEventArgs e)
@@ -27,6 +28,7 @@ namespace HelpHive
             // Init services
             DataAccessService = new DataAccessLayer();
             UserService = new UserService();
+            AdminService = new AdminService();
 
             // DI container
             IoCContainer.Setup();

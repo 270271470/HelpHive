@@ -145,6 +145,95 @@ namespace HelpHive.DataAccess
 
 
 
+
+        //GetOpenTicketsAsAdmin from DB
+        public List<TicketModel> GetOpenTicketsAsAdmin()
+        {
+            var opentickets = new List<TicketModel>();
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                   
+                    string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'On Hold')";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+
+                        // Binding the userId parameter - This is NB for the correct filtering.
+                        //command.Parameters.AddWithValue("@UserId", userId);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var openticket = new TicketModel
+                                {
+                                    TicketId = reader.GetString("tid"),
+                                    //DeptId = reader.GetInt32("did"),
+                                    DepartmentName = reader["DepartmentName"].ToString(),
+                                    UserId = reader.GetInt32("uid"),
+                                    Name = reader.GetString("name"),
+                                    Title = reader.GetString("title"),
+                                    TicketStatus = reader.GetString("ticketstatus"),
+                                    Urgency = reader.GetString("urgency"),
+                                    LastReply = reader.GetDateTime("lastreply")
+                                };
+                                opentickets.Add(openticket);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return opentickets;
+        }
+
+
+
+
+
+
+        //Getting Admin Roles from DB
+        public List<AdminRolesModel> GetAdminRoles()
+        {
+            var adminroles = new List<AdminRolesModel>();
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM tbladminroles";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var adminrole = new AdminRolesModel
+                                {
+                                    RoleId = reader.GetInt32(reader.GetOrdinal("id")),
+                                    RoleName = reader["name"].ToString(),
+                                };
+                                adminroles.Add(adminrole);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return adminroles;
+        }
+
+
+
+
         //Getting Departments from DB
         public List<TicketDeptsModel> GetDepartments()
         {
@@ -358,6 +447,106 @@ namespace HelpHive.DataAccess
             }
             return null; // Or throw exception, or handle accordingly
         }
+
+
+
+        // VerifyAdmin before logging in
+        public AdminModel VerifyAdmin(string email, string hashedPassword)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM tbladmins WHERE email = @Email AND password = @Password LIMIT 1";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+                        command.Parameters.AddWithValue("@Password", hashedPassword);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Map data to the UserModel
+                                var admin = new AdminModel();
+                                // Set properties on user from reader
+                                {
+                                    //user.UserId = reader["uid"].ToString();
+                                    admin.AdminId = reader["aid"] != DBNull.Value ? Convert.ToInt32(reader["aid"]) : default(int);
+                                    admin.RoleId = reader["roleid"] != DBNull.Value ? Convert.ToInt32(reader["roleid"]) : default(int);
+                                    admin.UserName = reader["username"].ToString();
+                                    admin.FirstName = reader["firstname"].ToString();
+                                    admin.LastName = reader["lastname"].ToString();
+                                    admin.Email = reader["email"].ToString();
+                                    admin.Departments = reader["departments"].ToString();
+                                    admin.TicketNotifications = reader["ticketnotifications"].ToString();
+                                }
+                                return admin;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.WriteLine("MySQL Error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return null; // Or throw exception, or handle accordingly
+        }
+
+
+
+
+        public AdminModel GetAdminDetails(string email)
+        {
+            AdminModel admin = null;
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM tbladmins WHERE email = @Email";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                admin = new AdminModel
+                                {
+                                    // AdminModel class with properties that map to database columns
+                                    AdminId = reader["aid"] != DBNull.Value ? Convert.ToInt32(reader["aid"]) : default(int),
+                                    RoleId = reader["roleid"] != DBNull.Value ? Convert.ToInt32(reader["roleid"]) : default(int),
+                                    UserName = reader["username"].ToString(),
+                                    FirstName = reader["firstname"].ToString(),
+                                    LastName = reader["lastname"].ToString(),
+                                    Email = reader["email"].ToString(),
+                                    Departments = reader["departments"].ToString(),
+                                    TicketNotifications = reader["ticketnotifications"].ToString()
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions, possibly logging them
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return admin;
+        }
+
+
+
+
 
         public UserModel GetUserDetails(string email)
         {

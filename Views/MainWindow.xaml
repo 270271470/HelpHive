@@ -23,19 +23,19 @@
         </Style>
         <!-- Style for Sidebar Heading -->
         <Style x:Key="SidebarHeadingStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="#a6c4e0"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Margin" Value="0,10,0,25"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="Margin" Value="35,0,0,25"/>
         </Style>
 
         <!-- Style for Sidebar Button -->
         <Style x:Key="SidebarButtonStyle" TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Margin" Value="40,10,0,5"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="Background" Value="#22313F"/>
             <Setter Property="Foreground" Value="#fefefe"/>
             <Setter Property="BorderThickness" Value="0"/>
