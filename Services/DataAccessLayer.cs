@@ -71,7 +71,8 @@ namespace HelpHive.DataAccess
                 // Create a command to execute the query
                 using (var command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT * FROM tbltickets WHERE tid = @ticketId";
+                    //command.CommandText = "SELECT * FROM tbltickets WHERE tid = @ticketId";
+                    command.CommandText = "SELECT t.tid, t.did, t.uid, t.title, t.message, t.ticketstatus, t.incidentstatus , t.urgency, t.admin, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.tid = @ticketId";
                     command.Parameters.AddWithValue("@ticketId", ticketId);
 
                     using (var reader = command.ExecuteReader())
@@ -83,6 +84,7 @@ namespace HelpHive.DataAccess
                                 TicketId = reader["tid"].ToString(),
                                 Title = reader["title"].ToString(),
                                 Message = reader["message"].ToString(),
+                                DepartmentName = reader["DepartmentName"].ToString(),
                                 TicketStatus = reader["ticketstatus"].ToString(),
                                 IncidentStatus = reader["incidentstatus"].ToString(),
                                 Urgency = reader["urgency"].ToString(),
@@ -232,6 +234,51 @@ namespace HelpHive.DataAccess
             }
             return adminroles;
         }
+
+
+
+
+        //Getting Admins from DB
+        public List<AdminModel> GetAdmins()
+        {
+            var admins = new List<AdminModel>();
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT * FROM tbladmins";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var admin = new AdminModel
+                                {
+                                    AdminId = reader.GetInt32(reader.GetOrdinal("aid")),
+                                    RoleId = reader.GetInt32(reader.GetOrdinal("roleid")),
+                                    UserName = reader["username"].ToString(),
+                                    FirstName = reader["firstname"].ToString(),
+                                    LastName = reader["lastname"].ToString(),
+                                    Email= reader["email"].ToString(),
+                                    Departments = reader["departments"].ToString(),
+                                    TicketNotifications = reader["ticketnotifications"].ToString(),
+                                };
+                                admins.Add(admin);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return admins;
+        }
+
+
 
 
 

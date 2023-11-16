@@ -14,6 +14,7 @@ namespace HelpHive.Services
         AdminModel GetAdminDetails(string email);
         AdminModel VerifyAdmin(string email, string hashedPassword);
         List<TicketDeptsModel> GetDepartments();
+        List<AdminModel> GetAdmins();
         List<AdminRolesModel> GetAdminRoles();
         List<TicketModel> GetUserOpenTickets(int userId);
         List<TicketModel> GetOpenTicketsAsAdmin();
