@@ -50,6 +50,20 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
+        private string _selectedAdminFullName;
+        public string SelectedAdminFullName
+        {
+            get { return _selectedAdminFullName; }
+            set
+            {
+                if (_selectedAdminFullName != value)
+                {
+                    _selectedAdminFullName = value;
+                    OnPropertyChanged(nameof(SelectedAdminFullName)); // This notifies the UI to update
+                }
+            }
+        }
+
         // Constructor
         public AdminTicketRepliesVM(IDataAccessService dataAccess, IAdminService adminService, INavigationService navigationService)
         {
@@ -72,6 +86,15 @@ namespace HelpHive.ViewModels.Pages
             AdminList = new ObservableCollection<AdminModel>();
             // Load admins from the database
             LoadAdminList();
+
+            // Set Amin FullName
+            if (_adminService.CurrentAdmin != null)
+            {
+                // Wait until AdminList is populated before setting the selected admin
+                SelectedAdminFullName = AdminList.FirstOrDefault(a =>
+                    a.FirstName == _adminService.CurrentAdmin.FirstName &&
+                    a.LastName == _adminService.CurrentAdmin.LastName)?.FullName;
+            }
 
             UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
         }
