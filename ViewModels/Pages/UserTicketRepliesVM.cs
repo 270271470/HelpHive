@@ -90,7 +90,7 @@ namespace HelpHive.ViewModels.Pages
         // Method to handle ticket update
         private void UpdateTicket(object parameter)
         {
-            Debug.WriteLine("Create Ticket method called");
+            Debug.WriteLine("Update Ticket method called");
             try
             {
                 var ticketReply = new TicketReplyModel

@@ -21,11 +21,12 @@ namespace HelpHive.ViewModels.Pages
         private AdminModel _loggedInAdmin;
         private TicketModel _currentTicket;
         private TicketReplyModel _ticketreply;
+        private TicketModel _adminogupdate;
 
 
         public ObservableCollection<TicketReplyModel> Replies { get; set; }
         public RelayCommand UpdateTicketCommand { get; private set; }
-        public RelayCommand NavigateToUserDashCommand { get; private set; }
+        public RelayCommand NavigateToAdminDashCommand { get; private set; }
 
         // Bindable property for the View
         public AdminModel LoggedInAdmin
@@ -119,21 +120,19 @@ namespace HelpHive.ViewModels.Pages
         // Method to handle ticket update
         private void UpdateTicket(object parameter)
         {
-            Debug.WriteLine("Update Ticket method called");
+            Debug.WriteLine("Update Ticket Reply Model");
             try
             {
                 var adminticketReply = new TicketReplyModel
                 {
                     Tid = CurrentTicket.TicketId,
-                    Admin = LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName,
-                    Email = LoggedInAdmin.Email,
                     Date = DateTime.Now,
                     Message = this.UserMessage,
-                    // Set Rating - Implement if time permits
+                    Admin = LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName,
                 };
 
                 // Use the data access layer to save the new ticket
-                var success = _dataAccess.InsertAdminTicketReply(ticketReply);
+                var success = _dataAccess.InsertAdminTicketReply(adminticketReply);
                 if (success)
                 {
                     MessageBox.Show("New Admin reply");
@@ -151,6 +150,46 @@ namespace HelpHive.ViewModels.Pages
                 MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
                 Debug.WriteLine($"Ticket creation failed: {ex.Message}");
             }
+
+
+
+
+            Debug.WriteLine("Update Original Ticket Model");
+            try
+            {
+                var adminorigticketReply = new TicketModel
+                {
+                    TicketId = CurrentTicket.TicketId,
+                    DeptId = CurrentTicket.DeptId,
+                    TicketStatus = CurrentTicket.TicketStatus,
+                    IncidentStatus = CurrentTicket.IncidentStatus,
+                    Urgency = CurrentTicket.Urgency,
+                    Admin = LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName,
+                    LastReply = DateTime.Now
+                };
+
+                // Use the data access layer to update the original ticket.
+                var success = _dataAccess.AdminOriginalUpdateTicket(adminorigticketReply);
+                if (success)
+                {
+                    MessageBox.Show("Admin Updated the tikcet");
+
+                    _navigationService.NavigateTo("AdminDash");
+
+                }
+                else
+                {
+                    MessageBox.Show("Ticket update failed. Please check the entered information and try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
+                Debug.WriteLine($"Ticket creation failed: {ex.Message}");
+            }
+
+
+
         }
 
         public string AdminFullName
@@ -166,6 +205,7 @@ namespace HelpHive.ViewModels.Pages
 
         private string _adminMessage;
         private TicketReplyModel ticketReply;
+        private TicketModel adminOGUpdate;
 
         public string UserMessage
         {

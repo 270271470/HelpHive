@@ -80,6 +80,7 @@ namespace HelpHive.DataAccess
                             ticket = new TicketModel
                             {
                                 TicketId = reader["tid"].ToString(),
+                                DeptId = reader.GetInt32("did"),
                                 Title = reader["title"].ToString(),
                                 Message = reader["message"].ToString(),
                                 DepartmentName = reader["DepartmentName"].ToString(),
@@ -359,6 +360,50 @@ namespace HelpHive.DataAccess
             }
         }
 
+        //Admin Update Original Ticket
+        public bool AdminOriginalUpdateTicket(TicketModel ticket)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    //string sql = @"INSERT INTO tbltickets (tid, did, ticketstatus, incidentstatus, urgency, admin, lastreply,)
+                    //        VALUES (@TicketId, @DeptId, @TicketStatus, @IncidentStatus, @Urgency, @AdminName, @LastReply)";
+
+                    string sql = @"UPDATE tbltickets SET tid=@TicketId, did=@DeptId, ticketstatus=@TicketStatus, incidentstatus=@IncidentStatus, urgency=@Urgency, admin=@AdminName, lastreply=@LastReply
+                                WHERE tid=@TicketId";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketId", ticket.TicketId);
+                        command.Parameters.AddWithValue("@DeptId", ticket.DeptId);
+                        command.Parameters.AddWithValue("@TicketStatus", ticket.TicketStatus);
+                        command.Parameters.AddWithValue("@IncidentStatus", ticket.IncidentStatus);
+                        command.Parameters.AddWithValue("@Urgency", ticket.Urgency ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@AdminName", ticket.Admin);
+                        command.Parameters.AddWithValue("@LastReply", ticket.Date);
+                        ;
+
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
+
         //Insert Admin Ticket Reply
         public bool InsertAdminTicketReply(TicketReplyModel ticketReply)
         {
@@ -367,19 +412,15 @@ namespace HelpHive.DataAccess
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string sql = @"INSERT INTO tblticketreplies (tid, uid, name, email, date, message, admin, rating)
-                            VALUES (@TicketId, @UserId, @Name, @Email, @DateTime, @Message, @AdminName, @Rating)";
+                    string sql = @"INSERT INTO tblticketreplies (tid, date, message, admin)
+                            VALUES (@TicketId, @DateTime, @Message, @AdminName)";
 
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@TicketId", ticketReply.Tid);
-                        command.Parameters.AddWithValue("@UserId", ticketReply.UserId);
-                        command.Parameters.AddWithValue("@Name", ticketReply.Name ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@Email", ticketReply.Email ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@DateTime", ticketReply.Date);
                         command.Parameters.AddWithValue("@Message", ticketReply.Message ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@AdminName", ticketReply.Admin ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@Rating", ticketReply.Rating);
                         command.ExecuteNonQuery();
                     }
                     return true;
