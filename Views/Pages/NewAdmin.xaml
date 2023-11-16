@@ -4,11 +4,13 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HelpHive.Views.Pages"
-      mc:Ignorable="d" d:DesignWidth="800"
-      Title="New Admin Registration" Height="600">
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1000"
+      Title="NewAdminRegistration"
+      Background="White">
 
     <!-- Background and Layout -->
-    <Grid Background="#FFF">
+    <Grid Background="#FFF" Margin="0 50 0 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -16,8 +18,8 @@
 
         <!-- Create Account Heading -->
         <TextBlock Grid.Row="0" Text="Create Admin Account" 
-                   Foreground="#22313f" 
-                   FontSize="26" 
+                   Foreground="#808598" 
+                   FontSize="32" 
                    FontWeight="Medium" 
                    HorizontalAlignment="Center" 
                    Margin="0,20,0,20"/>
@@ -45,35 +47,35 @@
                     </Grid.RowDefinitions>
 
                     <!-- First Name -->
-                    <TextBlock Text="First Name" Height="25" FontSize="16" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="FirstNameTextBox" Height="25" FontSize="16" Text="{Binding Admin.FirstName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="First Name" Foreground="#808598" Height="25" FontSize="16" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
+                    <TextBox x:Name="FirstNameTextBox" Width="300" Height="25" FontSize="16" Text="{Binding Admin.FirstName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Last Name -->
-                    <TextBlock Text="Last Name" Height="25" FontSize="16" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="LastNameTextBox" Height="25" FontSize="16" Text="{Binding Admin.LastName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Last Name" Foreground="#808598" Height="25" FontSize="16" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
+                    <TextBox x:Name="LastNameTextBox" Width="300" Height="25" FontSize="16" Text="{Binding Admin.LastName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Username -->
-                    <TextBlock Text="Username" Height="25" FontSize="16" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="CompanyNameTextBox" Height="25" FontSize="16" Text="{Binding Admin.UserName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Username" Foreground="#808598" Height="25" FontSize="16" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
+                    <TextBox x:Name="CompanyNameTextBox" Width="300" Height="25" FontSize="16" Text="{Binding Admin.UserName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Password -->
-                    <TextBlock Text="Password" Height="25" FontSize="16" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <PasswordBox x:Name="PasswordBox" Height="25" FontSize="16" PasswordChanged="PasswordBox_PasswordChanged" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Password" Foreground="#808598" Height="25" FontSize="16" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
+                    <PasswordBox x:Name="PasswordBox" Width="300" Height="25" FontSize="16" PasswordChanged="PasswordBox_PasswordChanged" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Confirm Password -->
-                    <TextBlock Text="Confirm Password" Height="25" FontSize="16" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <PasswordBox x:Name="ConfirmPasswordBox" Height="25" FontSize="16" PasswordChanged="ConfirmPasswordBox_PasswordChanged" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Confirm Password" Foreground="#808598" Height="25" FontSize="16" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
+                    <PasswordBox x:Name="ConfirmPasswordBox" Width="300" Height="25" FontSize="16" PasswordChanged="ConfirmPasswordBox_PasswordChanged" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Email -->
-                    <TextBlock Text="Email" Grid.Row="5" Height="25" FontSize="16" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
-                    <TextBox x:Name="EmailTextBox" Height="25" FontSize="16" Text="{Binding Admin.Email, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Email" Grid.Row="5" Foreground="#808598" Height="25" FontSize="16" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
+                    <TextBox x:Name="EmailTextBox" Width="300" Height="25" FontSize="16" Text="{Binding Admin.Email, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Margin="0,5,0,5"/>
 
                     <!-- Role -->
-                    <TextBlock Text="Role" Height="25" FontSize="16" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBlock Text="Role" Height="25" Foreground="#808598" FontSize="16" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
                     <ComboBox ItemsSource="{Binding AdminRoles}"
                     DisplayMemberPath="RoleName"
                     SelectedValuePath="RoleId"
-                    Height="25" FontSize="14"
+                    Height="25" Width="300" FontSize="14"
                     SelectedValue="{Binding SelectedAdminRoleId, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="6"
                     Grid.Column="1"
@@ -81,22 +83,19 @@
                     </ComboBox>                    
                     
                     <!-- Departments -->
-                    <TextBlock Text="Departments" Height="25" FontSize="16" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Margin="0,5,10,5"/>
+                    <TextBlock Text="Departments" Foreground="#808598" Height="25" FontSize="16" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
                     <ComboBox ItemsSource="{Binding Departments}"
                     DisplayMemberPath="Name"
                     SelectedValuePath="Name"
-                    Height="25" FontSize="14"
+                    Height="25" Width="300" FontSize="14"
                     SelectedValue="{Binding SelectedDepartmentName, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="7"
                     Grid.Column="1"
                     Margin="0,5,0,5">
                     </ComboBox>
 
-
-
-
                     <!-- Register Button -->
-                    <Button x:Name="RegisterButton" Command="{Binding RegisterCommand}" Content="Create Admin Account" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="20"/>
+                    <Button x:Name="RegisterButton" FontSize="16" Command="{Binding RegisterCommand}" Content="Create Admin Account" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="60 20 20 20" Padding="5"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

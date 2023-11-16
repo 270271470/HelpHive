@@ -41,7 +41,7 @@
             <!-- Email TextBox -->
             <TextBox x:Name="Email" 
              Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" 
-             Grid.Row="0" Grid.Column="1" 
+             Grid.Row="0" Grid.Column="1" Width="200" 
              Margin="0,10,0,10" Height="25" FontSize="16" 
              VerticalAlignment="Center"/>
 
@@ -51,14 +51,14 @@
             <!-- Password PasswordBox -->
             <PasswordBox x:Name="Password" 
                  PasswordChanged="PasswordBox_PasswordChanged" 
-                 Grid.Row="1" Grid.Column="1" 
+                 Grid.Row="1" Grid.Column="1"  Width="200" 
                  Margin="0,10,0,10" Height="25" FontSize="16" 
                  VerticalAlignment="Center"/>
 
             <!-- Login Button -->
             <Button Content="Login" 
             Grid.Row="2" Grid.Column="1" 
-            Width="200" Height="25" FontSize="16"
+            Width="200" Height="25" FontSize="16" Margin="0 10 0 0"
             Command="{Binding LoginCommand}"
             VerticalAlignment="Center"/>
         </Grid>

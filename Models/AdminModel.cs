@@ -14,6 +14,7 @@ namespace HelpHive.Models
         public string Password { get; set; }        // Storing a hashed password, not plain text
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FullName => $"{FirstName} {LastName}";
         public string Email { get; set; }
         public string Departments { get; set; }
         public string TicketNotifications { get; set; }
