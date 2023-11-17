@@ -12,6 +12,7 @@
 
     <Page.Resources>
         <conv:NonZeroLengthToBoolConverter x:Key="NonZeroLengthToBoolConverter"/>
+        <conv:ReplyTypeConverter x:Key="ReplyTypeConverter"/>
     </Page.Resources>
 
     <Grid>
@@ -71,7 +72,7 @@
 
                             <!-- Ticket Information Section -->
                             <StackPanel Orientation="Vertical" Margin="0,0,0,10">
-                                <TextBlock FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10" Foreground="#888888">
+                                <TextBlock FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10" Foreground="#808598">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="Ticket #{0} : {1}">
                                             <Binding Path="CurrentTicket.TicketId" />
@@ -79,11 +80,11 @@
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
-                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#888888" x:Name="DepartmentTextBlock">
+                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#808598" x:Name="DepartmentTextBlock">
                                     Department       :
                                 </TextBlock>
-                                <TextBlock x:Name="TicketStatusTextBlock" FontSize="16" Margin="0,0,0,10" Foreground="#888888"/>
-                                <TextBlock x:Name="IncidentStatusTextBlock" FontSize="16" Margin="0,0,0,10" Foreground="#888888"/>
+                                <TextBlock x:Name="TicketStatusTextBlock" FontSize="16" Margin="0,0,0,10" Foreground="#808598"/>
+                                <TextBlock x:Name="IncidentStatusTextBlock" FontSize="16" Margin="0,0,0,10" Foreground="#808598"/>
 
                             </StackPanel>
 
@@ -190,29 +191,61 @@
                             <DataTemplate>
                                 <Border Padding="10" Margin="0,5" BorderBrush="#C5D8EB" BorderThickness="1" CornerRadius="5" Background="#F7FAFD">
                                     <StackPanel>
-                                        <TextBlock Text="{Binding PostedBy}" 
-                               FontWeight="Bold" 
-                               FontSize="14"
-                               Margin="0,0,0,5"/>
+                                        <TextBlock FontWeight="Bold" Foreground="#808598" FontSize="14" Margin="0,0,0,5">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource ReplyTypeConverter}">
+                                                    <Binding Path="PostedBy"/>
+                                                    <Binding Path="IsAdminReply"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
                                         <TextBlock Text="{Binding PostedDate, StringFormat='Posted today at {0:HH:mm}'}" 
-                               FontSize="12" 
-                               FontStyle="Italic"
-                               Margin="0,0,0,10"/>
+                                           FontSize="12"
+                                           Foreground="#808598"
+                                           FontStyle="Italic"
+                                           Margin="0,0,0,10"/>
                                         <TextBlock Text="{Binding Message}"
-                               TextWrapping="Wrap"
-                               FontSize="14"
-                               Margin="0,0,0,10"/>
-                                        <TextBlock Text="{Binding Email}"
-                               TextWrapping="Wrap"
-                               FontSize="14"
-                               Foreground="#888888"
-                               Margin="0,0,0,10"/>
+                                           TextWrapping="Wrap"
+                                           FontSize="15"
+                                           Foreground="#808598"
+                                           Margin="0,30,0,10"/>
                                         <!-- Further content such as ratings or operator/client tags can go here -->
+                                        <TextBlock Text="Rate this reply:"
+                                                Visibility="Collapsed">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsAdminReply}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+
+                    <!-- Original Ticket -->
+                    <Border Padding="10" Margin="0,5" BorderBrush="#C5D8EB" BorderThickness="1" CornerRadius="5" Background="#F7FAFD">
+                        <StackPanel>
+                            <TextBlock Text="{Binding OrigPostedBy}" FontWeight="Bold" Foreground="#808598" FontSize="14" Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding OrigPostedDate}" 
+                   FontSize="12"
+                   Foreground="#808598"
+                   FontStyle="Italic"
+                   Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding OrigMessage}"
+                   TextWrapping="Wrap"
+                   FontSize="15"
+                   Foreground="#808598"
+                   Margin="0,30,0,10"/>
+                        </StackPanel>
+                    </Border>
+
 
 
                 </StackPanel>

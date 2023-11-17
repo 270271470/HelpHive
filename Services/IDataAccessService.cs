@@ -19,6 +19,7 @@ namespace HelpHive.Services
         List<AdminRolesModel> GetAdminRoles();
         List<TicketModel> GetUserOpenTickets(int userId);
         List<TicketModel> GetOpenTicketsAsAdmin();
+        List<TicketModel> GetAdminTicketHistory();
         List<TicketReplyModel> GetTicketReplies(string ticketId);
         TicketModel GetTicketDetails(string ticketId);
         bool AdminOriginalUpdateTicket(TicketModel ticket);

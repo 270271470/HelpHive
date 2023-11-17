@@ -31,6 +31,41 @@ namespace HelpHive.ViewModels.Pages
         public RelayCommand MarkTicketResolvedCommand { get; private set; }
 
 
+
+        private string _origPostedBy;
+        public string OrigPostedBy
+        {
+            get { return _origPostedBy; }
+            set
+            {
+                _origPostedBy = value;
+                OnPropertyChanged(nameof(OrigPostedBy));
+            }
+        }
+
+        private string _OrigPostedDate;
+        public string OrigPostedDate
+        {
+            get { return _OrigPostedDate; }
+            set
+            {
+                _OrigPostedDate = value;
+                OnPropertyChanged(nameof(OrigPostedDate));
+            }
+        }
+
+        private string _OrigMessage;
+        public string OrigMessage
+        {
+            get { return _OrigMessage; }
+            set
+            {
+                _OrigMessage = value;
+                OnPropertyChanged(nameof(OrigMessage));
+            }
+        }
+
+
         // Bindable property for the View
         public AdminModel LoggedInAdmin
         {
@@ -168,8 +203,8 @@ namespace HelpHive.ViewModels.Pages
                 var success = _dataAccess.InsertAdminTicketReply(adminticketReply);
                 if (success)
                 {
-                    MessageBox.Show("New Admin reply");
-
+                    //MessageBox.Show("New Admin reply");
+                    //Implement logging here.
                     _navigationService.NavigateTo("AdminDash");
 
                 }
@@ -198,15 +233,16 @@ namespace HelpHive.ViewModels.Pages
                     IncidentStatus = CurrentTicket.IncidentStatus,
                     Urgency = CurrentTicket.Urgency,
                     Admin = LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName,
-                    LastReply = DateTime.Now
+                    LastReply = DateTime.Now,
+                    ReplyTime = DateTime.Now
                 };
 
                 // Use the data access layer to update the original ticket.
                 var success = _dataAccess.AdminOriginalUpdateTicket(adminorigticketReply);
                 if (success)
                 {
-                    MessageBox.Show("Admin Updated the tikcet");
-
+                    //MessageBox.Show("Admin Updated the tikcet");
+                    //Implement logging here.
                     _navigationService.NavigateTo("AdminDash");
 
                 }
@@ -265,15 +301,17 @@ namespace HelpHive.ViewModels.Pages
         // Method to load ticket details. Call this method from the view's code-behind
         public void LoadTicketDetails(string ticketId)
         {
-            // Method to retrieve CurrentTicket details by ID
+            // Retrieve CurrentTicket details by ID
             CurrentTicket = _dataAccess.GetTicketDetails(ticketId);
+
+            // Set the properties for original ticket
+            if (CurrentTicket != null)
+            {
+                OrigPostedBy = CurrentTicket.Name;
+                OrigPostedDate = $"Posted today at {CurrentTicket.Date:HH:mm}";
+                OrigMessage = CurrentTicket.Message;
+            }
         }
-
-
-
-
-
-
 
         //Populate Administrators collection from DB
         private void LoadAdminList()

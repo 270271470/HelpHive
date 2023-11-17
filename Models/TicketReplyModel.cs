@@ -18,5 +18,25 @@ namespace HelpHive.Models
         public string Attachment { get; set; }
         public byte AttachmentsRemoved { get; set; }
         public int? Rating { get; set; }
+
+        // Rename this property to match XAML binding
+        public DateTime PostedDate
+        {
+            get { return Date; }
+            set { Date = value; }
+        }
+
+        // Used to display who posted the reply in the UI
+        public string PostedBy
+        {
+            get { return string.IsNullOrEmpty(Admin) ? Name : Admin; }
+        }
+
+        // Property to indicate if the reply is from an admin for UI logic
+        public bool IsAdminReply
+        {
+            get { return !string.IsNullOrEmpty(Admin); }
+        }
     }
+
 }

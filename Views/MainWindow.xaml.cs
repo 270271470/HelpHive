@@ -317,7 +317,7 @@ namespace HelpHive.Views
                 };
                 TicketHistoryButton.Click += (s, args) =>
                 {
-                    MainFrame.Navigate(new AdminDash());
+                    MainFrame.Navigate(new AdminTicketHistory());
                 };
                 SidebarStackPanel.Children.Add(TicketHistoryButton);
 
@@ -370,7 +370,62 @@ namespace HelpHive.Views
                 };
                 TicketHistoryButton.Click += (s, args) =>
                 {
+                    MainFrame.Navigate(new AdminTicketHistory());
+                };
+                SidebarStackPanel.Children.Add(TicketHistoryButton);
+
+                // Create AdminLogout button link
+                Button logoutButton = new Button
+                {
+                    Content = "Logout",
+                    Style = (Style)FindResource("SidebarButtonStyle"),
+                    Margin = new Thickness(30, 50, 0, 0)
+                };
+
+                logoutButton.Click += (s, args) =>
+                {
+                    _adminService.Logout();
+                    UpdateUIForLogout();
+                    MainFrame.Navigate(new AdminLogin());
+                };
+                SidebarStackPanel.Children.Add(logoutButton);
+
+                // End of UserNewTicket button links
+            }
+
+
+            // Start AdminTicketHistory button links
+            else if (e.Content is AdminTicketHistory)
+            {
+                // Sidebar Heading for Admin Tools
+                TextBlock heading = new TextBlock
+                {
+                    Text = "Admin Tools",
+                    Style = (Style)FindResource("SidebarHeadingStyle")
+                };
+                SidebarStackPanel.Children.Add(heading);
+
+                // Create DashBoard button link
+                Button DashBoardButton = new Button
+                {
+                    Content = "Active Tickets",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                DashBoardButton.Click += (s, args) =>
+                {
                     MainFrame.Navigate(new AdminDash());
+                };
+                SidebarStackPanel.Children.Add(DashBoardButton);
+
+                // Create Historical button link
+                Button TicketHistoryButton = new Button
+                {
+                    Content = "Ticket History",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                TicketHistoryButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new AdminTicketHistory());
                 };
                 SidebarStackPanel.Children.Add(TicketHistoryButton);
 
