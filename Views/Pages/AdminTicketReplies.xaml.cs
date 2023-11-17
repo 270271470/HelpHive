@@ -22,12 +22,18 @@ namespace HelpHive.Views.Pages
     public partial class AdminTicketReplies : Page
     {
         private string _ticketId;
+        private string _staticDepartmentName;
+        private string _staticTicketStatus;
+        private string _staticIncidentStatus;
         private AdminTicketRepliesVM _viewModel;
 
         // Constructor that takes tid
         public AdminTicketReplies(string ticketId)
         {
             InitializeComponent();
+
+            // set SelectedValue after the ViewModel is fully initialised
+            this.Loaded += AdminTicketReplies_Loaded;
 
             _ticketId = ticketId;
 
@@ -42,7 +48,31 @@ namespace HelpHive.Views.Pages
 
             // Load the ticket details into the ViewModel
             _viewModel.LoadTicketDetails(ticketId);
+
+            // Capture static values after loading ticket details
+            _staticDepartmentName = _viewModel.CurrentTicket.DepartmentName;
+            _staticTicketStatus = _viewModel.CurrentTicket.TicketStatus;
+            _staticIncidentStatus = _viewModel.CurrentTicket.IncidentStatus;
+
+            // Set the text of the TextBlock
+            DepartmentTextBlock.Text = $"Department       : {_staticDepartmentName}";
+            TicketStatusTextBlock.Text = $"Ticket Status      : {_staticTicketStatus}";
+            IncidentStatusTextBlock.Text = $"Incident Status  : {_staticIncidentStatus}";
         }
+
+        private void AdminTicketReplies_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Ensure that we're on the UI thread because we're manipulating UI elements
+            Dispatcher.Invoke(() =>
+            {
+                // Check if TicketStatus has not been set, or is set to a default value
+                if (string.IsNullOrEmpty(_viewModel.CurrentTicket.TicketStatus) || _viewModel.CurrentTicket.TicketStatus == "Open")
+                {
+                    StatusComboBox.SelectedValue = "Answered";
+                }
+            });
+        }
+
 
         private void TxtUpdateMessage_GotFocus(object sender, RoutedEventArgs e)
         {

@@ -27,6 +27,9 @@ namespace HelpHive.ViewModels.Pages
         public ObservableCollection<TicketReplyModel> Replies { get; set; }
         public RelayCommand UpdateTicketCommand { get; private set; }
         public RelayCommand NavigateToAdminDashCommand { get; private set; }
+        public RelayCommand CloseTicketCommand { get; private set; }
+        public RelayCommand MarkTicketResolvedCommand { get; private set; }
+
 
         // Bindable property for the View
         public AdminModel LoggedInAdmin
@@ -97,7 +100,35 @@ namespace HelpHive.ViewModels.Pages
                     a.LastName == _adminService.CurrentAdmin.LastName)?.FullName;
             }
 
+            CloseTicketCommand = new RelayCommand(CloseTicket);
+            MarkTicketResolvedCommand = new RelayCommand(MarkTicketResolved);
+
             UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
+        }
+
+        private void CloseTicket(object parameter)
+        {
+            CurrentTicket.TicketStatus = "Closed";
+            UpdateTicket();
+            NavigateToAdminDash();
+        }
+
+        private void MarkTicketResolved(object parameter)
+        {
+            CurrentTicket.TicketStatus = "Closed";
+            CurrentTicket.IncidentStatus = "Resolved";
+            UpdateTicket();
+            NavigateToAdminDash();
+        }
+
+        private void UpdateTicket()
+        {
+            _dataAccess.UpdateTicketStatus(CurrentTicket);
+        }
+
+        private void NavigateToAdminDash()
+        {
+            _navigationService.NavigateTo("AdminDash");
         }
 
         // method to call the GetTicketReplies method and populate the Replies property
@@ -114,7 +145,9 @@ namespace HelpHive.ViewModels.Pages
         private bool CanUpdateTicket(object parameter)
         {
             // Updated validation logic
-            return !string.IsNullOrWhiteSpace(UserMessage);
+            //return !string.IsNullOrWhiteSpace(UserMessage);
+            return !string.IsNullOrEmpty(CurrentTicket.TicketStatus);
+            //return true;
         }
 
         // Method to handle ticket update
@@ -204,8 +237,8 @@ namespace HelpHive.ViewModels.Pages
 
 
         private string _adminMessage;
-        private TicketReplyModel ticketReply;
-        private TicketModel adminOGUpdate;
+        //private TicketReplyModel ticketReply;
+        //private TicketModel adminOGUpdate;
 
         public string UserMessage
         {

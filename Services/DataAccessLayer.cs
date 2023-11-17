@@ -317,6 +317,42 @@ namespace HelpHive.DataAccess
         }
 
 
+        //Update Ticket Status
+        public void UpdateTicketStatus(TicketModel ticket)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = @"UPDATE tbltickets SET ticketstatus = @TicketStatus, incidentstatus = @IncidentStatus WHERE tid = @TicketId";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketStatus", ticket.TicketStatus);
+                        command.Parameters.AddWithValue("@IncidentStatus", ticket.IncidentStatus);
+                        command.Parameters.AddWithValue("@TicketId", ticket.TicketId);
+
+                        command.ExecuteNonQuery();
+                    }
+                    //return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                //return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                //return false;
+            }
+        }
+
+
 
         //Create A New Ticket
         public bool CreateNewTicket(TicketModel ticket)

@@ -4,10 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HelpHive.Views.Pages"
+      xmlns:conv="clr-namespace:HelpHive.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
       Title="AdminTicketReplies"
       Background="White">
+
+    <Page.Resources>
+        <conv:NonZeroLengthToBoolConverter x:Key="NonZeroLengthToBoolConverter"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -74,27 +79,12 @@
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
-                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#888888">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="Department       : {0}">
-                                            <Binding Path="CurrentTicket.DepartmentName" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
+                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#888888" x:Name="DepartmentTextBlock">
+                                    Department       :
                                 </TextBlock>
-                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#888888">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="Ticket Status      : {0}">
-                                            <Binding Path="CurrentTicket.TicketStatus" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#888888">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="Incident Status  : {0}">
-                                            <Binding Path="CurrentTicket.IncidentStatus" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>                                
+                                <TextBlock x:Name="TicketStatusTextBlock" FontSize="16" Margin="0,0,0,10" Foreground="#888888"/>
+                                <TextBlock x:Name="IncidentStatusTextBlock" FontSize="16" Margin="0,0,0,10" Foreground="#888888"/>
+
                             </StackPanel>
 
                             <!-- Reply Text Box -->
@@ -120,13 +110,19 @@
                                 </ComboBox>
 
                                 <!-- Set Status ComboBox -->
-                                <ComboBox SelectedValue="{Binding CurrentTicket.TicketStatus, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Width="100" Height="28" FontSize="15" Margin="0,0,5,0" Padding="10,3,3,0">
+                                <ComboBox x:Name="StatusComboBox"
+                                      SelectedValue="{Binding CurrentTicket.TicketStatus, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="Content" 
+                                      Width="100" Height="28" FontSize="15" Margin="0,0,5,0" Padding="10,3,3,0">
                                     <ComboBoxItem Content="Open"/>
                                     <ComboBoxItem Content="Answered"/>
                                     <ComboBoxItem Content="User Reply"/>
                                     <ComboBoxItem Content="Closed"/>
                                     <ComboBoxItem Content="On Hold"/>
                                 </ComboBox>
+
+
+
 
                                 <!-- Set Status ComboBox -->
                                 <ComboBox SelectedValue="{Binding CurrentTicket.IncidentStatus, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Width="120" Height="28" FontSize="15" Margin="0,0,5,0" Padding="10,3,3,0">
@@ -152,9 +148,35 @@
 
                                 <!-- Attach Files Button (Placeholder for future functionality) -->
                                 <Button Content="Attach Files" Height="28" FontSize="14" Margin="10,0,0,0" Padding="5,0,5,0"/>
-                                <Button Content="Close" Height="28" Background="#BE1C23" FontSize="14" BorderBrush="#BE1C23" Foreground="White" Margin="30,0,10,0" Padding="5,0,5,0"/>
-                                <Button Content="Mark Resolved" Height="28" Background="#5DB85B" BorderBrush="#5DB85B" FontSize="14" Foreground="White" Margin="15,0,10,0" Padding="5,0,5,0"/>
-                                <Button Content="Reply" Command="{Binding UpdateTicketCommand}" Height="28" Background="#22313F" BorderBrush="#22313F" Foreground="White" FontSize="14" HorizontalAlignment="Right" Width="80" Margin="15,0,0,0"/>
+                                <Button Content="Close" Command="{Binding CloseTicketCommand}" Height="28" Background="#BE1C23" FontSize="14" BorderBrush="#BE1C23" Foreground="White" Margin="30,0,10,0" Padding="5,0,5,0"/>
+                                <Button Content="Mark Resolved" Command="{Binding MarkTicketResolvedCommand}" Height="28" Background="#5DB85B" BorderBrush="#5DB85B" FontSize="14" Foreground="White" Margin="5,0,10,0" Padding="5,0,5,0"/>
+                                <Button Content="Reply" 
+                                    Command="{Binding UpdateTicketCommand}" 
+                                    Height="28" 
+                                    FontSize="14" 
+                                    HorizontalAlignment="Right" 
+                                    Width="80" 
+                                    Margin="5,0,0,0"
+                                    IsEnabled="{Binding ElementName=txtUpdateMessage, Path=Text.Length, Converter={StaticResource NonZeroLengthToBoolConverter}}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <!-- Set default style properties that apply when the button is enabled -->
+                                            <Setter Property="Background" Value="#22313F"/>
+                                            <Setter Property="Foreground" Value="#fefefe"/>
+                                            <Setter Property="BorderBrush" Value="#22313F"/>
+                                            <Style.Triggers>
+                                                <!-- Change properties when the button is disabled -->
+                                                <Trigger Property="IsEnabled" Value="True">
+                                                    <Setter Property="Background" Value="#22313F"/>
+                                                    <Setter Property="Foreground" Value="#fefefe"/>
+                                                    <Setter Property="BorderBrush" Value="#22313F"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+
                             </StackPanel>
 
                         </StackPanel>

@@ -5,6 +5,7 @@
 
     <!-- Style for buttons to look like hyperlinks -->
     <Window.Resources>
+
         <Style x:Key="LinkButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -48,6 +49,14 @@
             </Style.Triggers>
         </Style>
 
+        <Style TargetType="ComboBox">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="2" />
+            <!-- You can also set properties for other states like mouse over, pressed, etc. -->
+        </Style>
 
     </Window.Resources>
 

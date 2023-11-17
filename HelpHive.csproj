@@ -114,6 +114,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\NonZeroLengthToBoolConverter.cs" />
     <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\AdminRolesModel.cs" />
     <Compile Include="Models\TicketDeptsModel.cs" />
