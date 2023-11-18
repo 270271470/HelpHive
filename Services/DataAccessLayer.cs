@@ -25,7 +25,7 @@ namespace HelpHive.DataAccess
             {
                 connection.Open();
 
-                string sql = @"SELECT tid, name, message, admin, rating, date 
+                string sql = @"SELECT tid, name, message, admin, email, rating, date 
                        FROM tblticketreplies 
                        WHERE tid = @TicketId 
                        ORDER BY date DESC";
@@ -42,6 +42,7 @@ namespace HelpHive.DataAccess
                             {
                                 Tid = reader["tid"].ToString(),
                                 Name = reader["name"].ToString(),
+                                Email = reader["email"].ToString(),
                                 Message = reader["message"].ToString(),
                                 Admin = reader["admin"].ToString(),
                                 Rating = reader.IsDBNull(reader.GetOrdinal("rating")) ? 0 : reader.GetInt32("rating"),
@@ -70,7 +71,7 @@ namespace HelpHive.DataAccess
                 using (var command = connection.CreateCommand())
                 {
                     //command.CommandText = "SELECT * FROM tbltickets WHERE tid = @ticketId";
-                    command.CommandText = "SELECT t.tid, t.did, t.uid, t.title, t.message, t.ticketstatus, t.incidentstatus , t.urgency, t.admin, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.tid = @ticketId";
+                    command.CommandText = "SELECT t.tid, t.did, t.uid, t.name, t.email, t.title, t.message, t.ticketstatus, t.incidentstatus , t.urgency, t.admin, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.tid = @ticketId";
                     command.Parameters.AddWithValue("@ticketId", ticketId);
 
                     using (var reader = command.ExecuteReader())
@@ -80,6 +81,9 @@ namespace HelpHive.DataAccess
                             ticket = new TicketModel
                             {
                                 TicketId = reader["tid"].ToString(),
+                                DeptId = reader.GetInt32("did"),
+                                Name = reader["name"].ToString(),
+                                Email = reader["email"].ToString(),
                                 Title = reader["title"].ToString(),
                                 Message = reader["message"].ToString(),
                                 DepartmentName = reader["DepartmentName"].ToString(),
@@ -111,7 +115,7 @@ namespace HelpHive.DataAccess
                     connection.Open();
                     //string sql = "SELECT d.name AS Department, t.title AS Subject, t.ticketstatus AS Status, t.lastreply AS LastUpdate FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Open', 'On Hold'); ";
                     //string sql = "SELECT tid, did, uid, title, ticketstatus, lastreply FROM tbltickets WHERE uid = @UserId AND ticketstatus IN('Open', 'On Hold')";
-                    string sql = "SELECT t.tid, t.did, t.uid, t.title, t.ticketstatus, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Open', 'On Hold')";
+                    string sql = "SELECT t.tid, t.did, t.uid, t.title, t.ticketstatus, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Open', 'Answered', 'User Reply', 'On Hold', 'Answered') ORDER BY t.lastreply DESC";
                     using (var command = new MySqlCommand(sql, connection))
                     {
 
@@ -146,6 +150,51 @@ namespace HelpHive.DataAccess
         }
 
 
+        //Getting UserTicketHistory from DB
+        public List<TicketModel> GetUserTicketHistory(int userId)
+        {
+            var tickets = new List<TicketModel>();
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    //string sql = "SELECT d.name AS Department, t.title AS Subject, t.ticketstatus AS Status, t.lastreply AS LastUpdate FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Open', 'On Hold'); ";
+                    //string sql = "SELECT tid, did, uid, title, ticketstatus, lastreply FROM tbltickets WHERE uid = @UserId AND ticketstatus IN('Open', 'On Hold')";
+                    string sql = "SELECT t.tid, t.did, t.uid, t.title, t.ticketstatus, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Not Resolved', 'Resolved', 'Closed') ORDER BY t.lastreply DESC";
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+                        // Binding the userId parameter - This is NB for the correct filtering.
+                        command.Parameters.AddWithValue("@UserId", userId);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var ticket = new TicketModel
+                                {
+                                    TicketId = reader.GetString("tid"),
+                                    //DeptId = reader.GetInt32("did"),
+                                    DepartmentName = reader["DepartmentName"].ToString(),
+                                    UserId = reader.GetInt32("uid"),
+                                    Title = reader.GetString("title"),
+                                    TicketStatus = reader.GetString("ticketstatus"),
+                                    LastReply = reader.GetDateTime("lastreply")
+                                };
+                                tickets.Add(ticket);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return tickets;
+        }
+
+
 
 
         //GetOpenTicketsAsAdmin from DB
@@ -158,7 +207,7 @@ namespace HelpHive.DataAccess
                 {
                     connection.Open();
                    
-                    string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'On Hold')";
+                    string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'On Hold') ORDER BY t.lastreply DESC";
                     using (var command = new MySqlCommand(sql, connection))
                     {
 
@@ -192,6 +241,54 @@ namespace HelpHive.DataAccess
                 Debug.WriteLine("An error occurred: " + ex.Message);
             }
             return opentickets;
+        }
+
+        //GetAdminTicketHistory from DB
+        public List<TicketModel> GetAdminTicketHistory()
+        {
+            var tickethistory = new List<TicketModel>();
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    //string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'Answered', 'User Reply', 'Resolved', 'Not Resolved', 'Closed', 'On Hold') ORDER BY date DESC";
+                    string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'Answered', 'User Reply', 'Resolved', 'Not Resolved', 'Closed', 'On Hold') ORDER BY t.lastreply DESC";
+
+                    using (var command = new MySqlCommand(sql, connection))
+                    {
+
+                        // Binding the userId parameter - This is NB for the correct filtering.
+                        //command.Parameters.AddWithValue("@UserId", userId);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var alltickets = new TicketModel
+                                {
+                                    TicketId = reader.GetString("tid"),
+                                    //DeptId = reader.GetInt32("did"),
+                                    DepartmentName = reader["DepartmentName"].ToString(),
+                                    UserId = reader.GetInt32("uid"),
+                                    Name = reader.GetString("name"),
+                                    Title = reader.GetString("title"),
+                                    TicketStatus = reader.GetString("ticketstatus"),
+                                    Urgency = reader.GetString("urgency"),
+                                    LastReply = reader.GetDateTime("lastreply")
+                                };
+                                tickethistory.Add(alltickets);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return tickethistory;
         }
 
 
@@ -316,6 +413,42 @@ namespace HelpHive.DataAccess
         }
 
 
+        //Update Ticket Status
+        public void UpdateTicketStatus(TicketModel ticket)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = @"UPDATE tbltickets SET ticketstatus = @TicketStatus, incidentstatus = @IncidentStatus WHERE tid = @TicketId";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketStatus", ticket.TicketStatus);
+                        command.Parameters.AddWithValue("@IncidentStatus", ticket.IncidentStatus);
+                        command.Parameters.AddWithValue("@TicketId", ticket.TicketId);
+
+                        command.ExecuteNonQuery();
+                    }
+                    //return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                //return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                //return false;
+            }
+        }
+
+
 
         //Create A New Ticket
         public bool CreateNewTicket(TicketModel ticket)
@@ -359,6 +492,51 @@ namespace HelpHive.DataAccess
             }
         }
 
+        //Admin Update Original Ticket
+        public bool AdminOriginalUpdateTicket(TicketModel ticket)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    //string sql = @"INSERT INTO tbltickets (tid, did, ticketstatus, incidentstatus, urgency, admin, lastreply,)
+                    //        VALUES (@TicketId, @DeptId, @TicketStatus, @IncidentStatus, @Urgency, @AdminName, @LastReply)";
+
+                    string sql = @"UPDATE tbltickets SET tid=@TicketId, did=@DeptId, ticketstatus=@TicketStatus, incidentstatus=@IncidentStatus, urgency=@Urgency, admin=@AdminName, lastreply=@LastReply, replytime=@ReplyTime
+                                WHERE tid=@TicketId";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketId", ticket.TicketId);
+                        command.Parameters.AddWithValue("@DeptId", ticket.DeptId);
+                        command.Parameters.AddWithValue("@TicketStatus", ticket.TicketStatus);
+                        command.Parameters.AddWithValue("@IncidentStatus", ticket.IncidentStatus);
+                        command.Parameters.AddWithValue("@Urgency", ticket.Urgency ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@AdminName", ticket.Admin);
+                        command.Parameters.AddWithValue("@LastReply", ticket.LastReply);
+                        command.Parameters.AddWithValue("@ReplyTime", ticket.ReplyTime);
+                        ;
+
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
+
         //Insert Admin Ticket Reply
         public bool InsertAdminTicketReply(TicketReplyModel ticketReply)
         {
@@ -367,19 +545,15 @@ namespace HelpHive.DataAccess
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string sql = @"INSERT INTO tblticketreplies (tid, uid, name, email, date, message, admin, rating)
-                            VALUES (@TicketId, @UserId, @Name, @Email, @DateTime, @Message, @AdminName, @Rating)";
+                    string sql = @"INSERT INTO tblticketreplies (tid, date, message, admin)
+                            VALUES (@TicketId, @DateTime, @Message, @AdminName)";
 
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@TicketId", ticketReply.Tid);
-                        command.Parameters.AddWithValue("@UserId", ticketReply.UserId);
-                        command.Parameters.AddWithValue("@Name", ticketReply.Name ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@Email", ticketReply.Email ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@DateTime", ticketReply.Date);
                         command.Parameters.AddWithValue("@Message", ticketReply.Message ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@AdminName", ticketReply.Admin ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@Rating", ticketReply.Rating);
                         command.ExecuteNonQuery();
                     }
                     return true;

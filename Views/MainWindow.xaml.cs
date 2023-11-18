@@ -162,6 +162,18 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(newTicketButton);
 
+                // Create TicketHistory button link
+                Button TicketHistoryButton = new Button
+                {
+                    Content = "Ticket History",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                TicketHistoryButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserTicketHistory());
+                };
+                SidebarStackPanel.Children.Add(TicketHistoryButton);
+
                 // Create UserLogout button link
                 Button logoutButton = new Button
                 {
@@ -213,6 +225,18 @@ namespace HelpHive.Views
                     MainFrame.Navigate(new UserNewTicket());
                 };
                 SidebarStackPanel.Children.Add(newTicketButton);
+
+                // Create TicketHistory button link
+                Button TicketHistoryButton = new Button
+                {
+                    Content = "Ticket History",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                TicketHistoryButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserTicketHistory());
+                };
+                SidebarStackPanel.Children.Add(TicketHistoryButton);
 
                 // Create UserLogout button link
                 Button logoutButton = new Button
@@ -267,6 +291,18 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(newTicketButton);
 
+                // Create TicketHistory button link
+                Button TicketHistoryButton = new Button
+                {
+                    Content = "Ticket History",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                TicketHistoryButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserTicketHistory());
+                };
+                SidebarStackPanel.Children.Add(TicketHistoryButton);
+
                 // Create UserLogout button link
                 Button logoutButton = new Button
                 {
@@ -284,6 +320,72 @@ namespace HelpHive.Views
                 SidebarStackPanel.Children.Add(logoutButton);
 
                 // End of UserNewTicket button links
+            }
+
+            // Start UserTicketHistory button links
+            else if (e.Content is UserTicketHistory)
+            {
+                // Sidebar Heading for User Tools
+                TextBlock heading = new TextBlock
+                {
+                    Text = "User Tools",
+                    Style = (Style)FindResource("SidebarHeadingStyle")
+                };
+                SidebarStackPanel.Children.Add(heading);
+
+                // Create DashBoard button link
+                Button DashBoardButton = new Button
+                {
+                    Content = "DashBoard",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                DashBoardButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserDash());
+                };
+                SidebarStackPanel.Children.Add(DashBoardButton);
+
+                // Create New Ticket button link
+                Button newTicketButton = new Button
+                {
+                    Content = "Create New Ticket",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                newTicketButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserNewTicket());
+                };
+                SidebarStackPanel.Children.Add(newTicketButton);
+
+                // Create TicketHistory button link
+                Button TicketHistoryButton = new Button
+                {
+                    Content = "Ticket History",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                TicketHistoryButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new UserTicketHistory());
+                };
+                SidebarStackPanel.Children.Add(TicketHistoryButton);
+
+                // Create UserLogout button link
+                Button logoutButton = new Button
+                {
+                    Content = "Logout",
+                    Style = (Style)FindResource("SidebarButtonStyle"),
+                    Margin = new Thickness(30, 50, 0, 0)
+                };
+
+                logoutButton.Click += (s, args) =>
+                {
+                    _userService.Logout();
+                    UpdateUIForLogout();
+                    MainFrame.Navigate(new UserLogin());
+                };
+                SidebarStackPanel.Children.Add(logoutButton);
+
+                // End of UserTicketHistory button links
             }
 
             // Start Admin Dashboard Sidebar
@@ -317,7 +419,7 @@ namespace HelpHive.Views
                 };
                 TicketHistoryButton.Click += (s, args) =>
                 {
-                    MainFrame.Navigate(new AdminDash());
+                    MainFrame.Navigate(new AdminTicketHistory());
                 };
                 SidebarStackPanel.Children.Add(TicketHistoryButton);
 
@@ -370,7 +472,62 @@ namespace HelpHive.Views
                 };
                 TicketHistoryButton.Click += (s, args) =>
                 {
+                    MainFrame.Navigate(new AdminTicketHistory());
+                };
+                SidebarStackPanel.Children.Add(TicketHistoryButton);
+
+                // Create AdminLogout button link
+                Button logoutButton = new Button
+                {
+                    Content = "Logout",
+                    Style = (Style)FindResource("SidebarButtonStyle"),
+                    Margin = new Thickness(30, 50, 0, 0)
+                };
+
+                logoutButton.Click += (s, args) =>
+                {
+                    _adminService.Logout();
+                    UpdateUIForLogout();
+                    MainFrame.Navigate(new AdminLogin());
+                };
+                SidebarStackPanel.Children.Add(logoutButton);
+
+                // End of UserNewTicket button links
+            }
+
+
+            // Start AdminTicketHistory button links
+            else if (e.Content is AdminTicketHistory)
+            {
+                // Sidebar Heading for Admin Tools
+                TextBlock heading = new TextBlock
+                {
+                    Text = "Admin Tools",
+                    Style = (Style)FindResource("SidebarHeadingStyle")
+                };
+                SidebarStackPanel.Children.Add(heading);
+
+                // Create DashBoard button link
+                Button DashBoardButton = new Button
+                {
+                    Content = "Active Tickets",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                DashBoardButton.Click += (s, args) =>
+                {
                     MainFrame.Navigate(new AdminDash());
+                };
+                SidebarStackPanel.Children.Add(DashBoardButton);
+
+                // Create Historical button link
+                Button TicketHistoryButton = new Button
+                {
+                    Content = "Ticket History",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                TicketHistoryButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new AdminTicketHistory());
                 };
                 SidebarStackPanel.Children.Add(TicketHistoryButton);
 

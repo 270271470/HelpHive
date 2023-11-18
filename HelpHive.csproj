@@ -114,6 +114,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\NonZeroLengthToBoolConverter.cs" />
+    <Compile Include="Converters\ReplyTypeConverter.cs" />
     <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\AdminRolesModel.cs" />
     <Compile Include="Models\TicketDeptsModel.cs" />
@@ -136,11 +138,13 @@
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\Pages\AdminDashVM.cs" />
     <Compile Include="ViewModels\Pages\AdminLoginVM.cs" />
+    <Compile Include="ViewModels\Pages\AdminTicketHistoryVM.cs" />
     <Compile Include="ViewModels\Pages\AdminTicketRepliesVM.cs" />
     <Compile Include="ViewModels\Pages\AdminVM.cs" />
     <Compile Include="ViewModels\Pages\UserDashVM.cs" />
     <Compile Include="ViewModels\Pages\UserLoginVM.cs" />
     <Compile Include="ViewModels\Pages\UserNewTicketVM.cs" />
+    <Compile Include="ViewModels\Pages\UserTicketHistoryVM.cs" />
     <Compile Include="ViewModels\Pages\UserTicketRepliesVM.cs" />
     <Compile Include="ViewModels\Pages\UserVM.cs" />
     <Compile Include="ViewModels\Pages\WelcomePageVM.cs" />
@@ -150,6 +154,9 @@
     </Compile>
     <Compile Include="Views\Pages\AdminLogin.xaml.cs">
       <DependentUpon>AdminLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\AdminTicketHistory.xaml.cs">
+      <DependentUpon>AdminTicketHistory.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\AdminTicketReplies.xaml.cs">
       <DependentUpon>AdminTicketReplies.xaml</DependentUpon>
@@ -168,6 +175,9 @@
     </Compile>
     <Compile Include="Views\Pages\UserNewTicket.xaml.cs">
       <DependentUpon>UserNewTicket.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\UserTicketHistory.xaml.cs">
+      <DependentUpon>UserTicketHistory.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\UserTicketReplies.xaml.cs">
       <DependentUpon>UserTicketReplies.xaml</DependentUpon>
@@ -196,6 +206,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\AdminTicketHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\AdminTicketReplies.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -217,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\UserNewTicket.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\UserTicketHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -120,7 +120,7 @@
                     HeaderStyle="{StaticResource DataGridHeaderCenterStyle}">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Margin" Value="60,15,0,0" />
+                            <Setter Property="Margin" Value="40,15,0,0" />
                             <Setter Property="BorderThickness" Value="0" />
                             <Setter Property="FontSize" Value="15" />
                         </Style>
@@ -133,7 +133,7 @@
                     HeaderStyle="{StaticResource DataGridHeaderCenterStyle}">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Margin" Value="80,15,0,0" />
+                            <Setter Property="Margin" Value="95,15,0,0" />
                             <Setter Property="BorderThickness" Value="0" />
                             <Setter Property="FontSize" Value="15" />
                         </Style>

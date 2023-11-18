@@ -4,75 +4,201 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HelpHive.Views.Pages"
+      xmlns:conv="clr-namespace:HelpHive.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1000"
       Title="UserTicketReplies"
       Background="White">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="20">
-            <!-- Header with Binding -->
-            <TextBlock Text="{Binding CurrentTicket.TicketId, StringFormat='View Ticket #{0}'}"
-                       FontWeight="Bold"
-                       FontSize="24"
-                       Margin="0,0,0,20"/>
+    <Page.Resources>
+        <conv:NonZeroLengthToBoolConverter x:Key="NonZeroLengthToBoolConverter"/>
+        <conv:ReplyTypeConverter x:Key="ReplyTypeConverter"/>
+    </Page.Resources>
 
-            <!-- Subject with Binding -->
-            <TextBlock Text="{Binding CurrentTicket.Title, StringFormat='Subject: {0}'}"
-                       FontSize="18"
-                       Margin="0,0,0,10"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <!-- Replies -->
-            <!-- This ItemsControl will display the ticket and replies -->
-            <ItemsControl ItemsSource="{Binding Replies}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="10" Margin="0,5" BorderBrush="Black" BorderThickness="1">
-                            <StackPanel>
-                                <TextBlock Text="{Binding PostedBy}"
-                                           FontWeight="Bold"
-                                           FontSize="14"/>
-                                <TextBlock Text="{Binding PostedDate, StringFormat='Posted on {0:MM/dd/yyyy (HH:mm)}'}"
-                                           FontSize="12"/>
-                                <TextBlock Text="{Binding Message}"
-                                           TextWrapping="Wrap"
-                                           FontSize="14"
-                                           Margin="0,10"/>
-                                <!-- Placeholder for Rating -->
-                                <!-- Still need to implement the rating display -->
-                                <StackPanel Orientation="Horizontal"
-                                            Visibility="{Binding IsOperator}">
-                                    <TextBlock Text="Operator" 
-                                               FontWeight="Bold" 
-                                               Margin="0,0,10,0"/>
-                                    <!-- Placeholder for Star Rating -->
-                                    <!-- Still need to implement the star rating here -->
-                                </StackPanel>
-                                <TextBlock Text="Client Reply" 
-                                           FontWeight="Bold" 
-                                           Visibility="{Binding IsOwner}"/>
+        <!-- Header -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Welcome message - top right corner -->
+            <TextBlock Text="{Binding LoggedInUser.FirstName, StringFormat='Welcome back, {0}'}" 
+                   Foreground="#808598"
+                   HorizontalAlignment="Right"
+                   FontSize="16"
+                   VerticalAlignment="Top"
+                   Margin="0,20,25,0"
+                   Grid.Row="0" 
+                   Grid.Column="1"/>
+
+            <TextBlock Text="{Binding CurrentTicket.TicketId, StringFormat='Ticket #{0}'}" 
+               Grid.Column="0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               Foreground="#808598"
+               FontWeight="SemiBold"
+               FontSize="32"
+               Margin="20,61,0,20"/>
+        </Grid>
+
+        <!-- Ticket overview header -->
+        <TextBlock Text="{Binding CurrentTicket.Title}" 
+               Grid.Row="1"
+               Foreground="#808598"
+               FontSize="18"
+               FontWeight="Normal"
+               Margin="20,0,0,0"/>
+
+        <!-- Content -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2" Padding="20">
+            <StackPanel>
+                <StackPanel Margin="0">
+
+                    <!-- Update form -->
+                    <Border Background="#F7FAFD"
+                        BorderBrush="#C5D8EB"
+                        BorderThickness="1"
+                        Padding="15"
+                        CornerRadius="4"
+                        Margin="0,20">
+
+                        <StackPanel>
+
+                            <!-- Ticket Information Section -->
+                            <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                                <TextBlock FontSize="16" Margin="0,0,0,10" Foreground="#808598" x:Name="DepartmentTextBlock">
+                                    Department       :
+                                </TextBlock>
+                                <TextBlock x:Name="TicketStatusTextBlock" FontSize="16" Margin="0,0,0,10" Foreground="#808598"/>
+                                <TextBlock x:Name="IncidentStatusTextBlock" FontSize="16" Margin="0,0,0,10" Foreground="#808598"/>
+
                             </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
 
-            <!-- Update form -->
-            <StackPanel Margin="0,20">
-                <TextBox x:Name="txtUpdateMessage"
-                         Height="100"
-                         AcceptsReturn="True"
-                         TextWrapping="Wrap"
-                         VerticalScrollBarVisibility="Auto"
-                         Margin="0,0,0,10"
-                         Text="{Binding UserMessage, UpdateSourceTrigger=PropertyChanged}"
-                         LostFocus="TxtUpdateMessage_LostFocus"/>
-                <Button Content="Update"
-                        Margin="0,10,0,0"
-                        Command="{Binding UpdateTicketCommand}"/>
+                            <!-- Reply Text Box -->
+                            <TextBox x:Name="txtUpdateMessage"
+                             Text="{Binding UserMessage, UpdateSourceTrigger=PropertyChanged}"
+                             Height="100"
+                             AcceptsReturn="True"
+                             FontSize="14"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             Background="White"
+                             BorderBrush="#A3B1C6"
+                             BorderThickness="1"
+                             Padding="5"/>
+
+                            <!-- Buttons Section -->
+                            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+
+
+                                <!-- Attach Files Button (Placeholder for future functionality) -->
+                                <Button Content="Attach Files" Height="28" FontSize="14" Margin="10,0,0,0" Padding="5,0,5,0"/>
+                                <Button Content="Close" Command="{Binding CloseTicketCommand}" Height="28" Background="#BE1C23" FontSize="14" BorderBrush="#BE1C23" Foreground="White" Margin="30,0,10,0" Padding="5,0,5,0"/>
+                                <Button Content="Mark Resolved" Command="{Binding MarkTicketResolvedCommand}" Height="28" Background="#5DB85B" BorderBrush="#5DB85B" FontSize="14" Foreground="White" Margin="5,0,10,0" Padding="5,0,5,0"/>
+                                <Button Content="Reply" 
+                                    Command="{Binding UpdateTicketCommand}" 
+                                    Height="28" 
+                                    FontSize="14" 
+                                    HorizontalAlignment="Right" 
+                                    Width="80" 
+                                    Margin="5,0,0,0"
+                                    IsEnabled="{Binding ElementName=txtUpdateMessage, Path=Text.Length, Converter={StaticResource NonZeroLengthToBoolConverter}}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <!-- Set default style properties that apply when the button is enabled -->
+                                            <Setter Property="Background" Value="#22313F"/>
+                                            <Setter Property="Foreground" Value="#fefefe"/>
+                                            <Setter Property="BorderBrush" Value="#22313F"/>
+                                            <Style.Triggers>
+                                                <!-- Change properties when the button is disabled -->
+                                                <Trigger Property="IsEnabled" Value="True">
+                                                    <Setter Property="Background" Value="#22313F"/>
+                                                    <Setter Property="Foreground" Value="#fefefe"/>
+                                                    <Setter Property="BorderBrush" Value="#22313F"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Replies -->
+                    <!-- This ItemsControl will display the ticket and replies -->
+                    <ItemsControl ItemsSource="{Binding Replies}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="10" Margin="0,5" BorderBrush="#C5D8EB" BorderThickness="1" CornerRadius="5" Background="#F7FAFD">
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Foreground="#808598" FontSize="14" Margin="0,0,0,5">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource ReplyTypeConverter}">
+                                                    <Binding Path="PostedBy"/>
+                                                    <Binding Path="IsAdminReply"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding PostedDate, StringFormat='Posted today at {0:HH:mm}'}" 
+                                           FontSize="12"
+                                           Foreground="#808598"
+                                           FontStyle="Italic"
+                                           Margin="0,0,0,10"/>
+                                        <TextBlock Text="{Binding Message}"
+                                           TextWrapping="Wrap"
+                                           FontSize="15"
+                                           Foreground="#808598"
+                                           Margin="0,30,0,10"/>
+                                        <!-- Further content such as ratings or operator/client tags can go here -->
+                                        <TextBlock Text="Rate this reply:"
+                                                Visibility="Collapsed">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsAdminReply}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Original Ticket -->
+                    <Border Padding="10" Margin="0,5" BorderBrush="#C5D8EB" BorderThickness="1" CornerRadius="5" Background="#F7FAFD">
+                        <StackPanel>
+                            <TextBlock Text="{Binding OrigPostedBy}" FontWeight="Bold" Foreground="#808598" FontSize="14" Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding OrigPostedDate}" 
+                               FontSize="12"
+                               Foreground="#808598"
+                               FontStyle="Italic"
+                               Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding OrigMessage}"
+                               TextWrapping="Wrap"
+                               FontSize="15"
+                               Foreground="#808598"
+                               Margin="0,30,0,10"/>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-    </ScrollViewer>
-
-
+        </ScrollViewer>
+    </Grid>
 </Page>

@@ -22,10 +22,45 @@ namespace HelpHive.ViewModels.Pages
         private TicketModel _currentTicket;
         private TicketReplyModel _ticketreply;
 
-
         public ObservableCollection<TicketReplyModel> Replies { get; set; }
         public RelayCommand UpdateTicketCommand { get; private set; }
         public RelayCommand NavigateToUserDashCommand { get; private set; }
+        public RelayCommand CloseTicketCommand { get; private set; }
+        public RelayCommand MarkTicketResolvedCommand { get; private set; }
+
+
+        private string _origPostedBy;
+        public string OrigPostedBy
+        {
+            get { return _origPostedBy; }
+            set
+            {
+                _origPostedBy = value;
+                OnPropertyChanged(nameof(OrigPostedBy));
+            }
+        }
+
+        private string _OrigPostedDate;
+        public string OrigPostedDate
+        {
+            get { return _OrigPostedDate; }
+            set
+            {
+                _OrigPostedDate = value;
+                OnPropertyChanged(nameof(OrigPostedDate));
+            }
+        }
+
+        private string _OrigMessage;
+        public string OrigMessage
+        {
+            get { return _OrigMessage; }
+            set
+            {
+                _OrigMessage = value;
+                OnPropertyChanged(nameof(OrigMessage));
+            }
+        }
 
         // Bindable property for the View
         public UserModel LoggedInUser
@@ -66,8 +101,35 @@ namespace HelpHive.ViewModels.Pages
 
             NavigateToUserDashCommand = new RelayCommand(ExecuteNavigateToUserDash);
 
-            UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
+            CloseTicketCommand = new RelayCommand(CloseTicket);
+            MarkTicketResolvedCommand = new RelayCommand(MarkTicketResolved);
 
+            UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
+        }
+
+        private void CloseTicket(object parameter)
+        {
+            CurrentTicket.TicketStatus = "Closed";
+            UpdateTicket();
+            NavigateToUserDash();
+        }
+
+        private void MarkTicketResolved(object parameter)
+        {
+            CurrentTicket.TicketStatus = "Closed";
+            CurrentTicket.IncidentStatus = "Resolved";
+            UpdateTicket();
+            NavigateToUserDash();
+        }
+
+        private void UpdateTicket()
+        {
+            _dataAccess.UpdateTicketStatus(CurrentTicket);
+        }
+
+        private void NavigateToUserDash()
+        {
+            _navigationService.NavigateTo("UserDash");
         }
 
         // method to call the GetTicketReplies method and populate the Replies property
@@ -90,7 +152,7 @@ namespace HelpHive.ViewModels.Pages
         // Method to handle ticket update
         private void UpdateTicket(object parameter)
         {
-            Debug.WriteLine("Create Ticket method called");
+            Debug.WriteLine("Update Ticket method called");
             try
             {
                 var ticketReply = new TicketReplyModel
@@ -158,8 +220,16 @@ namespace HelpHive.ViewModels.Pages
         // Method to load ticket details. Call this method from the view's code-behind
         public void LoadTicketDetails(string ticketId)
         {
-            // Method to retrieve CurrentTicket details by ID
+            // Retrieve CurrentTicket details by ID
             CurrentTicket = _dataAccess.GetTicketDetails(ticketId);
+
+            // Set the properties for original ticket
+            if (CurrentTicket != null)
+            {
+                OrigPostedBy = CurrentTicket.Name;
+                OrigPostedDate = $"Posted today at {CurrentTicket.Date:HH:mm}";
+                OrigMessage = CurrentTicket.Message;
+            }
         }
 
     }

@@ -9,6 +9,7 @@ namespace HelpHive.Services
 {
     public interface IDataAccessService
     {
+        void UpdateTicketStatus(TicketModel ticket);
         UserModel VerifyUser(string email, string hashedPassword);
         UserModel GetUserDetails(string email);
         AdminModel GetAdminDetails(string email);
@@ -18,8 +19,11 @@ namespace HelpHive.Services
         List<AdminRolesModel> GetAdminRoles();
         List<TicketModel> GetUserOpenTickets(int userId);
         List<TicketModel> GetOpenTicketsAsAdmin();
+        List<TicketModel> GetAdminTicketHistory();
+        List<TicketModel> GetUserTicketHistory(int userId);
         List<TicketReplyModel> GetTicketReplies(string ticketId);
         TicketModel GetTicketDetails(string ticketId);
+        bool AdminOriginalUpdateTicket(TicketModel ticket);
         bool RegisterUser(UserModel user);
         bool CreateNewTicket(TicketModel ticket);
         bool InsertUserTicketReply(TicketReplyModel ticketreply);

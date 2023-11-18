@@ -21,11 +21,50 @@ namespace HelpHive.ViewModels.Pages
         private AdminModel _loggedInAdmin;
         private TicketModel _currentTicket;
         private TicketReplyModel _ticketreply;
+        private TicketModel _adminogupdate;
 
 
         public ObservableCollection<TicketReplyModel> Replies { get; set; }
         public RelayCommand UpdateTicketCommand { get; private set; }
-        public RelayCommand NavigateToUserDashCommand { get; private set; }
+        public RelayCommand NavigateToAdminDashCommand { get; private set; }
+        public RelayCommand CloseTicketCommand { get; private set; }
+        public RelayCommand MarkTicketResolvedCommand { get; private set; }
+
+
+
+        private string _origPostedBy;
+        public string OrigPostedBy
+        {
+            get { return _origPostedBy; }
+            set
+            {
+                _origPostedBy = value;
+                OnPropertyChanged(nameof(OrigPostedBy));
+            }
+        }
+
+        private string _OrigPostedDate;
+        public string OrigPostedDate
+        {
+            get { return _OrigPostedDate; }
+            set
+            {
+                _OrigPostedDate = value;
+                OnPropertyChanged(nameof(OrigPostedDate));
+            }
+        }
+
+        private string _OrigMessage;
+        public string OrigMessage
+        {
+            get { return _OrigMessage; }
+            set
+            {
+                _OrigMessage = value;
+                OnPropertyChanged(nameof(OrigMessage));
+            }
+        }
+
 
         // Bindable property for the View
         public AdminModel LoggedInAdmin
@@ -96,7 +135,35 @@ namespace HelpHive.ViewModels.Pages
                     a.LastName == _adminService.CurrentAdmin.LastName)?.FullName;
             }
 
+            CloseTicketCommand = new RelayCommand(CloseTicket);
+            MarkTicketResolvedCommand = new RelayCommand(MarkTicketResolved);
+
             UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
+        }
+
+        private void CloseTicket(object parameter)
+        {
+            CurrentTicket.TicketStatus = "Closed";
+            UpdateTicket();
+            NavigateToAdminDash();
+        }
+
+        private void MarkTicketResolved(object parameter)
+        {
+            CurrentTicket.TicketStatus = "Closed";
+            CurrentTicket.IncidentStatus = "Resolved";
+            UpdateTicket();
+            NavigateToAdminDash();
+        }
+
+        private void UpdateTicket()
+        {
+            _dataAccess.UpdateTicketStatus(CurrentTicket);
+        }
+
+        private void NavigateToAdminDash()
+        {
+            _navigationService.NavigateTo("AdminDash");
         }
 
         // method to call the GetTicketReplies method and populate the Replies property
@@ -113,31 +180,31 @@ namespace HelpHive.ViewModels.Pages
         private bool CanUpdateTicket(object parameter)
         {
             // Updated validation logic
-            return !string.IsNullOrWhiteSpace(UserMessage);
+            //return !string.IsNullOrWhiteSpace(UserMessage);
+            return !string.IsNullOrEmpty(CurrentTicket.TicketStatus);
+            //return true;
         }
 
         // Method to handle ticket update
         private void UpdateTicket(object parameter)
         {
-            Debug.WriteLine("Update Ticket method called");
+            Debug.WriteLine("Update Ticket Reply Model");
             try
             {
                 var adminticketReply = new TicketReplyModel
                 {
                     Tid = CurrentTicket.TicketId,
-                    Admin = LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName,
-                    Email = LoggedInAdmin.Email,
                     Date = DateTime.Now,
                     Message = this.UserMessage,
-                    // Set Rating - Implement if time permits
+                    Admin = LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName,
                 };
 
                 // Use the data access layer to save the new ticket
-                var success = _dataAccess.InsertAdminTicketReply(ticketReply);
+                var success = _dataAccess.InsertAdminTicketReply(adminticketReply);
                 if (success)
                 {
-                    MessageBox.Show("New Admin reply");
-
+                    //MessageBox.Show("New Admin reply");
+                    //Implement logging here.
                     _navigationService.NavigateTo("AdminDash");
 
                 }
@@ -151,6 +218,47 @@ namespace HelpHive.ViewModels.Pages
                 MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
                 Debug.WriteLine($"Ticket creation failed: {ex.Message}");
             }
+
+
+
+
+            Debug.WriteLine("Update Original Ticket Model");
+            try
+            {
+                var adminorigticketReply = new TicketModel
+                {
+                    TicketId = CurrentTicket.TicketId,
+                    DeptId = CurrentTicket.DeptId,
+                    TicketStatus = CurrentTicket.TicketStatus,
+                    IncidentStatus = CurrentTicket.IncidentStatus,
+                    Urgency = CurrentTicket.Urgency,
+                    Admin = LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName,
+                    LastReply = DateTime.Now,
+                    ReplyTime = DateTime.Now
+                };
+
+                // Use the data access layer to update the original ticket.
+                var success = _dataAccess.AdminOriginalUpdateTicket(adminorigticketReply);
+                if (success)
+                {
+                    //MessageBox.Show("Admin Updated the tikcet");
+                    //Implement logging here.
+                    _navigationService.NavigateTo("AdminDash");
+
+                }
+                else
+                {
+                    MessageBox.Show("Ticket update failed. Please check the entered information and try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
+                Debug.WriteLine($"Ticket creation failed: {ex.Message}");
+            }
+
+
+
         }
 
         public string AdminFullName
@@ -165,7 +273,8 @@ namespace HelpHive.ViewModels.Pages
 
 
         private string _adminMessage;
-        private TicketReplyModel ticketReply;
+        //private TicketReplyModel ticketReply;
+        //private TicketModel adminOGUpdate;
 
         public string UserMessage
         {
@@ -192,15 +301,17 @@ namespace HelpHive.ViewModels.Pages
         // Method to load ticket details. Call this method from the view's code-behind
         public void LoadTicketDetails(string ticketId)
         {
-            // Method to retrieve CurrentTicket details by ID
+            // Retrieve CurrentTicket details by ID
             CurrentTicket = _dataAccess.GetTicketDetails(ticketId);
+
+            // Set the properties for original ticket
+            if (CurrentTicket != null)
+            {
+                OrigPostedBy = CurrentTicket.Name;
+                OrigPostedDate = $"Posted today at {CurrentTicket.Date:HH:mm}";
+                OrigMessage = CurrentTicket.Message;
+            }
         }
-
-
-
-
-
-
 
         //Populate Administrators collection from DB
         private void LoadAdminList()
