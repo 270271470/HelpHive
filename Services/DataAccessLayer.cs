@@ -17,6 +17,36 @@ namespace HelpHive.DataAccess
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+
+
+
+        public void UpdateTicketRating(TicketReplyModel reply)
+        {
+            List<TicketReplyModel> replies = new List<TicketReplyModel>();
+
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sql = "UPDATE tblticketreplies SET rating = @Rating WHERE tid = @Tid";
+
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    // Using props of 'reply' to set parameters
+                    command.Parameters.AddWithValue("@Rating", reply.Rating.HasValue ? (object)reply.Rating.Value : DBNull.Value);
+                    command.Parameters.AddWithValue("@Tid", reply.Tid);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+
+
+
+
+
         public List<TicketReplyModel> GetTicketReplies(string ticketId)
         {
             List<TicketReplyModel> replies = new List<TicketReplyModel>();
@@ -207,7 +237,7 @@ namespace HelpHive.DataAccess
                 {
                     connection.Open();
                    
-                    string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'On Hold') ORDER BY t.lastreply DESC";
+                    string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'User Reply', 'On Hold') ORDER BY t.lastreply DESC";
                     using (var command = new MySqlCommand(sql, connection))
                     {
 
@@ -536,6 +566,48 @@ namespace HelpHive.DataAccess
                 return false;
             }
         }
+
+
+        //User Update Original Ticket
+        public bool UserOriginalUpdateTicket(TicketModel ticket)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    string sql = @"UPDATE tbltickets SET tid=@TicketId, ticketstatus=@TicketStatus, incidentstatus=@IncidentStatus, lastreply=@LastReply, replytime=@ReplyTime
+                                WHERE tid=@TicketId";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@TicketId", ticket.TicketId);
+                        command.Parameters.AddWithValue("@TicketStatus", ticket.TicketStatus);
+                        command.Parameters.AddWithValue("@IncidentStatus", ticket.IncidentStatus);
+                        command.Parameters.AddWithValue("@LastReply", ticket.LastReply);
+                        command.Parameters.AddWithValue("@ReplyTime", ticket.ReplyTime);
+                        ;
+
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (MySqlException mySqlEx)
+            {
+                // Log the MySQL exception
+                Debug.WriteLine("MySQL Error: " + mySqlEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log general exceptions
+                Debug.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
+
 
         //Insert Admin Ticket Reply
         public bool InsertAdminTicketReply(TicketReplyModel ticketReply)

@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HelpHive.Views.Pages"
       xmlns:conv="clr-namespace:HelpHive.Converters"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1000"
       Title="UserTicketReplies"
@@ -13,6 +14,44 @@
     <Page.Resources>
         <conv:NonZeroLengthToBoolConverter x:Key="NonZeroLengthToBoolConverter"/>
         <conv:ReplyTypeConverter x:Key="ReplyTypeConverter"/>
+        <conv:RatingToBooleanConverter x:Key="RatingToBooleanConverter"/>
+
+        <Style x:Key="StarToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Content" Value="★"/>
+            <!-- Solid star character -->
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <!-- Default star color -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Gold"/>
+                    <!-- Change star to gold on hover -->
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="Gold"/>
+                    <!-- Keep star gold when selected -->
+                </Trigger>
+                <!-- Remove the focus rectangle -->
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
     </Page.Resources>
 
     <Grid>
@@ -161,18 +200,40 @@
                                            Foreground="#808598"
                                            Margin="0,30,0,10"/>
                                         <!-- Further content such as ratings or operator/client tags can go here -->
-                                        <TextBlock Text="Rate this reply:"
-                                                Visibility="Collapsed">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+                                            <StackPanel.Style>
+                                                <Style TargetType="StackPanel">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsAdminReply}" Value="True">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                            </StackPanel.Style>
+                                            <!-- Five star rating system -->
+                                            <ToggleButton Style="{StaticResource StarToggleButtonStyle}" 
+                                                  IsChecked="{Binding Path=Rating, Converter={StaticResource RatingToBooleanConverter}, ConverterParameter=1}"
+                                                  Command="{Binding DataContext.StarRatingCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                  CommandParameter="{Binding}"/>
+                                             <ToggleButton Style="{StaticResource StarToggleButtonStyle}" 
+                                                  IsChecked="{Binding Path=Rating, Converter={StaticResource RatingToBooleanConverter}, ConverterParameter=2}"
+                                                  Command="{Binding DataContext.StarRatingCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                  CommandParameter="{Binding}"/>
+                                              <ToggleButton Style="{StaticResource StarToggleButtonStyle}" 
+                                                  IsChecked="{Binding Path=Rating, Converter={StaticResource RatingToBooleanConverter}, ConverterParameter=3}"
+                                                  Command="{Binding DataContext.StarRatingCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                  CommandParameter="{Binding}"/>
+                                              <ToggleButton Style="{StaticResource StarToggleButtonStyle}" 
+                                                  IsChecked="{Binding Path=Rating, Converter={StaticResource RatingToBooleanConverter}, ConverterParameter=4}"
+                                                  Command="{Binding DataContext.StarRatingCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                  CommandParameter="{Binding}"/>
+                                              <ToggleButton Style="{StaticResource StarToggleButtonStyle}" 
+                                                  IsChecked="{Binding Path=Rating, Converter={StaticResource RatingToBooleanConverter}, ConverterParameter=5}"
+                                                  Command="{Binding DataContext.StarRatingCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                  CommandParameter="{Binding}"/>
+
+                                        </StackPanel>
 
                                     </StackPanel>
                                 </Border>
