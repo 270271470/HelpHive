@@ -22,6 +22,9 @@ namespace HelpHive.Views.Pages
     public partial class UserTicketReplies : Page
     {
         private string _ticketId;
+        private string _staticDepartmentName;
+        private string _staticTicketStatus;
+        private string _staticIncidentStatus;
         private UserTicketRepliesVM _viewModel;
 
         // Constructor that takes tid
@@ -42,6 +45,16 @@ namespace HelpHive.Views.Pages
 
             // Load the ticket details into the ViewModel
             _viewModel.LoadTicketDetails(ticketId);
+
+            // Capture static values after loading ticket details
+            _staticDepartmentName = _viewModel.CurrentTicket.DepartmentName;
+            _staticTicketStatus = _viewModel.CurrentTicket.TicketStatus;
+            _staticIncidentStatus = _viewModel.CurrentTicket.IncidentStatus;
+
+            // Set the text of the TextBlock
+            DepartmentTextBlock.Text = $"Department       : {_staticDepartmentName}";
+            TicketStatusTextBlock.Text = $"Ticket Status      : {_staticTicketStatus}";
+            IncidentStatusTextBlock.Text = $"Incident Status   : {_staticIncidentStatus}";
         }
 
         private void TxtUpdateMessage_GotFocus(object sender, RoutedEventArgs e)

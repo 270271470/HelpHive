@@ -144,6 +144,7 @@
     <Compile Include="ViewModels\Pages\UserDashVM.cs" />
     <Compile Include="ViewModels\Pages\UserLoginVM.cs" />
     <Compile Include="ViewModels\Pages\UserNewTicketVM.cs" />
+    <Compile Include="ViewModels\Pages\UserTicketHistoryVM.cs" />
     <Compile Include="ViewModels\Pages\UserTicketRepliesVM.cs" />
     <Compile Include="ViewModels\Pages\UserVM.cs" />
     <Compile Include="ViewModels\Pages\WelcomePageVM.cs" />
@@ -174,6 +175,9 @@
     </Compile>
     <Compile Include="Views\Pages\UserNewTicket.xaml.cs">
       <DependentUpon>UserNewTicket.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\UserTicketHistory.xaml.cs">
+      <DependentUpon>UserTicketHistory.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\UserTicketReplies.xaml.cs">
       <DependentUpon>UserTicketReplies.xaml</DependentUpon>
@@ -227,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\UserNewTicket.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\UserTicketHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
