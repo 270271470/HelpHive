@@ -59,42 +59,6 @@ namespace HelpHive.Views.Pages
             IncidentStatusTextBlock.Text = $"Incident Status   : {_staticIncidentStatus}";
         }
 
-        private void Star_Click(object sender, RoutedEventArgs e)
-        {
-            var clickedStar = sender as ToggleButton;
-            var parentPanel = FindAncestor<StackPanel>(clickedStar); // Helper to find the StackPanel
-            var rating = Convert.ToInt32(clickedStar.Tag);
-
-            foreach (ToggleButton star in parentPanel.Children)
-            {
-                var starRating = Convert.ToInt32(star.Tag);
-                star.IsChecked = starRating <= rating;
-            }
-
-            var reply = clickedStar.DataContext as TicketReplyModel;
-            if (reply != null)
-            {
-                reply.Rating = rating;
-                // Update the database with the new rating
-                //UpdateRatingInDatabase(reply);
-            }
-        }
-
-        // Helper method to find the parent StackPanel of the clicked star
-        public static T FindAncestor<T>(DependencyObject current) where T : DependencyObject
-        {
-            do
-            {
-                if (current is T)
-                {
-                    return (T)current;
-                }
-                current = VisualTreeHelper.GetParent(current);
-            }
-            while (current != null);
-            return null;
-        }
-
         private void TxtUpdateMessage_GotFocus(object sender, RoutedEventArgs e)
         {
             var textBox = sender as TextBox;

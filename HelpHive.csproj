@@ -115,6 +115,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\NonZeroLengthToBoolConverter.cs" />
+    <Compile Include="Converters\RatingToBooleanConverter.cs" />
     <Compile Include="Converters\ReplyTypeConverter.cs" />
     <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\AdminRolesModel.cs" />

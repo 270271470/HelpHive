@@ -9,6 +9,9 @@ using HelpHive.Commands;
 using HelpHive.Models;
 using HelpHive.Services;
 using System.Collections.ObjectModel;
+using System.Windows.Controls.Primitives;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace HelpHive.ViewModels.Pages
 {
@@ -27,7 +30,48 @@ namespace HelpHive.ViewModels.Pages
         public RelayCommand NavigateToUserDashCommand { get; private set; }
         public RelayCommand CloseTicketCommand { get; private set; }
         public RelayCommand MarkTicketResolvedCommand { get; private set; }
+        public RelayCommand StarRatingCommand { get; private set; }
 
+        // Constructor
+        public UserTicketRepliesVM(IDataAccessService dataAccess, IUserService userService, INavigationService navigationService)
+        {
+            _dataAccess = dataAccess;
+            _userService = userService;
+            _navigationService = navigationService;
+            //_ticketService = ticketService;
+            //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
+            LoadUserDetails();
+            //LoadTicketReplies();
+
+            // initialise the Replies property
+            Replies = new ObservableCollection<TicketReplyModel>();
+
+            NavigateToUserDashCommand = new RelayCommand(ExecuteNavigateToUserDash);
+
+            CloseTicketCommand = new RelayCommand(CloseTicket);
+            
+            MarkTicketResolvedCommand = new RelayCommand(MarkTicketResolved);
+
+            StarRatingCommand = new RelayCommand(ExecuteStarRating, CanExecuteStarRating);
+
+            UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
+        }
+
+        private void ExecuteStarRating(object parameter)
+        {
+            var reply = parameter as TicketReplyModel;
+            if (reply != null && reply.Rating.HasValue)
+            {
+                _dataAccess.UpdateTicketRating(reply); // Call method to update the rating in the database
+            }
+        }
+
+
+
+        private bool CanExecuteStarRating(object parameter)
+        {
+            return true; // no special requirements
+        }
 
         private string _origPostedBy;
         public string OrigPostedBy
@@ -83,28 +127,6 @@ namespace HelpHive.ViewModels.Pages
                 OnPropertyChanged(nameof(CurrentTicket));   // Notify view of the property change
                 LoadTicketReplies(_currentTicket.TicketId); // Load replies when the current ticket changes
             }
-        }
-
-        // Constructor
-        public UserTicketRepliesVM(IDataAccessService dataAccess, IUserService userService, INavigationService navigationService)
-        {
-            _dataAccess = dataAccess;
-            _userService = userService;
-            _navigationService = navigationService;
-            //_ticketService = ticketService;
-            //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
-            LoadUserDetails();
-            //LoadTicketReplies();
-
-            // initialise the Replies property
-            Replies = new ObservableCollection<TicketReplyModel>();
-
-            NavigateToUserDashCommand = new RelayCommand(ExecuteNavigateToUserDash);
-
-            CloseTicketCommand = new RelayCommand(CloseTicket);
-            MarkTicketResolvedCommand = new RelayCommand(MarkTicketResolved);
-
-            UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
         }
 
         private void CloseTicket(object parameter)

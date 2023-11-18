@@ -17,6 +17,36 @@ namespace HelpHive.DataAccess
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+
+
+
+        public void UpdateTicketRating(TicketReplyModel reply)
+        {
+            List<TicketReplyModel> replies = new List<TicketReplyModel>();
+
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sql = "UPDATE tblticketreplies SET rating = @Rating WHERE tid = @Tid";
+
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    // Using props of 'reply' to set parameters
+                    command.Parameters.AddWithValue("@Rating", reply.Rating.HasValue ? (object)reply.Rating.Value : DBNull.Value);
+                    command.Parameters.AddWithValue("@Tid", reply.Tid);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+
+
+
+
+
         public List<TicketReplyModel> GetTicketReplies(string ticketId)
         {
             List<TicketReplyModel> replies = new List<TicketReplyModel>();
