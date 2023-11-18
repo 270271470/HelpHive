@@ -24,6 +24,7 @@ namespace HelpHive.Services
         List<TicketReplyModel> GetTicketReplies(string ticketId);
         TicketModel GetTicketDetails(string ticketId);
         bool AdminOriginalUpdateTicket(TicketModel ticket);
+        bool UserOriginalUpdateTicket(TicketModel ticket);
         bool RegisterUser(UserModel user);
         bool CreateNewTicket(TicketModel ticket);
         bool InsertUserTicketReply(TicketReplyModel ticketreply);

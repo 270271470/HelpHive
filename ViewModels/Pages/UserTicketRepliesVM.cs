@@ -185,6 +185,40 @@ namespace HelpHive.ViewModels.Pages
                 MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
                 Debug.WriteLine($"Ticket creation failed: {ex.Message}");
             }
+
+
+            Debug.WriteLine("Update Original Ticket Model");
+            try
+            {
+                var userorigticketReply = new TicketModel
+                {
+                    TicketId = CurrentTicket.TicketId,
+                    TicketStatus = "User Reply",
+                    IncidentStatus = "Not Resolved",
+                    LastReply = DateTime.Now,
+                    ReplyTime = DateTime.Now
+                };
+
+                // Use the data access layer to update the original ticket.
+                var success = _dataAccess.UserOriginalUpdateTicket(userorigticketReply);
+                if (success)
+                {
+                    //MessageBox.Show("Admin Updated the tikcet");
+                    //Implement logging here.
+                    _navigationService.NavigateTo("UserDash");
+
+                }
+                else
+                {
+                    MessageBox.Show("Ticket update failed. Please check the entered information and try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
+                Debug.WriteLine($"Ticket creation failed: {ex.Message}");
+            }
+
         }
 
 

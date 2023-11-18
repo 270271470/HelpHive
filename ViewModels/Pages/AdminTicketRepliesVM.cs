@@ -307,6 +307,7 @@ namespace HelpHive.ViewModels.Pages
             // Set the properties for original ticket
             if (CurrentTicket != null)
             {
+                CurrentTicket.TicketStatus = "Answered";
                 OrigPostedBy = CurrentTicket.Name;
                 OrigPostedDate = $"Posted today at {CurrentTicket.Date:HH:mm}";
                 OrigMessage = CurrentTicket.Message;
