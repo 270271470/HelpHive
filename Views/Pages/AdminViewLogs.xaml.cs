@@ -18,20 +18,17 @@ using System.Windows.Shapes;
 
 namespace HelpHive.Views.Pages
 {
-    /// Interaction logic for UserNewTicket.xaml
-    public partial class UserNewTicket : Page
+    /// Interaction logic for AdminViewLogs.xaml
+    public partial class AdminViewLogs : Page
     {
-
-        public UserNewTicket()
+        public AdminViewLogs()
         {
             InitializeComponent();
 
             IDataAccessService dataAccess = IoCContainer.GetService<IDataAccessService>();
-            IUserService userService = IoCContainer.GetService<IUserService>();
-            ILoggingService logginService = IoCContainer.GetService<ILoggingService>();
-            INavigationService navigationService = IoCContainer.GetService<INavigationService>();
+            IAdminService adminService = IoCContainer.GetService<IAdminService>();
 
-            DataContext = new UserNewTicketVM(dataAccess, userService,logginService,navigationService);
+            DataContext = new AdminViewLogsVM(dataAccess, adminService);
         }
     }
 }

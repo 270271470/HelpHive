@@ -1,0 +1,85 @@
+﻿<Page x:Class="HelpHive.Views.Pages.AdminViewLogs"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HelpHive.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1000"
+      Title="Admin View Logs"
+      Background="White">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- For welcome message and heading title -->
+            <RowDefinition Height="*"/>
+            <!-- For Ticket Logs -->
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,20,0,20">
+            <!-- Welcome message - top right corner -->
+            <TextBlock Text="{Binding LoggedInAdmin.FirstName, StringFormat='Welcome back, Admin {0}'}" 
+                       Foreground="#808598"
+                       HorizontalAlignment="Right"
+                       FontSize="16"
+                       VerticalAlignment="Top"
+                       Margin="0,0,5,10"/>
+
+            <!-- Heading Title "Admin Dashboard" -->
+            <TextBlock Text="Admin Dashboard"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Foreground="#808598"
+                       FontWeight="Bold"
+                       FontSize="32"
+                       Margin="0,0,0,10"/>
+
+            <!-- Subheading for Ticket Logs -->
+            <TextBlock Text="System Logs"
+                       Foreground="#808598"
+                       FontSize="22"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,10"/>
+        </StackPanel>
+
+        <!-- DataGrid for Logs -->
+        <DataGrid x:Name="LogsDataGrid" 
+          AutoGenerateColumns="False"
+            IsReadOnly="True"
+          ItemsSource="{Binding LogEntries}" 
+          Grid.Row="1"
+          Margin="0,0,0,20"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          BorderBrush="#CCCCCC"
+          BorderThickness="1"
+          GridLinesVisibility="None"
+          AlternatingRowBackground="#FAFAFA"
+          RowBackground="White"
+          ColumnHeaderHeight="32"
+          RowHeight="24"
+          Padding="10"
+          SelectionMode="Single"
+          SelectionUnit="FullRow"
+          CanUserResizeRows="False"
+          CanUserAddRows="False"
+          CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <!-- Message column takes the remaining space -->
+                <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="*" />
+
+                <!-- Level column is smaller -->
+                <DataGridTextColumn Header="Level" Binding="{Binding Level}" Width="100" />
+
+                <!-- Timestamp column fits to content -->
+                <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}" Width="SizeToCells"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+
+
+    </Grid>
+</Page>

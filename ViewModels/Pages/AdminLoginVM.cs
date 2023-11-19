@@ -17,13 +17,15 @@ namespace HelpHive.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IDataAccessService _dataAccess;
         private readonly IAdminService _adminService;
+        private readonly ILoggingService _loggingService;
 
         // Constructor for AdminLoginVM
-        public AdminLoginVM(INavigationService navigationService, IDataAccessService dataAccess, IAdminService adminService)
+        public AdminLoginVM(INavigationService navigationService, IDataAccessService dataAccess, IAdminService adminService, ILoggingService loggingService)
         {
             _navigationService = navigationService;
             _dataAccess = dataAccess;
             _adminService = adminService;
+            _loggingService = loggingService;
 
             // Sets up LoginCommand with both the execute (Login) & can-execute (CanLogin).
             LoginCommand = new RelayCommand(Login, CanLogin);
@@ -85,13 +87,14 @@ namespace HelpHive.ViewModels
                 if (admin != null)
                 {
                     _navigationService.NavigateTo("AdminDash");
-
+                    _loggingService.Log($"ADMIN - Successful login from {Email}", LogLevel.Info);
                     // Login method after successful authentication
                     _adminService.Login(admin); // Pass 'admin' to login method
                 }
                 else
                 {
                     MessageBox.Show("Invalid email or password", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _loggingService.Log($"ADMIN - Invalid login attempt from {Email}", LogLevel.Warning);
                 }
             }
             catch (Exception ex)
