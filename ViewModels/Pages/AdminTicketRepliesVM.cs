@@ -22,13 +22,52 @@ namespace HelpHive.ViewModels.Pages
         private TicketModel _currentTicket;
         private TicketReplyModel _ticketreply;
         private TicketModel _adminogupdate;
-
+        private readonly ILoggingService _loggingService;
 
         public ObservableCollection<TicketReplyModel> Replies { get; set; }
         public RelayCommand UpdateTicketCommand { get; private set; }
         public RelayCommand NavigateToAdminDashCommand { get; private set; }
         public RelayCommand CloseTicketCommand { get; private set; }
         public RelayCommand MarkTicketResolvedCommand { get; private set; }
+
+        // Constructor
+        public AdminTicketRepliesVM(IDataAccessService dataAccess, IAdminService adminService, INavigationService navigationService, ILoggingService loggingService)
+        {
+            _dataAccess = dataAccess;
+            _adminService = adminService;
+            _navigationService = navigationService;
+            _loggingService = loggingService;
+            //_ticketService = ticketService;
+            //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
+            LoadAdminDetails();
+            //LoadTicketReplies();
+
+            // initialise the Replies property
+            Replies = new ObservableCollection<TicketReplyModel>();
+
+            //Looking into the issue below
+            //NavigateToAdminDashCommand = new RelayCommand(ExecuteNavigateToAdminDash);
+
+            //Admin List from DB
+            // Init the ObservableCollection
+            AdminList = new ObservableCollection<AdminModel>();
+            // Load admins from the database
+            LoadAdminList();
+
+            // Set Amin FullName
+            if (_adminService.CurrentAdmin != null)
+            {
+                // Wait until AdminList is populated before setting the selected admin
+                SelectedAdminFullName = AdminList.FirstOrDefault(a =>
+                    a.FirstName == _adminService.CurrentAdmin.FirstName &&
+                    a.LastName == _adminService.CurrentAdmin.LastName)?.FullName;
+            }
+
+            CloseTicketCommand = new RelayCommand(CloseTicket);
+            MarkTicketResolvedCommand = new RelayCommand(MarkTicketResolved);
+
+            UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
+        }
 
 
 
@@ -103,48 +142,11 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-        // Constructor
-        public AdminTicketRepliesVM(IDataAccessService dataAccess, IAdminService adminService, INavigationService navigationService)
-        {
-            _dataAccess = dataAccess;
-            _adminService = adminService;
-            _navigationService = navigationService;
-            //_ticketService = ticketService;
-            //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
-            LoadAdminDetails();
-            //LoadTicketReplies();
-
-            // initialise the Replies property
-            Replies = new ObservableCollection<TicketReplyModel>();
-
-            //Looking into the issue below
-            //NavigateToAdminDashCommand = new RelayCommand(ExecuteNavigateToAdminDash);
-
-            //Admin List from DB
-            // Init the ObservableCollection
-            AdminList = new ObservableCollection<AdminModel>();
-            // Load admins from the database
-            LoadAdminList();
-
-            // Set Amin FullName
-            if (_adminService.CurrentAdmin != null)
-            {
-                // Wait until AdminList is populated before setting the selected admin
-                SelectedAdminFullName = AdminList.FirstOrDefault(a =>
-                    a.FirstName == _adminService.CurrentAdmin.FirstName &&
-                    a.LastName == _adminService.CurrentAdmin.LastName)?.FullName;
-            }
-
-            CloseTicketCommand = new RelayCommand(CloseTicket);
-            MarkTicketResolvedCommand = new RelayCommand(MarkTicketResolved);
-
-            UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
-        }
-
         private void CloseTicket(object parameter)
         {
             CurrentTicket.TicketStatus = "Closed";
             UpdateTicket();
+            _loggingService.Log($"ADMIN - {LoggedInAdmin.FullName} (ID {LoggedInAdmin.AdminId}) marked Ticket ID {CurrentTicket.TicketId} as CLOSED", LogLevel.Info);
             NavigateToAdminDash();
         }
 
@@ -153,6 +155,7 @@ namespace HelpHive.ViewModels.Pages
             CurrentTicket.TicketStatus = "Closed";
             CurrentTicket.IncidentStatus = "Resolved";
             UpdateTicket();
+            _loggingService.Log($"ADMIN - {LoggedInAdmin.FullName} (ID {LoggedInAdmin.AdminId}) marked Ticket ID {CurrentTicket.TicketId} as RESOLVED", LogLevel.Info);
             NavigateToAdminDash();
         }
 
@@ -205,11 +208,13 @@ namespace HelpHive.ViewModels.Pages
                 {
                     //MessageBox.Show("New Admin reply");
                     //Implement logging here.
+                    _loggingService.Log($"ADMIN - {LoggedInAdmin.FullName} (ID {LoggedInAdmin.AdminId}) posted a reply to Ticket ID {CurrentTicket.TicketId}", LogLevel.Info);
                     _navigationService.NavigateTo("AdminDash");
 
                 }
                 else
                 {
+                    _loggingService.Log($"ADMIN - Ticket ID {CurrentTicket.TicketId} update failed!", LogLevel.Error);
                     MessageBox.Show("Ticket update failed. Please check the entered information and try again.");
                 }
             }
@@ -309,7 +314,8 @@ namespace HelpHive.ViewModels.Pages
             {
                 CurrentTicket.TicketStatus = "Answered";
                 OrigPostedBy = CurrentTicket.Name;
-                OrigPostedDate = $"Posted today at {CurrentTicket.Date:HH:mm}";
+                //OrigPostedDate = $"Posted today at {CurrentTicket.Date:HH:mm}";
+                OrigPostedDate = $"Posted on {CurrentTicket.LastReply.ToString("dddd, dd MMMM yyyy HH:mm")}";
                 OrigMessage = CurrentTicket.Message;
             }
         }

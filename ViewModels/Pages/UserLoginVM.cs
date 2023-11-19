@@ -17,13 +17,15 @@ namespace HelpHive.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IDataAccessService _dataAccess;
         private readonly IUserService _userService;
+        private readonly ILoggingService _loggingService;
 
         // Constructor for UserLoginVM
-        public UserLoginVM(INavigationService navigationService, IDataAccessService dataAccess, IUserService userService)
+        public UserLoginVM(INavigationService navigationService, IDataAccessService dataAccess, IUserService userService, ILoggingService loggingService)
         {
             _navigationService = navigationService;
             _dataAccess = dataAccess;
             _userService = userService;
+            _loggingService = loggingService;
 
             // Sets up LoginCommand with both the execute (Login) & can-execute (CanLogin).
             LoginCommand = new RelayCommand(Login, CanLogin);
@@ -85,13 +87,14 @@ namespace HelpHive.ViewModels
                 if (user != null)
                 {
                     _navigationService.NavigateTo("UserDash");
-                    
+                    _loggingService.Log($"USER - Successful login from {Email}", LogLevel.Info);
                     // Login method after successful authentication
                     _userService.Login(user); // Pass 'user' to login method
                 }
                 else
                 {
-                    MessageBox.Show("Invalid email or password", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("USER - Invalid email or password", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _loggingService.Log($"USER - Invalid login attempt from {Email}", LogLevel.Warning);
                 }
             }
             catch (Exception ex)
@@ -99,7 +102,6 @@ namespace HelpHive.ViewModels
                 MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
         private string HashPassword(string password)
         {

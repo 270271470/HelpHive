@@ -129,10 +129,12 @@
     <Compile Include="Services\DataAccessLayer.cs" />
     <Compile Include="Services\IAdminService.cs" />
     <Compile Include="Services\IDataAccessService.cs" />
+    <Compile Include="Services\ILoggingService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\AppNavigationService.cs" />
     <Compile Include="Services\ITicketService.cs" />
     <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\LoggingService.cs.cs" />
     <Compile Include="Services\TicketService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Utilities\IoCContainer.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="ViewModels\Pages\AdminLoginVM.cs" />
     <Compile Include="ViewModels\Pages\AdminTicketHistoryVM.cs" />
     <Compile Include="ViewModels\Pages\AdminTicketRepliesVM.cs" />
+    <Compile Include="ViewModels\Pages\AdminViewLogsVM.cs" />
     <Compile Include="ViewModels\Pages\AdminVM.cs" />
     <Compile Include="ViewModels\Pages\UserDashVM.cs" />
     <Compile Include="ViewModels\Pages\UserLoginVM.cs" />
@@ -161,6 +164,9 @@
     </Compile>
     <Compile Include="Views\Pages\AdminTicketReplies.xaml.cs">
       <DependentUpon>AdminTicketReplies.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\AdminViewLogs.xaml.cs">
+      <DependentUpon>AdminViewLogs.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\NewAdmin.xaml.cs">
       <DependentUpon>NewAdmin.xaml</DependentUpon>
@@ -212,6 +218,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\AdminTicketReplies.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\AdminViewLogs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -20,7 +20,7 @@ namespace HelpHive.ViewModels.Pages
         private readonly INavigationService _navigationService;
         private readonly IDataAccessService _dataAccess;
         private readonly IUserService _userService;
-        private readonly ITicketService _ticketService;
+        private readonly ILoggingService _loggingService;
         private UserModel _loggedInUser;
         private TicketModel _ticket;
 
@@ -29,11 +29,11 @@ namespace HelpHive.ViewModels.Pages
 
 
         // Constructor
-        public UserNewTicketVM(IDataAccessService dataAccess, IUserService userService, ITicketService ticketService, INavigationService navigationService)
+        public UserNewTicketVM(IDataAccessService dataAccess, IUserService userService, ILoggingService loggingService, INavigationService navigationService)
         {
             _dataAccess = dataAccess;
             _userService = userService;
-            _ticketService = ticketService;
+            _loggingService = loggingService;
             _navigationService = navigationService;
 
             // Init command and pass the method to execute
@@ -164,8 +164,9 @@ namespace HelpHive.ViewModels.Pages
                 var success = _dataAccess.CreateNewTicket(Ticket);
                 if (success)
                 {
-                    MessageBox.Show("New ticket created successfully!");
-
+                    //MessageBox.Show("New ticket created successfully!");
+                    // Log the message with the TicketId
+                    _loggingService.Log($"New ticket with ID {Ticket.TicketId} created successfully by UserId: {LoggedInUser.UserId}", LogLevel.Info);
                     _navigationService.NavigateTo("UserDash");
 
                 }
@@ -177,6 +178,7 @@ namespace HelpHive.ViewModels.Pages
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
+                _loggingService.Log($"Ticket creation failed: {ex.Message}", LogLevel.Error);
                 Debug.WriteLine($"Ticket creation failed: {ex.Message}");
             }
         }

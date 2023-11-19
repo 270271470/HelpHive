@@ -12,76 +12,100 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <!-- For welcome message -->
             <RowDefinition Height="Auto"/>
+            <!-- For heading title -->
             <RowDefinition Height="*"/>
+            <!-- For Ticket Form -->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
+            <!-- Left padding -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Center column for the form -->
+            <ColumnDefinition Width="*"/>
+            <!-- Right padding -->
         </Grid.ColumnDefinitions>
 
+        <!-- Welcome message - top right corner -->
         <TextBlock Text="{Binding LoggedInUser.FirstName, StringFormat='Welcome back, {0}'}" 
-                   Foreground="#22313f"
+                   Foreground="#808598"
                    HorizontalAlignment="Right"
                    FontSize="16"
                    VerticalAlignment="Top"
-                   Margin="0,20,20,0"
+                   Margin="0,20,25,0"
                    Grid.Row="0" 
                    Grid.Column="2"/>
 
+        <!-- Heading Title "Create New Ticket" -->
         <TextBlock Text="Create New Ticket"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Foreground="#22313f"
+                   Foreground="#808598"
                    FontWeight="SemiBold"
-                   FontSize="26"
-                   Margin="0,20,0,0"
+                   FontSize="32"
+                   Margin="20,20,0,20"
                    Grid.Row="1" 
-                   Grid.Column="1"/>
+                   Grid.Column="0"
+                   Grid.ColumnSpan="3"/>
 
-        <!-- This StackPanel is main container for form elements -->
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20">
-            <!-- Bind TextBox Text to Subject in VM -->
-            <TextBlock Text="Subject"/>
-            <TextBox Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" Height="25" FontSize="16"/>
-
-            <!-- Bind ComboBox's SelectedItem to SelectedDepartment property in VM -->
-            <TextBlock Text="Department" />
+        <!-- Main Content -->
+        <Border Background="#F7FAFD"
+                BorderBrush="#C5D8EB"
+                BorderThickness="1"
+                Padding="15"
+                Width="600"
+                CornerRadius="4"
+                Margin="0,20"
+                Grid.Row="2"
+                Grid.Column="1">
+            <StackPanel Margin="20">
+                <!-- Form elements go here -->
+                <TextBlock Foreground="#808598" FontSize="16" Text="Subject"/>
+                <TextBox Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" Foreground="#808598" Margin="0,5" Height="25" FontSize="16"/>
+                <TextBlock Foreground="#808598" FontSize="16" Text="Department" />
                 <ComboBox ItemsSource="{Binding Departments}"
-                    DisplayMemberPath="Name"
-                    SelectedValuePath="Id"
-                    Height="25" FontSize="16"
-                    SelectedValue="{Binding SelectedDepartmentId, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="0,5">
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"
+                          Foreground="#808598"
+                          Height="25" FontSize="16"
+                          SelectedValue="{Binding SelectedDepartmentId, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="0,5"/>
+                <TextBlock Foreground="#808598" FontSize="16" Text="Priority" />
+                <ComboBox SelectedValue="{Binding SelectedPriority, UpdateSourceTrigger=PropertyChanged}" 
+                          SelectedValuePath="Content" 
+                          Height="25"
+                          Foreground="#808598"
+                          FontSize="16" 
+                          Margin="0,5">
+                    <ComboBoxItem Content="Low"/>
+                    <ComboBoxItem Content="Medium"/>
+                    <ComboBoxItem Content="High"/>
                 </ComboBox>
-
-            <!-- Bind ComboBox's SelectedItem to SelectedPriority property in VM -->
-            <TextBlock Text="Priority" />
-            <ComboBox SelectedValue="{Binding SelectedPriority, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" Height="25" FontSize="16" Margin="0,5">
-                <ComboBoxItem Content="Low"/>
-                <ComboBoxItem Content="Medium"/>
-                <ComboBoxItem Content="High"/>
-            </ComboBox>
-
-            <!-- Bind Text prop to Message in VM -->
-            <TextBlock Text="Message" />
-            <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" TextWrapping="Wrap" AcceptsReturn="True" Height="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
-
-            <!-- Will handle file attachment here is enough time -->
-            <TextBlock Text="Attachments" />
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Button Content="Browse"/>
-                <Button Content="Add More" Margin="5,0,0,0"/>
+                <TextBlock Foreground="#808598" FontSize="16" Text="Message" />
+                <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,5"
+                         TextWrapping="Wrap"
+                         Foreground="#808598"
+                         BorderBrush="#C5D8EB"
+                         AcceptsReturn="True"
+                         FontSize="15" 
+                         Height="150"
+                         Width="525"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Disabled"/>
+                <TextBlock Foreground="#808598" FontSize="16" Text="Attachments" />
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <Button Content="Browse"/>
+                    <Button Content="Add More" Margin="5,0,0,0"/>
+                </StackPanel>
+                <TextBlock Foreground="#808598" Text="Allowed File Extensions: jpg, pdf, zip, xls, doc, docx (Max file size: 1024MB)" Margin="0,5"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20">
+                    <Button x:Name="CreateTicketButton" Command="{Binding CreateTicketCommand}" Content="Create Ticket" Margin="5,0" Padding="5"/>
+                    <Button Content="Cancel" Margin="5,0" Padding="5"/>
+                </StackPanel>
             </StackPanel>
-            <TextBlock Text="Allowed File Extensions: jpg, pdf, zip, xls, doc, docx (Max file size: 1024MB)" Margin="0,5"/>
-
-            <!-- Bind Command for CreateTicketButton in VM -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20">
-                <Button x:Name="CreateTicketButton" Command="{Binding CreateTicketCommand}" Content="Create Ticket" Margin="5,0"/>
-                <Button Content="Cancel" Margin="5,0"/>
-            </StackPanel>
-        </StackPanel>
+        </Border>
 
     </Grid>
 </Page>

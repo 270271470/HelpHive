@@ -41,9 +41,10 @@ namespace HelpHive.Views.Pages
             IAdminService adminService = IoCContainer.GetService<IAdminService>();
             ITicketService ticketService = IoCContainer.GetService<ITicketService>();
             INavigationService navigationService = IoCContainer.GetService<INavigationService>();
+            ILoggingService loggingService = IoCContainer.GetService<ILoggingService>();
 
             // Instantiate the ViewModel and set it as the DataContext for this page
-            _viewModel = new AdminTicketRepliesVM(dataAccess, adminService, navigationService);
+            _viewModel = new AdminTicketRepliesVM(dataAccess, adminService, navigationService, loggingService);
             this.DataContext = _viewModel;
 
             // Load the ticket details into the ViewModel

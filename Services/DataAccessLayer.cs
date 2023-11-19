@@ -17,6 +17,60 @@ namespace HelpHive.DataAccess
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+        public void AddLogEntry(LogEntry logEntry)
+        {
+            // SQL command text
+            const string sql = @"INSERT INTO tblticketlog (Message, Level, Timestamp) VALUES (@Message, @Level, @Timestamp);";
+
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Message", logEntry.Message);
+                    command.Parameters.AddWithValue("@Level", logEntry.Level);
+                    command.Parameters.AddWithValue("@Timestamp", logEntry.Timestamp);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        public List<LogEntry> GetLogEntries()
+        {
+            List<LogEntry> logEntries = new List<LogEntry>();
+
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                //string sql = "SELECT * FROM tblticketlog";
+                string sql = "SELECT * FROM tblticketlog ORDER BY Timestamp DESC";
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var logEntry = new LogEntry
+                            {
+                                // Adjust these lines to match your actual database column names
+                                Message = reader["Message"].ToString(),
+                                Level = reader["Level"].ToString(),
+                                Timestamp = Convert.ToDateTime(reader["Timestamp"])
+                            };
+                            logEntries.Add(logEntry);
+                        }
+                    }
+                }
+            }
+
+            return logEntries;
+        }
+
+
 
 
 
@@ -40,11 +94,6 @@ namespace HelpHive.DataAccess
                 }
             }
         }
-
-
-
-
-
 
 
         public List<TicketReplyModel> GetTicketReplies(string ticketId)

@@ -423,6 +423,18 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(TicketHistoryButton);
 
+                // Create Logs button link
+                Button LogsButton = new Button
+                {
+                    Content = "Logs",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                LogsButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new AdminViewLogs());
+                };
+                SidebarStackPanel.Children.Add(LogsButton);
+
                 // Create AdminLogout button link
                 Button logoutButton = new Button
                 {
@@ -475,6 +487,18 @@ namespace HelpHive.Views
                     MainFrame.Navigate(new AdminTicketHistory());
                 };
                 SidebarStackPanel.Children.Add(TicketHistoryButton);
+
+                // Create Logs button link
+                Button LogsButton = new Button
+                {
+                    Content = "Logs",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                LogsButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new AdminViewLogs());
+                };
+                SidebarStackPanel.Children.Add(LogsButton);
 
                 // Create AdminLogout button link
                 Button logoutButton = new Button
@@ -531,6 +555,18 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(TicketHistoryButton);
 
+                // Create Logs button link
+                Button LogsButton = new Button
+                {
+                    Content = "Logs",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                LogsButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new AdminViewLogs());
+                };
+                SidebarStackPanel.Children.Add(LogsButton);
+
                 // Create AdminLogout button link
                 Button logoutButton = new Button
                 {
@@ -548,6 +584,72 @@ namespace HelpHive.Views
                 SidebarStackPanel.Children.Add(logoutButton);
 
                 // End of UserNewTicket button links
+            }
+
+            // Start AdminViewLogs button links
+            else if (e.Content is AdminViewLogs)
+            {
+                // Sidebar Heading for Admin Tools
+                TextBlock heading = new TextBlock
+                {
+                    Text = "Admin Tools",
+                    Style = (Style)FindResource("SidebarHeadingStyle")
+                };
+                SidebarStackPanel.Children.Add(heading);
+
+                // Create DashBoard button link
+                Button DashBoardButton = new Button
+                {
+                    Content = "Active Tickets",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                DashBoardButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new AdminDash());
+                };
+                SidebarStackPanel.Children.Add(DashBoardButton);
+
+                // Create Historical button link
+                Button TicketHistoryButton = new Button
+                {
+                    Content = "Ticket History",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                TicketHistoryButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new AdminTicketHistory());
+                };
+                SidebarStackPanel.Children.Add(TicketHistoryButton);
+
+                // Create Logs button link
+                Button LogsButton = new Button
+                {
+                    Content = "Logs",
+                    Style = (Style)FindResource("SidebarButtonStyle")
+                };
+                LogsButton.Click += (s, args) =>
+                {
+                    MainFrame.Navigate(new AdminViewLogs());
+                };
+                SidebarStackPanel.Children.Add(LogsButton);
+
+                // Create AdminLogout button link
+                Button logoutButton = new Button
+                {
+                    Content = "Logout",
+                    Style = (Style)FindResource("SidebarButtonStyle"),
+                    Margin = new Thickness(30, 50, 0, 0)
+                };
+
+                logoutButton.Click += (s, args) =>
+                {
+                    _adminService.Logout();
+                    UpdateUIForLogout();
+                    MainFrame.Navigate(new AdminLogin());
+                };
+                SidebarStackPanel.Children.Add(logoutButton);
+
+                // End of AdminViewLogs button links
             }
 
 

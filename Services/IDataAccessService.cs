@@ -9,6 +9,8 @@ namespace HelpHive.Services
 {
     public interface IDataAccessService
     {
+        void AddLogEntry(LogEntry logEntry);
+        List<LogEntry> GetLogEntries();
         void UpdateTicketRating(TicketReplyModel reply);
         void UpdateTicketStatus(TicketModel ticket);
         UserModel VerifyUser(string email, string hashedPassword);

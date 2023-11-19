@@ -24,6 +24,7 @@ namespace HelpHive.ViewModels.Pages
         private UserModel _loggedInUser;
         private TicketModel _currentTicket;
         private TicketReplyModel _ticketreply;
+        private readonly ILoggingService _loggingService;
 
         public ObservableCollection<TicketReplyModel> Replies { get; set; }
         public RelayCommand UpdateTicketCommand { get; private set; }
@@ -33,11 +34,12 @@ namespace HelpHive.ViewModels.Pages
         public RelayCommand StarRatingCommand { get; private set; }
 
         // Constructor
-        public UserTicketRepliesVM(IDataAccessService dataAccess, IUserService userService, INavigationService navigationService)
+        public UserTicketRepliesVM(IDataAccessService dataAccess, IUserService userService, INavigationService navigationService, ILoggingService loggingService)
         {
             _dataAccess = dataAccess;
             _userService = userService;
             _navigationService = navigationService;
+            _loggingService = loggingService;
             //_ticketService = ticketService;
             //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
             LoadUserDetails();
@@ -133,6 +135,7 @@ namespace HelpHive.ViewModels.Pages
         {
             CurrentTicket.TicketStatus = "Closed";
             UpdateTicket();
+            _loggingService.Log($"USER - {LoggedInUser.Email} marked Ticket ID {CurrentTicket.TicketId} as CLOSED", LogLevel.Info);
             NavigateToUserDash();
         }
 
@@ -141,6 +144,7 @@ namespace HelpHive.ViewModels.Pages
             CurrentTicket.TicketStatus = "Closed";
             CurrentTicket.IncidentStatus = "Resolved";
             UpdateTicket();
+            _loggingService.Log($"USER - {LoggedInUser.Email} marked Ticket ID {CurrentTicket.TicketId} as RESOLVED", LogLevel.Info);
             NavigateToUserDash();
         }
 
@@ -192,20 +196,22 @@ namespace HelpHive.ViewModels.Pages
                 var success = _dataAccess.InsertUserTicketReply(ticketReply);
                 if (success)
                 {
-                    MessageBox.Show("New ticket reply");
-
+                    //MessageBox.Show("New ticket reply");
+                    _loggingService.Log($"USER - {LoggedInUser.Email} replied to Ticket ID {CurrentTicket.TicketId}", LogLevel.Info);
                     _navigationService.NavigateTo("UserDash");
 
                 }
                 else
                 {
-                    MessageBox.Show("Ticket creation failed. Please check the entered information and try again.");
+                    _loggingService.Log($"USER - {LoggedInUser.Email} failed to update Ticket ID {CurrentTicket.TicketId}", LogLevel.Warning);
+                    MessageBox.Show("Ticket update failed. Please check the entered information and try again.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
-                Debug.WriteLine($"Ticket creation failed: {ex.Message}");
+                _loggingService.Log($"USER - {LoggedInUser.Email} failed to update Ticket ID {CurrentTicket.TicketId}", LogLevel.Warning);
+                MessageBox.Show("An error occurred while updating the ticket. Please try again later.");
+                Debug.WriteLine($"Ticket update failed: {ex.Message}");
             }
 
 
@@ -283,7 +289,8 @@ namespace HelpHive.ViewModels.Pages
             if (CurrentTicket != null)
             {
                 OrigPostedBy = CurrentTicket.Name;
-                OrigPostedDate = $"Posted today at {CurrentTicket.Date:HH:mm}";
+                //OrigPostedDate = $"Posted on {CurrentTicket.LastReply:HH:mm}";
+                OrigPostedDate = $"Posted on {CurrentTicket.LastReply.ToString("dddd, dd MMMM yyyy HH:mm")}";
                 OrigMessage = CurrentTicket.Message;
             }
         }

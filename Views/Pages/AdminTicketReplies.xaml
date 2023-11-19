@@ -199,7 +199,7 @@
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
-                                        <TextBlock Text="{Binding PostedDate, StringFormat='Posted today at {0:HH:mm}'}" 
+                                        <TextBlock Text="{Binding PostedDate, StringFormat='Posted on {0:dddd, MMMM d, yyyy h:mm tt}'}"
                                            FontSize="12"
                                            Foreground="#808598"
                                            FontStyle="Italic"
