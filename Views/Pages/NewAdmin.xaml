@@ -9,6 +9,16 @@
       Title="NewAdminRegistration"
       Background="White">
 
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#d32d27"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#d32d27"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </Page.Resources>
+
     <!-- Background and Layout -->
     <Grid Background="#FFF" Margin="0 50 0 0">
         <Grid.RowDefinitions>
@@ -95,7 +105,7 @@
                     </ComboBox>
 
                     <!-- Register Button -->
-                    <Button x:Name="RegisterButton" FontSize="16" Command="{Binding RegisterCommand}" Content="Create Admin Account" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="60 20 20 20" Padding="5"/>
+                    <Button x:Name="RegisterButton" FontSize="16" Command="{Binding RegisterCommand}" Content="Create Admin Account" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="60 20 20 20" Padding="5,4,5,5"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

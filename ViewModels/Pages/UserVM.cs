@@ -18,10 +18,20 @@ namespace HelpHive.ViewModels
         // Private fields to hold user data and data access logic
         private UserModel _user;
         private DataAccessLayer _dataAccess;
+        private readonly INavigationService _navigationService;
+        private readonly ILoggingService _loggingService;
+
+        public RelayCommand NavigateToUserDashCommand { get; private set; }
 
         // Constructor for UserVM, init DAL + default user model values
-        public UserVM()
+        public UserVM(ILoggingService loggingService, INavigationService navigationService)
         {
+            _loggingService = loggingService;
+            _navigationService = navigationService;
+
+            // Init command and pass the method to execute
+            NavigateToUserDashCommand = new RelayCommand(ExecuteNavigateToUserDash);
+
             _dataAccess = new DataAccessLayer();
             _user = new UserModel
             {
@@ -90,6 +100,11 @@ namespace HelpHive.ViewModels
             return canRegister;
         }
 
+        private void ExecuteNavigateToUserDash(object parameter)
+        {
+            _navigationService.NavigateTo("UserDash");
+        }
+
         // Method to handle user registration
         private void Register(object parameter)
         {
@@ -104,17 +119,20 @@ namespace HelpHive.ViewModels
                 if (success)
                 {
                     MessageBox.Show("User registered successfully!");
-                    // Maybe add redirect here to UserDash
+                    _loggingService.Log($"USER - New account created with UID {User.UserId}.", LogLevel.Info);
+                    _navigationService.NavigateTo("UserLogin");
                 }
                 else
                 {
                     MessageBox.Show("Registration failed. Please try again.");
+                    _loggingService.Log($"USER - New account creation failed.", LogLevel.Error);
                 }
             }
             catch (Exception ex)
             {
                 // If error, log the exception details
                 Debug.WriteLine($"Registration failed: {ex.Message}");
+                _loggingService.Log($"USER - New account creation failed.", LogLevel.Error);
             }
         }
 

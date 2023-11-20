@@ -46,8 +46,9 @@ namespace HelpHive.Views.Pages
             IUserService userService = IoCContainer.GetService<IUserService>();
             ITicketService ticketService = IoCContainer.GetService<ITicketService>();
             INavigationService navigationService = IoCContainer.GetService<INavigationService>();
+            ILoggingService logginService = IoCContainer.GetService<ILoggingService>();
 
-            DataContext = new AdminVM(dataAccess, userService, ticketService, navigationService);
+            DataContext = new AdminVM(dataAccess, userService, ticketService, navigationService, logginService);
         }
     }
 }
