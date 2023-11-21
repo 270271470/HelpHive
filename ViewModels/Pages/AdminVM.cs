@@ -116,6 +116,13 @@ namespace HelpHive.ViewModels.Pages
             Debug.WriteLine("Register Admin method called");
             try
             {
+
+                // Check if admin email is already registered
+                if (_dataAccess.IsAdminEmailRegistered(Admin.Email))
+                {
+                    MessageBox.Show("Email already exists in our database. Please use a different email, or Log in.", "Email Exists", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return; // Stop the registration process
+                }
                 // Hash users pass before registering
                 Admin.Password = HashPassword(Admin.Password);
 

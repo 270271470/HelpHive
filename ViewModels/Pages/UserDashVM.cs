@@ -35,9 +35,36 @@ namespace HelpHive.ViewModels.Pages
             _dataAccess = dataAccess;
             _userService = userService;
             UserOpenTickets = new ObservableCollection<TicketModel>(); //NB!
+            FilteredTickets = new ObservableCollection<TicketModel>();
+
             LoadUserDetails();
             LoadOpenTickets();
         }
+
+        private ObservableCollection<TicketModel> _filteredTickets;
+        public ObservableCollection<TicketModel> FilteredTickets
+        {
+            get { return _filteredTickets; }
+            set
+            {
+                _filteredTickets = value;
+                OnPropertyChanged(nameof(FilteredTickets));
+            }
+        }
+
+        public void FilterTickets(string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                FilteredTickets = new ObservableCollection<TicketModel>(UserOpenTickets);
+            }
+            else
+            {
+                FilteredTickets = new ObservableCollection<TicketModel>(
+                    UserOpenTickets.Where(ticket => ticket.MatchesSearch(searchText)));
+            }
+        }
+
 
         // Method to load user details
         public void LoadUserDetails()
@@ -50,13 +77,20 @@ namespace HelpHive.ViewModels.Pages
         // Method to load tickets
         private void LoadOpenTickets()
         {
-            var uid = LoggedInUser.UserId;
-            var tickets = _dataAccess.GetUserOpenTickets(uid);
-
-            UserOpenTickets.Clear(); // Clear existing collection
-            foreach (var ticket in tickets)
+            // Ensure that the LoggedInUser is loaded before attempting to load tickets
+            if (LoggedInUser != null)
             {
-                UserOpenTickets.Add(ticket); // Add items to existing collection
+                var uid = LoggedInUser.UserId;
+                var tickets = _dataAccess.GetUserOpenTickets(uid);
+
+                UserOpenTickets.Clear(); // Clear existing collection
+                foreach (var ticket in tickets)
+                {
+                    UserOpenTickets.Add(ticket); // Add items to existing collection
+                }
+
+                // Initialize FilteredTickets with all tickets to display them by default
+                FilterTickets(""); // Pass an empty string to show all tickets initially
             }
         }
 

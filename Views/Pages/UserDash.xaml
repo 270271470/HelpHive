@@ -12,11 +12,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- For welcome message -->
             <RowDefinition Height="Auto"/>
-            <!-- For heading title -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <!-- For Active Ticket Overview -->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -35,114 +34,140 @@
 
         <!-- Heading Title "User Dashboard" -->
         <TextBlock Text="User Dashboard"
-                   HorizontalAlignment="LEft"
+                   HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    Foreground="#808598"
                    FontWeight="SemiBold"
                    FontSize="32"
-                   Margin="20,20,0,20"
+                   Margin="20,20,0,0"
                    Grid.Row="1" 
                    Grid.ColumnSpan="2"/>
 
-        <!-- Active Ticket Style -->
+        <!-- Active Ticket Overview Title -->
         <TextBlock Text="Active Ticket Overview"
                    Foreground="#808598"
                    FontSize="18"
                    FontWeight="Normal"
-                   Margin="25,75,0,0"
-                   Grid.Row="1" Grid.RowSpan="2"/>
+                   Margin="20,15,0,0"
+                   Grid.Row="2" 
+                   Grid.Column="0"
+                   VerticalAlignment="Bottom"/>
+
+        <!-- Search Label -->
+        <TextBlock Text="Search"
+                   Foreground="#808598"
+                   Margin="20,20,0,0"
+                   FontSize="16"
+                   Grid.Row="3" 
+                   Grid.Column="0"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"/>
+
+        <!-- Search box -->
+        <TextBox x:Name="searchBox"
+                 Width="200"
+                 Margin="80,20,0,0"
+                 FontSize="16"
+                 Foreground="#808598"
+                 Height="30"
+                 Grid.Row="3"
+                 Grid.Column="0"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Left"
+                 TextChanged="SearchBox_TextChanged"
+                 GotFocus="SearchBox_GotFocus"
+                 LostFocus="SearchBox_LostFocus"/>
 
         <!-- DataGrid to display tickets with styling -->
-        <DataGrid ItemsSource="{Binding UserOpenTickets}"
-          CanUserAddRows="False"
-          CanUserDeleteRows="False"
-          IsReadOnly="True"
-          Grid.Row="2" 
-          Grid.ColumnSpan="2"
-          Background="#fff"
-          Margin="10,46,10,40"
-          RowHeight="35"
-          ColumnWidth="SizeToCells"
-          HeadersVisibility="Column"
-          HorizontalGridLinesBrush="#fff"
-          VerticalGridLinesBrush="#fff"
-          BorderThickness="0"
-          AutoGenerateColumns="False"
-          SelectionChanged="DataGrid_SelectionChanged">
+        <DataGrid ItemsSource="{Binding FilteredTickets}"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  Grid.Row="4"
+                  Grid.ColumnSpan="2"
+                  Background="#fff"
+                  Margin="10,30,10,40"
+                  RowHeight="35"
+                  ColumnWidth="SizeToCells"
+                  HeadersVisibility="Column"
+                  HorizontalGridLinesBrush="#fff"
+                  VerticalGridLinesBrush="#fff"
+                  BorderThickness="0"
+                  AutoGenerateColumns="False"
+                  SelectionChanged="DataGrid_SelectionChanged">
 
             <DataGrid.Resources>
-                <Style x:Key="DataGridHeaderCenterStyle" TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="Background" Value="#22313f"/>
-                    <Setter Property="Foreground" Value="#fff"/>
-                    <Setter Property="Padding" Value="0 10"/>
-                    <Setter Property="FontSize" Value="16"/>
-                    <Setter Property="FontWeight" Value="Normal"/>
-                </Style>
-            </DataGrid.Resources>
+                    <Style x:Key="DataGridHeaderCenterStyle" TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="#22313f"/>
+                        <Setter Property="Foreground" Value="#fff"/>
+                        <Setter Property="Padding" Value="0 10"/>
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                </DataGrid.Resources>
 
-            <DataGrid.Columns>
+                <DataGrid.Columns>
 
-                <DataGridTextColumn Header="Department"
+                    <DataGridTextColumn Header="Department"
                     Binding="{Binding DepartmentName}"
                     Width="200"
                     HeaderStyle="{StaticResource DataGridHeaderCenterStyle}">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="Margin" Value="60,15,0,0" />
-                            <Setter Property="BorderThickness" Value="0" />
-                            <Setter Property="FontSize" Value="15" />
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Margin" Value="60,15,0,0" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="FontSize" Value="15" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
 
-                <DataGridTextColumn Header="Subject"
+                    <DataGridTextColumn Header="Subject"
                     Width="*"
                     HeaderStyle="{StaticResource DataGridHeaderCenterStyle}">
-                    <DataGridTextColumn.Binding>
-                        <MultiBinding StringFormat="#{0}  -  {1}">
-                            <Binding Path="TicketId" />
-                            <Binding Path="Title" />
-                        </MultiBinding>
-                    </DataGridTextColumn.Binding>
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="Margin" Value="0,15,0,0"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="FontSize" Value="15"/>
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding StringFormat="#{0}  -  {1}">
+                                <Binding Path="TicketId" />
+                                <Binding Path="Title" />
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Margin" Value="0,15,0,0"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FontSize" Value="15"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
 
-                <DataGridTextColumn Header="Status"
+                    <DataGridTextColumn Header="Status"
                     Binding="{Binding TicketStatus}"
                     Width="150"
                     HeaderStyle="{StaticResource DataGridHeaderCenterStyle}">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="Margin" Value="40,15,0,0" />
-                            <Setter Property="BorderThickness" Value="0" />
-                            <Setter Property="FontSize" Value="15" />
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Margin" Value="40,15,0,0" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="FontSize" Value="15" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
 
-                <DataGridTextColumn Header="Last Updated"
+                    <DataGridTextColumn Header="Last Updated"
                     Binding="{Binding LastReply, StringFormat='{}{0:dd/MM/yyyy (HH:mm)}'}"
                     Width="*"
                     HeaderStyle="{StaticResource DataGridHeaderCenterStyle}">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="Margin" Value="95,15,0,0" />
-                            <Setter Property="BorderThickness" Value="0" />
-                            <Setter Property="FontSize" Value="15" />
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Margin" Value="95,15,0,0" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="FontSize" Value="15" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
 
-            </DataGrid.Columns>
-        </DataGrid>
-
+                </DataGrid.Columns>
+            </DataGrid>
 
     </Grid>
 </Page>

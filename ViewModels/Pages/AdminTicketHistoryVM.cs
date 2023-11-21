@@ -35,8 +35,35 @@ namespace HelpHive.ViewModels.Pages
             _dataAccess = dataAccess;
             _adminService = adminService;
             AdminTicketHistory = new ObservableCollection<TicketModel>(); //NB!
+            FilteredTickets = new ObservableCollection<TicketModel>();
+
             LoadAdminDetails();
             GetAdminTicketHistory();
+        }
+
+        // filtering tickets
+        private ObservableCollection<TicketModel> _filteredTickets;
+        public ObservableCollection<TicketModel> FilteredTickets
+        {
+            get { return _filteredTickets; }
+            set
+            {
+                _filteredTickets = value;
+                OnPropertyChanged(nameof(FilteredTickets));
+            }
+        }
+
+        public void FilterTickets(string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                FilteredTickets = new ObservableCollection<TicketModel>(AdminTicketHistory);
+            }
+            else
+            {
+                FilteredTickets = new ObservableCollection<TicketModel>(
+                    AdminTicketHistory.Where(ticket => ticket.MatchesSearch(searchText)));
+            }
         }
 
         // Method to load admin details
@@ -57,6 +84,9 @@ namespace HelpHive.ViewModels.Pages
             {
                 AdminTicketHistory.Add(ticket); // Add items to existing collection
             }
+
+            // Initialize FilteredTickets with all tickets to display them by default
+            FilterTickets(""); // Pass an empty string to show all tickets initially
         }
 
     }
