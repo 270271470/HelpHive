@@ -6,33 +6,62 @@
     <!-- Style for buttons to look like hyperlinks -->
     <Window.Resources>
 
+        <!--
         <Style x:Key="LinkButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#fff"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <TextBlock TextDecorations="None">
-                            <ContentPresenter/>
-                        </TextBlock>
+                        <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <TextBlock x:Name="ContentTextBlock" Text="{TemplateBinding Content}" 
+                               Padding="{TemplateBinding Padding}" 
+                               Foreground="{TemplateBinding Foreground}" 
+                               TextDecorations="None" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"/>
+                        </Border>
+                        
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style> -->
+
+        <Style x:Key="LinkButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="BlueViolet"></Setter>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Background" Value="Yellow" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
+
         <!-- Style for Sidebar Heading -->
         <Style x:Key="SidebarHeadingStyle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#a6c4e0"/>
-            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FontWeight" Value="Normal"/>
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="Margin" Value="30,0,0,25"/>
         </Style>
 
-        <!-- Style for Sidebar Button -->
+        <!-- Style for Sidebar Button 
         <Style x:Key="SidebarButtonStyle" TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Margin" Value="30,10,0,5"/>
@@ -41,10 +70,32 @@
             <Setter Property="Foreground" Value="#fefefe"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="0,0,0,0"/>
+        </Style> -->
+
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="30,10,0,5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Foreground" Value="#fefefe" />
+                    <Setter Property="Background" Value="#22313F"></Setter>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Foreground" Value="#fefefe" />
+                    <Setter Property="Background" Value="#22313F" />
                 </Trigger>
             </Style.Triggers>
         </Style>

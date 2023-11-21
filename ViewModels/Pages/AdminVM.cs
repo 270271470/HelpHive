@@ -18,11 +18,21 @@ namespace HelpHive.ViewModels.Pages
     {
         private AdminModel _admin;
         private DataAccessLayer _dataAccess;
+        private readonly ILoggingService _loggingService;
+        private readonly INavigationService _navigationService;
+
+        public RelayCommand NavigateToAdminDashCommand { get; private set; }
 
         // Constructor for AdminVM, init DAL + default admin model values
-        public AdminVM(IDataAccessService dataAccess, IUserService userService, ITicketService ticketService, INavigationService navigationService)
+        public AdminVM(IDataAccessService dataAccess, IUserService userService, ITicketService ticketService, INavigationService navigationService, ILoggingService loggingService)
         {
+            _loggingService = loggingService;
+            _navigationService = navigationService;
+
+            NavigateToAdminDashCommand = new RelayCommand(ExecuteNavigateToAdminDash);
+
             _dataAccess = new DataAccessLayer();
+
             _admin= new AdminModel
             {
                 DateCreated = DateTime.Now  // Default date created set to current date and time
@@ -95,12 +105,24 @@ namespace HelpHive.ViewModels.Pages
             return canRegister;
         }
 
+        private void ExecuteNavigateToAdminDash(object parameter)
+        {
+            _navigationService.NavigateTo("AdminDash");
+        }
+
         // Method to handle admin registration
         private void Register(object parameter)
         {
             Debug.WriteLine("Register Admin method called");
             try
             {
+
+                // Check if admin email is already registered
+                if (_dataAccess.IsAdminEmailRegistered(Admin.Email))
+                {
+                    MessageBox.Show("Email already exists in our database. Please use a different email, or Log in.", "Email Exists", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return; // Stop the registration process
+                }
                 // Hash users pass before registering
                 Admin.Password = HashPassword(Admin.Password);
 
@@ -113,17 +135,20 @@ namespace HelpHive.ViewModels.Pages
                 if (success)
                 {
                     MessageBox.Show("Admin registered successfully!");
-                    // Maybe add redirect here to AdminDash
+                    _loggingService.Log($"ADMIN - New Admin Sccount created - {Admin.Email}", LogLevel.Info);
+                    _navigationService.NavigateTo("AdminLogin");
                 }
                 else
                 {
                     MessageBox.Show("Registration failed. Please try again.");
+                    _loggingService.Log($"ADMIN - Admin Account creation failed.", LogLevel.Error);
                 }
             }
             catch (Exception ex)
             {
                 // If error, log the exception details
                 Debug.WriteLine($"Registration failed: {ex.Message}");
+                _loggingService.Log($"ADMIN - Admin Account creation failed - {ex.Message}", LogLevel.Error);
             }
         }
 

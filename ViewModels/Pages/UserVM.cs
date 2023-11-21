@@ -5,10 +5,10 @@ using HelpHive.DataAccess;
 using System;
 using System.ComponentModel;
 using System.Configuration;
-using System.Security.Cryptography;     // For hasing
+using System.Security.Cryptography;     // For hashing
 using System.Text;
 using System.Windows;
-using System.Text.RegularExpressions;   // Regex validation - 06/11/23 - Mauritz
+using System.Text.RegularExpressions;   // Regex validation
 using System.Diagnostics;
 
 namespace HelpHive.ViewModels
@@ -18,22 +18,42 @@ namespace HelpHive.ViewModels
         // Private fields to hold user data and data access logic
         private UserModel _user;
         private DataAccessLayer _dataAccess;
+        private readonly INavigationService _navigationService;
+        private readonly ILoggingService _loggingService;
 
-        // Constructor for UserVM, init DAL + default user model values
-        public UserVM()
+        // Validation message properties
+        public string FirstNameValidationMessage { get; private set; } = string.Empty;
+        public string LastNameValidationMessage { get; private set; } = string.Empty;
+        public string EmailValidationMessage { get; private set; } = string.Empty;
+        public string PasswordValidationMessage { get; private set; } = string.Empty;
+        public string ConfirmPasswordValidationMessage { get; private set; } = string.Empty;
+        public string PhoneNumberValidationMessage { get; private set; } = string.Empty;
+        public string Address1ValidationMessage { get; private set; } = string.Empty;
+        public string CityValidationMessage { get; private set; } = string.Empty;
+        public string RegionValidationMessage { get; private set; } = string.Empty;
+        public string PostalCodeValidationMessage { get; private set; } = string.Empty;
+        public string CountryValidationMessage { get; private set; } = string.Empty;
+
+        public RelayCommand NavigateToUserDashCommand { get; private set; }
+
+        // Constructor for UserVM
+        public UserVM(ILoggingService loggingService, INavigationService navigationService)
         {
+            _loggingService = loggingService;
+            _navigationService = navigationService;
+
+            NavigateToUserDashCommand = new RelayCommand(ExecuteNavigateToUserDash);
+
             _dataAccess = new DataAccessLayer();
             _user = new UserModel
             {
-                Status = "Active",          // Default status for new user set to Active
-                DateCreated = DateTime.Now  // Default date created set to current date and time
+                Status = "Active",
+                DateCreated = DateTime.Now
             };
 
-            // Init RegisterCommand with actions to execute and conditions when to be executable
             RegisterCommand = new RelayCommand(Register, CanRegister);
         }
 
-        // Public prop to get and set the UserModel. Raises property changed notifications
         public UserModel User
         {
             get => _user;
@@ -43,18 +63,14 @@ namespace HelpHive.ViewModels
                 {
                     _user = value;
                     OnPropertyChanged(nameof(User));
-                    // Notify that RegisterCommand may need to reevaluate its executable status
                     RegisterCommand.RaiseCanExecuteChanged();
                 }
             }
         }
 
-        // Command property to be bound to a registration button or action in the view
         public RelayCommand RegisterCommand { get; private set; }
 
-        // Field to store the confirmation of the user's password
         private string _confirmPassword;
-        // Property to get and set the confirmed password with notification
         public string ConfirmPassword
         {
             get => _confirmPassword;
@@ -62,32 +78,44 @@ namespace HelpHive.ViewModels
             {
                 _confirmPassword = value;
                 OnPropertyChanged(nameof(ConfirmPassword));
-                // Notify that the RegisterCommand may need to reevaluate its executable status
                 RegisterCommand.RaiseCanExecuteChanged();
             }
         }
 
-        // Method to determine if RegisterCommand can execute based on the current state of the UserModel props
         private bool CanRegister(object parameter)
         {
-            // Validation logic to check completeness and correctness of user information
-            // Email, phone number, and country code are validated using regex. Other fields are checked for non-emptiness
-            bool canRegister =
-                !string.IsNullOrWhiteSpace(User?.FirstName) &&
-                !string.IsNullOrWhiteSpace(User?.LastName) &&
-                !string.IsNullOrWhiteSpace(User?.Email) && Regex.IsMatch(User.Email, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", RegexOptions.IgnoreCase) &&
-                !string.IsNullOrWhiteSpace(User?.Password) &&
-                User.Password == _confirmPassword &&
-                !string.IsNullOrWhiteSpace(User?.PhoneNumber) && Regex.IsMatch(User.PhoneNumber, @"^(\+\d{1,3}[- ]?)?\d{10}$", RegexOptions.IgnoreCase) &&
-                !string.IsNullOrWhiteSpace(User?.Address1) &&
-                !string.IsNullOrWhiteSpace(User?.City) &&
-                !string.IsNullOrWhiteSpace(User?.Region) &&
-                !string.IsNullOrWhiteSpace(User?.PostalCode) &&
-                !string.IsNullOrWhiteSpace(User?.Country) &&
-                Regex.IsMatch(User.Country, @"^[A-Z]{2}$");
+            ResetValidationMessages();
 
-            // Return result of validation
+            ValidateFirstName();
+            ValidateLastName();
+            ValidateEmail();
+            ValidatePassword();
+            ValidateConfirmPassword();
+            ValidatePhoneNumber();
+            ValidateAddress1();
+            ValidateCity();
+            ValidateRegion();
+            ValidatePostalCode();
+            ValidateCountry();
+
+            bool canRegister = string.IsNullOrEmpty(FirstNameValidationMessage)
+                                && string.IsNullOrEmpty(LastNameValidationMessage)
+                                && string.IsNullOrEmpty(EmailValidationMessage)
+                                && string.IsNullOrEmpty(PasswordValidationMessage)
+                                && string.IsNullOrEmpty(ConfirmPasswordValidationMessage)
+                                && string.IsNullOrEmpty(PhoneNumberValidationMessage)
+                                && string.IsNullOrEmpty(Address1ValidationMessage)
+                                && string.IsNullOrEmpty(CityValidationMessage)
+                                && string.IsNullOrEmpty(RegionValidationMessage)
+                                && string.IsNullOrEmpty(PostalCodeValidationMessage)
+                                && string.IsNullOrEmpty(CountryValidationMessage);
+
             return canRegister;
+        }
+
+        private void ExecuteNavigateToUserDash(object parameter)
+        {
+            _navigationService.NavigateTo("UserDash");
         }
 
         // Method to handle user registration
@@ -96,6 +124,13 @@ namespace HelpHive.ViewModels
             Debug.WriteLine("Register method called");
             try
             {
+                // Check if user email is already registered
+                if (_dataAccess.IsUserEmailRegistered(User.Email))
+                {
+                    MessageBox.Show("Email already exists in our database. Please use a different email, or Log in.", "Email Exists", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return; // Stop the registration process
+                }
+
                 // Hash users pass before registering
                 User.Password = HashPassword(User.Password);
 
@@ -104,17 +139,20 @@ namespace HelpHive.ViewModels
                 if (success)
                 {
                     MessageBox.Show("User registered successfully!");
-                    // Maybe add redirect here to UserDash
+                    _loggingService.Log($"USER - New account created - {User.Email}.", LogLevel.Info);
+                    _navigationService.NavigateTo("UserLogin");
                 }
                 else
                 {
                     MessageBox.Show("Registration failed. Please try again.");
+                    _loggingService.Log($"USER - New account creation failed.", LogLevel.Error);
                 }
             }
             catch (Exception ex)
             {
                 // If error, log the exception details
                 Debug.WriteLine($"Registration failed: {ex.Message}");
+                _loggingService.Log($"USER - New account creation failed.", LogLevel.Error);
             }
         }
 
@@ -134,5 +172,133 @@ namespace HelpHive.ViewModels
                 return builder.ToString();
             }
         }
+
+        // Validation methods
+        private void ResetValidationMessages()
+        {
+            FirstNameValidationMessage = string.Empty;
+            LastNameValidationMessage = string.Empty;
+            EmailValidationMessage = string.Empty;
+            PasswordValidationMessage = string.Empty;
+            ConfirmPasswordValidationMessage = string.Empty;
+            PhoneNumberValidationMessage = string.Empty;
+            Address1ValidationMessage = string.Empty;
+            CityValidationMessage = string.Empty;
+            RegionValidationMessage = string.Empty;
+            PostalCodeValidationMessage = string.Empty;
+            CountryValidationMessage = string.Empty;
+        }
+
+        private void ValidateFirstName()
+        {
+            if (string.IsNullOrWhiteSpace(User?.FirstName))
+            {
+                FirstNameValidationMessage = "Required";
+                OnPropertyChanged(nameof(FirstNameValidationMessage));
+            }
+        }
+
+        private void ValidateLastName()
+        {
+            if (string.IsNullOrWhiteSpace(User?.LastName))
+            {
+                LastNameValidationMessage = "Required";
+                OnPropertyChanged(nameof(LastNameValidationMessage));
+            }
+        }
+
+        private void ValidateEmail()
+        {
+            if (string.IsNullOrWhiteSpace(User?.Email))
+            {
+                EmailValidationMessage = "Required";
+            }
+            else if (!Regex.IsMatch(User.Email, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", RegexOptions.IgnoreCase))
+            {
+                EmailValidationMessage = "Invalid email format.";
+            }
+            OnPropertyChanged(nameof(EmailValidationMessage));
+        }
+
+        private void ValidatePassword()
+        {
+            if (string.IsNullOrWhiteSpace(User?.Password))
+            {
+                PasswordValidationMessage = "Required";
+            }
+            OnPropertyChanged(nameof(PasswordValidationMessage));
+        }
+
+        private void ValidateConfirmPassword()
+        {
+            if (User.Password != _confirmPassword)
+            {
+                ConfirmPasswordValidationMessage = "Passwords do not match.";
+            }
+            OnPropertyChanged(nameof(ConfirmPasswordValidationMessage));
+        }
+
+        private void ValidatePhoneNumber()
+        {
+            if (string.IsNullOrWhiteSpace(User?.PhoneNumber))
+            {
+                PhoneNumberValidationMessage = "Required";
+            }
+            else if (!Regex.IsMatch(User.PhoneNumber, @"^(\+\d{1,3}[- ]?)?\d{10}$", RegexOptions.IgnoreCase))
+            {
+                PhoneNumberValidationMessage = "Invalid phone number format.";
+            }
+            OnPropertyChanged(nameof(PhoneNumberValidationMessage));
+        }
+
+        private void ValidateAddress1()
+        {
+            if (string.IsNullOrWhiteSpace(User?.Address1))
+            {
+                Address1ValidationMessage = "Required";
+                OnPropertyChanged(nameof(Address1ValidationMessage));
+            }
+        }
+
+        private void ValidateCity()
+        {
+            if (string.IsNullOrWhiteSpace(User?.City))
+            {
+                CityValidationMessage = "Required";
+                OnPropertyChanged(nameof(CityValidationMessage));
+            }
+        }
+
+        private void ValidateRegion()
+        {
+            if (string.IsNullOrWhiteSpace(User?.Region))
+            {
+                RegionValidationMessage = "Required";
+                OnPropertyChanged(nameof(RegionValidationMessage));
+            }
+        }
+
+        private void ValidatePostalCode()
+        {
+            if (string.IsNullOrWhiteSpace(User?.PostalCode))
+            {
+                PostalCodeValidationMessage = "Required";
+                OnPropertyChanged(nameof(PostalCodeValidationMessage));
+            }
+        }
+
+        private void ValidateCountry()
+        {
+            if (string.IsNullOrWhiteSpace(User?.Country))
+            {
+                CountryValidationMessage = "Required";
+            }
+            else if (!Regex.IsMatch(User.Country, @"^[A-Z]{2}$"))
+            {
+                CountryValidationMessage = "Invalid country format. Use 2-letter country code.";
+            }
+            OnPropertyChanged(nameof(CountryValidationMessage));
+        }
+
     }
 }

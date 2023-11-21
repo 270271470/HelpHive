@@ -94,15 +94,9 @@
                          Width="525"
                          VerticalScrollBarVisibility="Auto"
                          HorizontalScrollBarVisibility="Disabled"/>
-                <TextBlock Foreground="#808598" FontSize="16" Text="Attachments" />
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <Button Content="Browse"/>
-                    <Button Content="Add More" Margin="5,0,0,0"/>
-                </StackPanel>
-                <TextBlock Foreground="#808598" Text="Allowed File Extensions: jpg, pdf, zip, xls, doc, docx (Max file size: 1024MB)" Margin="0,5"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20">
-                    <Button x:Name="CreateTicketButton" Command="{Binding CreateTicketCommand}" Content="Create Ticket" Margin="5,0" Padding="5"/>
-                    <Button Content="Cancel" Margin="5,0" Padding="5"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
+                    <Button x:Name="CreateTicketButton" FontSize="15"  Command="{Binding CreateTicketCommand}" Content="Create NewTicket" Margin="5,0" Padding="5"/>
                 </StackPanel>
             </StackPanel>
         </Border>

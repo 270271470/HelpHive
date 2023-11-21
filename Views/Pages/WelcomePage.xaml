@@ -5,6 +5,33 @@
       xmlns:vm="clr-namespace:HelpHive.ViewModels"
       Title="Welcome Page" Height="800" Width="1000">
 
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Foreground" Value="#fefefe" />
+                    <Setter Property="Background" Value="#22313F"></Setter>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Foreground" Value="#fefefe" />
+                    <Setter Property="Background" Value="#22313F" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+
     <!-- Page Content -->
     <Grid>
         <!-- Content alignment -->
@@ -17,15 +44,37 @@
             <TextBlock Grid.Row="0" FontSize="36" FontWeight="SemiBold" Foreground="#808598" Text="Welcome to HelpHive" HorizontalAlignment="Center" Margin="0,0,0,20"/>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
                 <!-- User Login -->
-                <StackPanel Width="200" Margin="0,0,100,0">
+                <Border Background="#F7FAFD"
+                BorderBrush="#808598"
+                BorderThickness="1"
+                Padding="15"
+                Width="350"
+                Height="175"
+                CornerRadius="4"
+                Margin="0,0,0,0"
+                Grid.Row="2"
+                Grid.Column="1">
+                    <StackPanel Width="200" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button Command="{Binding NavigateToUserLoginCommand}" Content="User Login" FontSize="16" BorderBrush="Transparent" Background="#d32d27" Foreground="White" Height="40" Margin="0,0,0,25"/>
-                    <Button Command="{Binding NavigateToNewUserCommand}" Content="New User Account" FontSize="16" Background="Transparent" Foreground="#808598" Height="40" />
+                    <Button Command="{Binding NavigateToNewUserCommand}" Content="New User Account" FontSize="16" Background="#22313F" Foreground="#fefefe" Height="40" />
                 </StackPanel>
+                </Border>
                 <!-- Admin Login -->
-                <StackPanel Width="200">
-                    <Button Command="{Binding NavigateToAdminLoginCommand}" Content="Admin Login" FontSize="16" BorderBrush="Transparent" Background="#d32d27" Foreground="White" Height="40" Margin="0,0,0,25"/>
-                    <Button Command="{Binding NavigateToNewAdminCommand}" Content="New Admin Account" FontSize="16" Background="Transparent" Foreground="#808598" Height="40" />
+                <Border Background="#F7FAFD"
+                BorderBrush="#808598"
+                BorderThickness="1"
+                Padding="15"
+                Width="350"
+                Height="175"
+                CornerRadius="4"
+                Margin="20,0,0,0"
+                Grid.Row="2"
+                Grid.Column="1">
+                    <StackPanel Width="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+                     <Button Command="{Binding NavigateToAdminLoginCommand}" Content="Admin Login" FontSize="16" BorderBrush="Transparent" Background="#d32d27" Foreground="#fefefe" Height="40" Margin="0,0,0,25"/>
+                    <Button Command="{Binding NavigateToNewAdminCommand}" Content="New Admin Account" FontSize="16" Background="#22313F" Foreground="#fefefe" Height="40" />
                 </StackPanel>
+                </Border>
             </StackPanel>
         </Grid>
     </Grid>

@@ -1,4 +1,6 @@
-﻿using HelpHive.ViewModels;
+﻿using HelpHive.Services;
+using HelpHive.Utilities;
+using HelpHive.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +41,11 @@ namespace HelpHive.Views.Pages
         public NewUser()
         {
             InitializeComponent();
-            DataContext = new UserVM();
+
+            ILoggingService logginService = IoCContainer.GetService<ILoggingService>();
+            INavigationService navigationService = IoCContainer.GetService<INavigationService>();
+
+            DataContext = new UserVM(logginService, navigationService);
         }
     }
 }

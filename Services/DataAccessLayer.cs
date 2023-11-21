@@ -17,6 +17,67 @@ namespace HelpHive.DataAccess
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+        public bool IsAdminEmailRegistered(string email)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT COUNT(*) FROM tbladmins WHERE email = @Email";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+
+                        // check if the count is greater than 0
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+                        return count > 0;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.WriteLine("MySQL Error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return false; // Return false if there's an exception or no matching record
+        }
+
+        public bool IsUserEmailRegistered(string email)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string sql = "SELECT COUNT(*) FROM tblusers WHERE email = @Email";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+
+                        // check if the count is greater than 0
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+                        return count > 0;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.WriteLine("MySQL Error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("An error occurred: " + ex.Message);
+            }
+            return false; // Return false if there's an exception or no matching record
+        }
+
+
         public void AddLogEntry(LogEntry logEntry)
         {
             // SQL command text

@@ -7,7 +7,7 @@
       mc:Ignorable="d"
       d:DesignHeight="800" d:DesignWidth="1000"
       Title="CreateUserAccount"
-      Background="White">      
+      Background="White">
 
     <!-- Background and Layout -->
     <Grid Background="#FFF" Margin="0 50 0 0">
@@ -29,13 +29,16 @@
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Grid Width="500" Margin="20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <!-- Label column -->
+                        <ColumnDefinition Width="*"/>
+                        <!-- Input field column -->
+                        <ColumnDefinition Width="Auto"/>
+                        <!-- Validation message column -->
                     </Grid.ColumnDefinitions>
 
+                    <!-- Auto-sized rows for each form element -->
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -52,59 +55,75 @@
                     </Grid.RowDefinitions>
 
                     <!-- First Name -->
-                    <TextBlock Text="First Name" Foreground="#808598" FontSize="16" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="FirstNameTextBox" Text="{Binding User.FirstName, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="First Name" Foreground="#808598" FontSize="16" Grid.Row="0" Grid.Column="0" Margin="0,5,10,5"/>
+                    <TextBox x:Name="FirstNameTextBox" Text="{Binding User.FirstName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding FirstNameValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="0" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Last Name -->
-                    <TextBlock Text="Last Name" Foreground="#808598" FontSize="16" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="LastNameTextBox" Text="{Binding User.LastName, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5"/>
-
-                    <!-- Company Name (Optional) -->
-                    <TextBlock Text="Company Name" Foreground="#808598" FontSize="16" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="CompanyNameTextBox" Text="{Binding User.CompanyName, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Last Name" Foreground="#808598" FontSize="16" Grid.Row="1" Grid.Column="0" Margin="0,5,10,5"/>
+                    <TextBox x:Name="LastNameTextBox" Text="{Binding User.LastName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding LastNameValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="1" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Email -->
-                    <TextBlock Text="Email" FontSize="16" Foreground="#808598" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="EmailTextBox" Text="{Binding User.Email, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Email" FontSize="16" Foreground="#808598" Grid.Row="2" Grid.Column="0" Margin="0,5,10,5"/>
+                    <TextBox x:Name="EmailTextBox" Text="{Binding User.Email, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding EmailValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="2" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Password -->
-                    <TextBlock Text="Password" Foreground="#808598" FontSize="16" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" Width="300" Height="25" FontSize="16" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Password" Foreground="#808598" FontSize="16" Grid.Row="3" Grid.Column="0" Margin="0,5,10,5"/>
+                    <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding PasswordValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="3" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Confirm Password -->
-                    <TextBlock Text="Confirm Password" Foreground="#808598" FontSize="16" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <PasswordBox x:Name="ConfirmPasswordBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged" Width="300" Height="25" FontSize="16" Grid.Row="5" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Confirm Password" Foreground="#808598" FontSize="16" Grid.Row="4" Grid.Column="0" Margin="0,5,10,5"/>
+                    <PasswordBox x:Name="ConfirmPasswordBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding ConfirmPasswordValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="4" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Phone Number -->
-                    <TextBlock Text="Phone Number" Foreground="#808598" FontSize="16" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="PhoneNumberTextBox" Text="{Binding User.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="6" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Phone Number" Foreground="#808598" FontSize="16" Grid.Row="5" Grid.Column="0" Margin="0,5,10,5"/>
+                    <TextBox x:Name="PhoneNumberTextBox" Text="{Binding User.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding PhoneNumberValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="5" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Address 1 -->
-                    <TextBlock Text="Address 1" Foreground="#808598" FontSize="16" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="Address1TextBox" Text="{Binding User.Address1, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="7" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Address 1" Foreground="#808598" FontSize="16" Grid.Row="6" Grid.Column="0" Margin="0,5,10,5"/>
+                    <TextBox x:Name="Address1TextBox" Text="{Binding User.Address1, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding Address1ValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="6" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Address 2 (Optional) -->
-                    <TextBlock Text="Address 2 (Optional)" Foreground="#808598" FontSize="16" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="Address2TextBox" Text="{Binding User.Address2, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="8" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Address 2" Foreground="#808598" FontSize="16" Grid.Row="7" Grid.Column="0" Margin="0,5,10,5"/>
+                    <TextBox x:Name="Address2TextBox" Text="{Binding User.Address2, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Margin="0,5,0,5"/>
+                    <!-- No validation message for optional field -->
 
                     <!-- City -->
-                    <TextBlock Text="City" FontSize="16" Foreground="#808598" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="CityTextBox" Text="{Binding User.City, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="9" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="City" FontSize="16" Foreground="#808598" Grid.Row="8" Grid.Column="0" Margin="0,5,10,5"/>
+                    <TextBox x:Name="CityTextBox" Text="{Binding User.City, UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding CityValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="8" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Region -->
-                    <TextBlock Text="Region" Foreground="#808598" FontSize="16" Grid.Row="10" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="Region" Text="{Binding User.Region, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="10" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Region" Foreground="#808598" FontSize="16" Grid.Row="9" Grid.Column="0" Margin="0,5,10,5"/>
+                    <TextBox x:Name="RegionTextBox" Text="{Binding User.Region, UpdateSourceTrigger=PropertyChanged}" Grid.Row="9" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding RegionValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="9" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Postal Code -->
-                    <TextBlock Text="Postal Code" Foreground="#808598" FontSize="16" Grid.Row="11" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="PostalCodeTextBox" Text="{Binding User.PostalCode, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="11" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Postal Code" Foreground="#808598" FontSize="16" Grid.Row="10" Grid.Column="0" Margin="0,5,10,5"/>
+                    <TextBox x:Name="PostalCodeTextBox" Text="{Binding User.PostalCode, UpdateSourceTrigger=PropertyChanged}" Grid.Row="10" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="{Binding PostalCodeValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="10" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Country -->
-                    <TextBlock Text="Country" Foreground="#808598" FontSize="16" Grid.Row="12" Grid.Column="0" HorizontalAlignment="Left" Margin="0,5,10,5"/>
-                    <TextBox x:Name="CountryTextBox" Text="{Binding User.Country, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="25" FontSize="16" Grid.Row="12" Grid.Column="1" Margin="0,5,0,5"/>
+                    <TextBlock Text="Country" Foreground="#808598" FontSize="16" Grid.Row="11" Grid.Column="0" Margin="0,5,10,5"/>
+                    <ComboBox x:Name="CountryComboBox" 
+                              SelectedValue="{Binding User.Country, UpdateSourceTrigger=PropertyChanged}" 
+                              SelectedValuePath="Tag"
+                              Grid.Row="11" Grid.Column="1" Margin="0,5,0,5">
+                        <ComboBoxItem Content="New Zealand" Tag="NZ"/>
+                        <ComboBoxItem Content="Australia" Tag="AU"/>
+                        <!-- ... other ComboBoxItems ... -->
+                    </ComboBox>
+                    <TextBlock Text="{Binding CountryValidationMessage}" Foreground="LightGray" FontSize="14" Grid.Row="11" Grid.Column="2" Margin="5,5,10,5"/>
 
                     <!-- Register Button -->
-                    <Button x:Name="RegisterButton"  FontSize="16" Command="{Binding RegisterCommand}" Content="Create New User" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="20" Padding="5"/>
+                    <Button x:Name="RegisterButton" Content="Create New User" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="20" Padding="5" Command="{Binding RegisterCommand}"/>
+
                 </Grid>
             </StackPanel>
         </ScrollViewer>

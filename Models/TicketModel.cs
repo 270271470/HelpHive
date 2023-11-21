@@ -27,5 +27,21 @@ namespace HelpHive.Models
         public int ClientUnread { get; set; }
         public string AdminRead { get; set; }
         public DateTime ReplyTime { get; set; }
+
+        public bool MatchesSearch(string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                return true;
+            }
+
+            // Check if search text is in the TicketId, Title, or Message.
+            return (TicketId?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                   (Title?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                   (DepartmentName?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                   (Name?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                   (Message?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
     }
 }

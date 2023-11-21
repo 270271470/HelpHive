@@ -32,6 +32,43 @@ namespace HelpHive.Views.Pages
             DataContext = new UserDashVM(dataAccess, userService);
         }
 
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox searchBox = sender as TextBox;
+            if (searchBox.Text == "Search...")
+            {
+                searchBox.Text = "";
+                searchBox.Foreground = Brushes.Black; // Or your default TextBox text color
+            }
+        }
+
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox searchBox = sender as TextBox;
+            if (string.IsNullOrWhiteSpace(searchBox.Text))
+            {
+                searchBox.Text = "Search...";
+                searchBox.Foreground = Brushes.Gray;
+            }
+        }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchBox = sender as TextBox; // Cast the sender to a TextBox
+            if (searchBox != null) // Check if the cast was successful
+            {
+                var viewModel = DataContext as UserDashVM; // Safely cast the DataContext to UserDashVM
+                if (viewModel != null) // Check if the DataContext is of the expected type
+                {
+                    viewModel.FilterTickets(searchBox.Text); // Call the FilterTickets method with the current text
+                }
+                else
+                {
+                    // handle where DataContext is not set or not of type UserDashVM
+                }
+            }
+        }
+
         // If user clicks on a subject, this will redirect to the ticket replies page
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

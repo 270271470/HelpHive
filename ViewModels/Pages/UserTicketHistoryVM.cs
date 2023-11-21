@@ -35,8 +35,34 @@ namespace HelpHive.ViewModels.Pages
             _dataAccess = dataAccess;
             _userService = userService;
             UserTicketHistory = new ObservableCollection<TicketModel>(); //NB!
+            FilteredTickets = new ObservableCollection<TicketModel>();
+
             LoadUserDetails();
             LoadTicketHistory();
+        }
+
+        private ObservableCollection<TicketModel> _filteredTickets;
+        public ObservableCollection<TicketModel> FilteredTickets
+        {
+            get { return _filteredTickets; }
+            set
+            {
+                _filteredTickets = value;
+                OnPropertyChanged(nameof(FilteredTickets));
+            }
+        }
+
+        public void FilterTickets(string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                FilteredTickets = new ObservableCollection<TicketModel>(UserTicketHistory);
+            }
+            else
+            {
+                FilteredTickets = new ObservableCollection<TicketModel>(
+                    UserTicketHistory.Where(ticket => ticket.MatchesSearch(searchText)));
+            }
         }
 
         // Method to load user details
@@ -58,6 +84,9 @@ namespace HelpHive.ViewModels.Pages
             {
                 UserTicketHistory.Add(ticket); // Add items to existing collection
             }
+
+            // Initialize FilteredTickets with all tickets to display them by default
+            FilterTickets(""); // Pass an empty string to show all tickets initially
         }
 
     }

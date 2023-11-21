@@ -91,9 +91,13 @@ namespace HelpHive.Views
                 // User Login
                 Button UserLoginButton = new Button
                 {
-                    Content = "User Login",
-                    Style = (Style)FindResource("SidebarButtonStyle")
+                    Content = "User Login"
                 };
+                var style = this.TryFindResource("SidebarButtonStyle") as Style;
+                if (style != null)
+                {
+                    UserLoginButton.Style = style;
+                }
                 UserLoginButton.Click += (s, args) =>
                 {
                     MainFrame.Navigate(new UserLogin());

@@ -12,11 +12,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- For welcome message -->
             <RowDefinition Height="Auto"/>
-            <!-- For heading title -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <!-- For Active Ticket Overview -->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -40,27 +39,54 @@
                    Foreground="#808598"
                    FontWeight="SemiBold"
                    FontSize="32"
-                   Margin="20,20,0,20"
+                   Margin="20,20,0,0"
                    Grid.Row="1" 
                    Grid.ColumnSpan="2"/>
 
-        <!-- Active Ticket Style -->
+        <!-- Active Ticket Overview Title -->
         <TextBlock Text="Ticket History"
                    Foreground="#808598"
                    FontSize="18"
                    FontWeight="Normal"
-                   Margin="20,0,0,0"
-                   Grid.Row="2" Grid.RowSpan="2"/>
+                   Margin="20,15,0,0"
+                   Grid.Row="2" 
+                   Grid.Column="0"
+                   VerticalAlignment="Bottom"/>
+
+        <!-- Search Label -->
+        <TextBlock Text="Search"
+                   Foreground="#808598"
+                   Margin="20,20,0,0"
+                   FontSize="16"
+                   Grid.Row="3" 
+                   Grid.Column="0"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"/>
+
+        <!-- Search box -->
+        <TextBox x:Name="searchBox"
+                 Width="200"
+                 Margin="80,20,0,0"
+                 FontSize="16"
+                 Foreground="#808598"
+                 Height="30"
+                 Grid.Row="3"
+                 Grid.Column="0"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Left"
+                 TextChanged="SearchBox_TextChanged"
+                 GotFocus="SearchBox_GotFocus"
+                 LostFocus="SearchBox_LostFocus"/>
 
         <!-- DataGrid to display tickets with styling -->
-        <DataGrid ItemsSource="{Binding AdminTicketHistory}"
+        <DataGrid ItemsSource="{Binding FilteredTickets}"
           CanUserAddRows="False"
           CanUserDeleteRows="False"
           IsReadOnly="True"
-          Grid.Row="3" 
+          Grid.Row="4" 
           Grid.ColumnSpan="2"
           Background="#fff"
-          Margin="20,50,20,20"
+          Margin="10,30,10,40"
           RowHeight="35"
           ColumnWidth="SizeToCells"
           HeadersVisibility="Column"
@@ -75,7 +101,7 @@
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
                     <Setter Property="Background" Value="#F7FAFD"/>
                     <Setter Property="Foreground" Value="#808598"/>
-                    <Setter Property="Padding" Value="20 10 10 10"/>
+                    <Setter Property="Padding" Value="15 10 10 10"/>
                     <Setter Property="FontSize" Value="16"/>
                     <Setter Property="FontWeight" Value="Normal"/>
                 </Style>
@@ -90,14 +116,14 @@
                                 <Ellipse.Style>
                                     <Style TargetType="Ellipse">
                                         <Setter Property="Margin" Value="0,15,0,0" />
-                                        <Setter Property="Fill" Value="Green"/>
+                                        <Setter Property="Fill" Value="#5DB85B"/>
                                         <!-- Default to Low urgency -->
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Urgency}" Value="Medium">
                                                 <Setter Property="Fill" Value="Orange"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Urgency}" Value="High">
-                                                <Setter Property="Fill" Value="Red"/>
+                                                <Setter Property="Fill" Value="#BE1C23"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -134,7 +160,7 @@
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Foreground" Value="#5a5a5a"/>
-                            <Setter Property="Margin" Value="20,15,0,0" />
+                            <Setter Property="Margin" Value="15,15,0,0" />
                             <Setter Property="BorderThickness" Value="0"/>
                             <Setter Property="FontSize" Value="15"/>
                         </Style>
@@ -162,7 +188,7 @@
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Foreground" Value="#5a5a5a"/>
-                            <Setter Property="Margin" Value="20,15,0,0" />
+                            <Setter Property="Margin" Value="10,15,0,0" />
                             <Setter Property="BorderThickness" Value="0" />
                             <Setter Property="FontSize" Value="15" />
                         </Style>
@@ -186,7 +212,6 @@
             </DataGrid.Columns>
 
         </DataGrid>
-
 
     </Grid>
 </Page>

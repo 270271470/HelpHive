@@ -9,6 +9,19 @@
       Title="AdminLogin"
       Background="White">
 
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#d32d27"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#d32d27"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="0,0,0,2"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </Page.Resources>
+
     <Grid Background="#FFF" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-50,-150,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

@@ -122,9 +122,6 @@
                                     <ComboBoxItem Content="On Hold"/>
                                 </ComboBox>
 
-
-
-
                                 <!-- Set Status ComboBox -->
                                 <ComboBox SelectedValue="{Binding CurrentTicket.IncidentStatus}" SelectedValuePath="Content" Width="120" Height="28" FontSize="15" Margin="0,0,5,0" Padding="10,3,3,0">
                                     <ComboBoxItem Content="Resolved"/>
@@ -146,10 +143,8 @@
                                   Height="28" FontSize="16"
                                   Margin="0,5" Padding="5,2,0,0" Width="135">
                                 </ComboBox>
-
-                                <!-- Attach Files Button (Placeholder for future functionality) -->
-                                <Button Content="Attach Files" Height="28" FontSize="14" Margin="10,0,0,0" Padding="5,0,5,0"/>
-                                <Button Content="Close" Command="{Binding CloseTicketCommand}" Height="28" Background="#BE1C23" FontSize="14" BorderBrush="#BE1C23" Foreground="White" Margin="30,0,10,0" Padding="5,0,5,0"/>
+                                
+                                <Button Content="Close Ticket" Command="{Binding CloseTicketCommand}" Height="28" Background="#BE1C23" FontSize="14" BorderBrush="#BE1C23" Foreground="White" Margin="30,0,10,0" Padding="5,0,5,0"/>
                                 <Button Content="Mark Resolved" Command="{Binding MarkTicketResolvedCommand}" Height="28" Background="#5DB85B" BorderBrush="#5DB85B" FontSize="14" Foreground="White" Margin="5,0,10,0" Padding="5,0,5,0"/>
                                 <Button Content="Reply" 
                                     Command="{Binding UpdateTicketCommand}" 
