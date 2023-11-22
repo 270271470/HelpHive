@@ -40,10 +40,8 @@ namespace HelpHive.ViewModels.Pages
             _userService = userService;
             _navigationService = navigationService;
             _loggingService = loggingService;
-            //_ticketService = ticketService;
-            //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
+
             LoadUserDetails();
-            //LoadTicketReplies();
 
             // initialise the Replies property
             Replies = new ObservableCollection<TicketReplyModel>();

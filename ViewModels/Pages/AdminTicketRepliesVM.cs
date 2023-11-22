@@ -37,16 +37,11 @@ namespace HelpHive.ViewModels.Pages
             _adminService = adminService;
             _navigationService = navigationService;
             _loggingService = loggingService;
-            //_ticketService = ticketService;
-            //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
+
             LoadAdminDetails();
-            //LoadTicketReplies();
 
             // initialise the Replies property
             Replies = new ObservableCollection<TicketReplyModel>();
-
-            //Looking into the issue below
-            //NavigateToAdminDashCommand = new RelayCommand(ExecuteNavigateToAdminDash);
 
             //Admin List from DB
             // Init the ObservableCollection
@@ -183,9 +178,7 @@ namespace HelpHive.ViewModels.Pages
         private bool CanUpdateTicket(object parameter)
         {
             // Updated validation logic
-            //return !string.IsNullOrWhiteSpace(UserMessage);
             return !string.IsNullOrEmpty(CurrentTicket.TicketStatus);
-            //return true;
         }
 
         // Method to handle ticket update
@@ -206,7 +199,6 @@ namespace HelpHive.ViewModels.Pages
                 var success = _dataAccess.InsertAdminTicketReply(adminticketReply);
                 if (success)
                 {
-                    //MessageBox.Show("New Admin reply");
                     //Implement logging here.
                     _loggingService.Log($"ADMIN - {LoggedInAdmin.FullName} (ID {LoggedInAdmin.AdminId}) posted a reply to Ticket ID {CurrentTicket.TicketId}", LogLevel.Info);
                     _navigationService.NavigateTo("AdminDash");
@@ -223,9 +215,6 @@ namespace HelpHive.ViewModels.Pages
                 MessageBox.Show("An error occurred while creating the ticket. Please try again later.");
                 Debug.WriteLine($"Ticket creation failed: {ex.Message}");
             }
-
-
-
 
             Debug.WriteLine("Update Original Ticket Model");
             try
@@ -330,8 +319,6 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-
         // Collection of Admin prop to hold the selected department's ID
         public ObservableCollection<AdminModel> AdminList { get; set; }
 
@@ -350,9 +337,6 @@ namespace HelpHive.ViewModels.Pages
                 }
             }
         }
-
-
-
 
     }
 }

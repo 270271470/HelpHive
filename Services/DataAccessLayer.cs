@@ -393,7 +393,6 @@ namespace HelpHive.DataAccess
                 {
                     connection.Open();
 
-                    //string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'Answered', 'User Reply', 'Resolved', 'Not Resolved', 'Closed', 'On Hold') ORDER BY date DESC";
                     string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'Answered', 'User Reply', 'Resolved', 'Not Resolved', 'Closed', 'On Hold') ORDER BY t.lastreply DESC";
 
                     using (var command = new MySqlCommand(sql, connection))

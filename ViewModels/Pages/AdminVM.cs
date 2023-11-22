@@ -135,7 +135,7 @@ namespace HelpHive.ViewModels.Pages
                 if (success)
                 {
                     MessageBox.Show("Admin registered successfully!");
-                    _loggingService.Log($"ADMIN - New Admin Sccount created - {Admin.Email}", LogLevel.Info);
+                    _loggingService.Log($"ADMIN - New Admin Account created - {Admin.Email}", LogLevel.Info);
                     _navigationService.NavigateTo("AdminLogin");
                 }
                 else
