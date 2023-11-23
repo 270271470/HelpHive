@@ -32,13 +32,14 @@ namespace HelpHive.Views.Pages
             DataContext = new AdminTicketHistoryVM(dataAccess, adminService);
         }
 
+        // filtering search box
         private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox searchBox = sender as TextBox;
             if (searchBox.Text == "Search...")
             {
                 searchBox.Text = "";
-                searchBox.Foreground = Brushes.Black; // Or your default TextBox text color
+                searchBox.Foreground = Brushes.Black;
             }
         }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Services
 {
+    // interface for LoggingService
     public interface ILoggingService
     {
         void Log(string message, LogLevel level);

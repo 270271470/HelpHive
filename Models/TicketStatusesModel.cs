@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Models
 {
+    // this model maps to the tblticketstatuses table and simply handles the different ticket statuses.
     class TicketStatusesModel
     {
         public string Title { get; set; }

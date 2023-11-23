@@ -77,6 +77,7 @@ namespace HelpHive.ViewModels
             return canLogin;
         }
 
+        // method for handle user login
         private void Login(object parameter)
         {
             try
@@ -103,6 +104,7 @@ namespace HelpHive.ViewModels
             }
         }
 
+        // handle hashed password
         private string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())

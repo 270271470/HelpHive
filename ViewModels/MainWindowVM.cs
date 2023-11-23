@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.ViewModels
 {
+    // just a default main window viewmodel
     class MainWindowVM
     {
     }

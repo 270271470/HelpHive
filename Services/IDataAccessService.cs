@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Services
 {
+    // interface for DataAccessService
     public interface IDataAccessService
     {
         void AddLogEntry(LogEntry logEntry);

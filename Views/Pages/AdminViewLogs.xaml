@@ -77,9 +77,5 @@
                 <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}" Width="SizeToCells"/>
             </DataGrid.Columns>
         </DataGrid>
-
-
-
-
     </Grid>
 </Page>

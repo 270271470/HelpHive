@@ -31,8 +31,6 @@
         </Style>
     </Page.Resources>
 
-
-    <!-- Page Content -->
     <Grid>
         <!-- Content alignment -->
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-200,0,0">

@@ -8,6 +8,10 @@ using System.Diagnostics;
 
 namespace HelpHive.DataAccess
 {
+    // the DataAccessLayer is responsible for handling the connection between our app and the remote database.
+    // this file is long as their are many queries taking place, however, most code is duplicated and can probably be simplified if
+    // I did more research on the subject, time did not permit.
+
     public class DataAccessLayer : IDataAccessService
     {
         private string _connectionString;
@@ -17,6 +21,7 @@ namespace HelpHive.DataAccess
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
+        // query to see if an admin email is already registered
         public bool IsAdminEmailRegistered(string email)
         {
             try
@@ -47,6 +52,7 @@ namespace HelpHive.DataAccess
             return false; // Return false if there's an exception or no matching record
         }
 
+        // query to see if a user's email address is already registered
         public bool IsUserEmailRegistered(string email)
         {
             try
@@ -77,7 +83,7 @@ namespace HelpHive.DataAccess
             return false; // Return false if there's an exception or no matching record
         }
 
-
+        // this query will insert new log entries into the database
         public void AddLogEntry(LogEntry logEntry)
         {
             // SQL command text
@@ -97,8 +103,8 @@ namespace HelpHive.DataAccess
                 }
             }
         }
-
-
+        
+        // this query will insert new log entries into the database
         public List<LogEntry> GetLogEntries()
         {
             List<LogEntry> logEntries = new List<LogEntry>();
@@ -131,10 +137,7 @@ namespace HelpHive.DataAccess
             return logEntries;
         }
 
-
-
-
-
+        // query to update the support ticket rating given by the User.
         public void UpdateTicketRating(TicketReplyModel reply)
         {
             List<TicketReplyModel> replies = new List<TicketReplyModel>();
@@ -156,7 +159,7 @@ namespace HelpHive.DataAccess
             }
         }
 
-
+        // query to get ticket replies from the database
         public List<TicketReplyModel> GetTicketReplies(string ticketId)
         {
             List<TicketReplyModel> replies = new List<TicketReplyModel>();
@@ -197,7 +200,7 @@ namespace HelpHive.DataAccess
             return replies;
         }
 
-
+        //query to get the ticket details from the database
         public TicketModel GetTicketDetails(string ticketId)
         {
             TicketModel ticket = null;
@@ -241,10 +244,7 @@ namespace HelpHive.DataAccess
             return ticket;
         }
 
-
-
-
-        //Getting UserOpenTickets from DB
+        // Getting UserOpenTickets from DB
         public List<TicketModel> GetUserOpenTickets(int userId)
         {
             var opentickets = new List<TicketModel>();
@@ -253,8 +253,7 @@ namespace HelpHive.DataAccess
                 using (var connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
-                    //string sql = "SELECT d.name AS Department, t.title AS Subject, t.ticketstatus AS Status, t.lastreply AS LastUpdate FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Open', 'On Hold'); ";
-                    //string sql = "SELECT tid, did, uid, title, ticketstatus, lastreply FROM tbltickets WHERE uid = @UserId AND ticketstatus IN('Open', 'On Hold')";
+
                     string sql = "SELECT t.tid, t.did, t.uid, t.title, t.ticketstatus, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Open', 'Answered', 'User Reply', 'On Hold', 'Answered') ORDER BY t.lastreply DESC";
                     using (var command = new MySqlCommand(sql, connection))
                     {
@@ -289,7 +288,6 @@ namespace HelpHive.DataAccess
             return opentickets;
         }
 
-
         //Getting UserTicketHistory from DB
         public List<TicketModel> GetUserTicketHistory(int userId)
         {
@@ -299,8 +297,7 @@ namespace HelpHive.DataAccess
                 using (var connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
-                    //string sql = "SELECT d.name AS Department, t.title AS Subject, t.ticketstatus AS Status, t.lastreply AS LastUpdate FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Open', 'On Hold'); ";
-                    //string sql = "SELECT tid, did, uid, title, ticketstatus, lastreply FROM tbltickets WHERE uid = @UserId AND ticketstatus IN('Open', 'On Hold')";
+
                     string sql = "SELECT t.tid, t.did, t.uid, t.title, t.ticketstatus, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.uid = @UserId AND t.ticketstatus IN('Not Resolved', 'Resolved', 'Closed') ORDER BY t.lastreply DESC";
                     using (var command = new MySqlCommand(sql, connection))
                     {
@@ -333,9 +330,6 @@ namespace HelpHive.DataAccess
             }
             return tickets;
         }
-
-
-
 
         //GetOpenTicketsAsAdmin from DB
         public List<TicketModel> GetOpenTicketsAsAdmin()
@@ -393,7 +387,6 @@ namespace HelpHive.DataAccess
                 {
                     connection.Open();
 
-                    //string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'Answered', 'User Reply', 'Resolved', 'Not Resolved', 'Closed', 'On Hold') ORDER BY date DESC";
                     string sql = "SELECT t.tid, t.did, t.uid, t.name, t.title, t.ticketstatus, t.urgency, t.lastreply, d.name AS DepartmentName FROM tbltickets AS t JOIN tblticketdepartments AS d ON t.did = d.id WHERE t.ticketstatus IN('Open', 'Answered', 'User Reply', 'Resolved', 'Not Resolved', 'Closed', 'On Hold') ORDER BY t.lastreply DESC";
 
                     using (var command = new MySqlCommand(sql, connection))
@@ -431,11 +424,6 @@ namespace HelpHive.DataAccess
             return tickethistory;
         }
 
-
-
-
-
-
         //Getting Admin Roles from DB
         public List<AdminRolesModel> GetAdminRoles()
         {
@@ -469,9 +457,6 @@ namespace HelpHive.DataAccess
             }
             return adminroles;
         }
-
-
-
 
         //Getting Admins from DB
         public List<AdminModel> GetAdmins()
@@ -513,11 +498,6 @@ namespace HelpHive.DataAccess
             return admins;
         }
 
-
-
-
-
-
         //Getting Departments from DB
         public List<TicketDeptsModel> GetDepartments()
         {
@@ -551,7 +531,6 @@ namespace HelpHive.DataAccess
             }
             return departments;
         }
-
 
         //Update Ticket Status
         public void UpdateTicketStatus(TicketModel ticket)
@@ -587,8 +566,6 @@ namespace HelpHive.DataAccess
                 //return false;
             }
         }
-
-
 
         //Create A New Ticket
         public bool CreateNewTicket(TicketModel ticket)
@@ -677,7 +654,6 @@ namespace HelpHive.DataAccess
             }
         }
 
-
         //User Update Original Ticket
         public bool UserOriginalUpdateTicket(TicketModel ticket)
         {
@@ -717,7 +693,6 @@ namespace HelpHive.DataAccess
                 return false;
             }
         }
-
 
         //Insert Admin Ticket Reply
         public bool InsertAdminTicketReply(TicketReplyModel ticketReply)
@@ -794,8 +769,6 @@ namespace HelpHive.DataAccess
             }
         }
 
-
-
         // VerifyUser before logging in
         public UserModel VerifyUser(string email, string hashedPassword)
         {
@@ -851,8 +824,6 @@ namespace HelpHive.DataAccess
             return null; // Or throw exception, or handle accordingly
         }
 
-
-
         // VerifyAdmin before logging in
         public AdminModel VerifyAdmin(string email, string hashedPassword)
         {
@@ -903,9 +874,7 @@ namespace HelpHive.DataAccess
             return null; // Or throw exception, or handle accordingly
         }
 
-
-
-
+        // getting admin details from the database
         public AdminModel GetAdminDetails(string email)
         {
             AdminModel admin = null;
@@ -947,10 +916,7 @@ namespace HelpHive.DataAccess
             return admin;
         }
 
-
-
-
-
+        // get user details from the database
         public UserModel GetUserDetails(string email)
         {
             UserModel user = null;

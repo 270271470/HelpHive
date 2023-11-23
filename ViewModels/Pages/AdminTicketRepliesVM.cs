@@ -37,16 +37,11 @@ namespace HelpHive.ViewModels.Pages
             _adminService = adminService;
             _navigationService = navigationService;
             _loggingService = loggingService;
-            //_ticketService = ticketService;
-            //UserTicketReplies = new ObservableCollection<TicketReplies>(); //NB!
+
             LoadAdminDetails();
-            //LoadTicketReplies();
 
             // initialise the Replies property
             Replies = new ObservableCollection<TicketReplyModel>();
-
-            //Looking into the issue below
-            //NavigateToAdminDashCommand = new RelayCommand(ExecuteNavigateToAdminDash);
 
             //Admin List from DB
             // Init the ObservableCollection
@@ -142,6 +137,7 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
+        // method to handle the closing of a ticket from the admin side
         private void CloseTicket(object parameter)
         {
             CurrentTicket.TicketStatus = "Closed";
@@ -150,6 +146,7 @@ namespace HelpHive.ViewModels.Pages
             NavigateToAdminDash();
         }
 
+        // method to handle the resolve of a ticket from the admin side
         private void MarkTicketResolved(object parameter)
         {
             CurrentTicket.TicketStatus = "Closed";
@@ -159,11 +156,13 @@ namespace HelpHive.ViewModels.Pages
             NavigateToAdminDash();
         }
 
+        // update status of ticket
         private void UpdateTicket()
         {
             _dataAccess.UpdateTicketStatus(CurrentTicket);
         }
 
+        // navigate back to admin dashboard
         private void NavigateToAdminDash()
         {
             _navigationService.NavigateTo("AdminDash");
@@ -180,12 +179,11 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
+        // check if the ticket can be updated
         private bool CanUpdateTicket(object parameter)
         {
             // Updated validation logic
-            //return !string.IsNullOrWhiteSpace(UserMessage);
             return !string.IsNullOrEmpty(CurrentTicket.TicketStatus);
-            //return true;
         }
 
         // Method to handle ticket update
@@ -206,8 +204,7 @@ namespace HelpHive.ViewModels.Pages
                 var success = _dataAccess.InsertAdminTicketReply(adminticketReply);
                 if (success)
                 {
-                    //MessageBox.Show("New Admin reply");
-                    //Implement logging here.
+                    // log and navigate back to dash
                     _loggingService.Log($"ADMIN - {LoggedInAdmin.FullName} (ID {LoggedInAdmin.AdminId}) posted a reply to Ticket ID {CurrentTicket.TicketId}", LogLevel.Info);
                     _navigationService.NavigateTo("AdminDash");
 
@@ -224,9 +221,7 @@ namespace HelpHive.ViewModels.Pages
                 Debug.WriteLine($"Ticket creation failed: {ex.Message}");
             }
 
-
-
-
+            // the original ticket must also be updated as per below
             Debug.WriteLine("Update Original Ticket Model");
             try
             {
@@ -247,7 +242,6 @@ namespace HelpHive.ViewModels.Pages
                 if (success)
                 {
                     //MessageBox.Show("Admin Updated the tikcet");
-                    //Implement logging here.
                     _navigationService.NavigateTo("AdminDash");
 
                 }
@@ -262,10 +256,9 @@ namespace HelpHive.ViewModels.Pages
                 Debug.WriteLine($"Ticket creation failed: {ex.Message}");
             }
 
-
-
         }
 
+        // get admin full name
         public string AdminFullName
         {
             get { return LoggedInAdmin.FirstName + " " + LoggedInAdmin.LastName; }
@@ -330,8 +323,6 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-
         // Collection of Admin prop to hold the selected department's ID
         public ObservableCollection<AdminModel> AdminList { get; set; }
 
@@ -350,9 +341,6 @@ namespace HelpHive.ViewModels.Pages
                 }
             }
         }
-
-
-
 
     }
 }

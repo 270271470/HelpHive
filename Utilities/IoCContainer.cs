@@ -12,6 +12,7 @@ using HelpHive.DataAccess;
 
 namespace HelpHive.Utilities
 {
+    // dependency injection container - register services and viewmodels here
     public static class IoCContainer
     {
         public static ServiceProvider ServiceProvider { get; private set; }

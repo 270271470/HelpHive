@@ -4,6 +4,8 @@ using HelpHive.Services;
 
 namespace HelpHive.ViewModels.Pages
 {
+
+    // view model for admin viewing logs
     public class AdminViewLogsVM : ViewModelBaseClass
     {
         private readonly IDataAccessService _dataAccess;
@@ -12,6 +14,7 @@ namespace HelpHive.ViewModels.Pages
 
         public ObservableCollection<LogEntry> LogEntries { get; set; }
 
+        // constructor
         public AdminViewLogsVM(IDataAccessService dataAccess, IAdminService adminService)
         {
             _dataAccess = dataAccess;
@@ -21,6 +24,7 @@ namespace HelpHive.ViewModels.Pages
             LoadLogEntries();
         }
 
+        // query database to get logs
         public void LoadLogEntries()
         {
             var logs = _dataAccess.GetLogEntries();

@@ -91,7 +91,7 @@ namespace HelpHive.Views.Pages
             var textBox = sender as TextBox;
             if (textBox != null && string.IsNullOrWhiteSpace(textBox.Text))
             {
-                // Set to light color to indicate placeholder text
+                // light color to indicate placeholder text
                 textBox.Foreground = new SolidColorBrush(Colors.Gray);
                 textBox.Text = "Enter your update message here...";
             }

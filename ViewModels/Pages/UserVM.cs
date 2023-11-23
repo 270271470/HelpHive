@@ -54,6 +54,7 @@ namespace HelpHive.ViewModels
             RegisterCommand = new RelayCommand(Register, CanRegister);
         }
 
+        // define User property
         public UserModel User
         {
             get => _user;
@@ -68,6 +69,7 @@ namespace HelpHive.ViewModels
             }
         }
 
+        // RegisterCommand button interaction
         public RelayCommand RegisterCommand { get; private set; }
 
         private string _confirmPassword;
@@ -82,6 +84,7 @@ namespace HelpHive.ViewModels
             }
         }
 
+        // check if registration can proceed
         private bool CanRegister(object parameter)
         {
             ResetValidationMessages();
@@ -113,6 +116,7 @@ namespace HelpHive.ViewModels
             return canRegister;
         }
 
+        // navigate to userdash
         private void ExecuteNavigateToUserDash(object parameter)
         {
             _navigationService.NavigateTo("UserDash");
@@ -189,6 +193,7 @@ namespace HelpHive.ViewModels
             CountryValidationMessage = string.Empty;
         }
 
+        // below are field validation methods
         private void ValidateFirstName()
         {
             if (string.IsNullOrWhiteSpace(User?.FirstName))

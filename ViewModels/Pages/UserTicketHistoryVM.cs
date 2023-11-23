@@ -41,6 +41,7 @@ namespace HelpHive.ViewModels.Pages
             LoadTicketHistory();
         }
 
+        // searchbar for filtering tickets
         private ObservableCollection<TicketModel> _filteredTickets;
         public ObservableCollection<TicketModel> FilteredTickets
         {
@@ -52,6 +53,7 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
+        // filter tickets based on search term
         public void FilterTickets(string searchText)
         {
             if (string.IsNullOrWhiteSpace(searchText))
@@ -85,7 +87,7 @@ namespace HelpHive.ViewModels.Pages
                 UserTicketHistory.Add(ticket); // Add items to existing collection
             }
 
-            // Initialize FilteredTickets with all tickets to display them by default
+            // Initialise FilteredTickets with all tickets to display them by default
             FilterTickets(""); // Pass an empty string to show all tickets initially
         }
 

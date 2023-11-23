@@ -204,7 +204,6 @@
                                            FontSize="15"
                                            Foreground="#808598"
                                            Margin="0,30,0,10"/>
-                                        <!-- Further content such as ratings or operator/client tags can go here -->
                                         <TextBlock Text="Rate this reply:"
                                                 Visibility="Collapsed">
                                             <TextBlock.Style>
@@ -217,7 +216,6 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
-
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
@@ -240,9 +238,6 @@
                                Margin="0,30,0,10"/>
                         </StackPanel>
                     </Border>
-
-
-
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

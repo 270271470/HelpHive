@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Models
 {
+    // this class get the adminroles from the database
     public class AdminRolesModel
     {
         public int RoleId { get; set; }

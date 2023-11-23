@@ -19,7 +19,7 @@
         <Style x:Key="StarToggleButtonStyle" TargetType="ToggleButton">
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Content" Value="★"/>
-            <!-- Solid star character -->
+            <!-- Star character -->
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Foreground" Value="Gray"/>
@@ -50,8 +50,6 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
-
 
     </Page.Resources>
 
@@ -150,12 +148,12 @@
                                     IsEnabled="{Binding ElementName=txtUpdateMessage, Path=Text.Length, Converter={StaticResource NonZeroLengthToBoolConverter}}">
                                     <Button.Style>
                                         <Style TargetType="Button">
-                                            <!-- Set default style properties that apply when the button is enabled -->
+                                            <!-- default style properties when the button is enabled -->
                                             <Setter Property="Background" Value="#22313F"/>
                                             <Setter Property="Foreground" Value="#fefefe"/>
                                             <Setter Property="BorderBrush" Value="#22313F"/>
                                             <Style.Triggers>
-                                                <!-- Change properties when the button is disabled -->
+                                                <!-- when the button is disabled -->
                                                 <Trigger Property="IsEnabled" Value="True">
                                                     <Setter Property="Background" Value="#22313F"/>
                                                     <Setter Property="Foreground" Value="#fefefe"/>
@@ -165,8 +163,6 @@
                                         </Style>
                                     </Button.Style>
                                 </Button>
-
-
                             </StackPanel>
 
                         </StackPanel>
@@ -197,7 +193,6 @@
                                            FontSize="15"
                                            Foreground="#808598"
                                            Margin="0,30,0,10"/>
-                                        <!-- Further content such as ratings or operator/client tags can go here -->
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
                                             <StackPanel.Style>
                                                 <Style TargetType="StackPanel">
@@ -209,7 +204,7 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </StackPanel.Style>
-                                            <!-- Five star rating system -->
+                                            <!-- Five star rating feature -->
                                             <ToggleButton Style="{StaticResource StarToggleButtonStyle}" 
                                                   IsChecked="{Binding Path=Rating, Converter={StaticResource RatingToBooleanConverter}, ConverterParameter=1}"
                                                   Command="{Binding DataContext.StarRatingCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"

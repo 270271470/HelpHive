@@ -32,13 +32,14 @@ namespace HelpHive.Views.Pages
             DataContext = new AdminDashVM(dataAccess, adminService);
         }
 
+        // ticket search field for filtering search term
         private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox searchBox = sender as TextBox;
             if (searchBox.Text == "Search...")
             {
                 searchBox.Text = "";
-                searchBox.Foreground = Brushes.Black; // Or your default TextBox text color
+                searchBox.Foreground = Brushes.Black;
             }
         }
 
@@ -57,14 +58,14 @@ namespace HelpHive.Views.Pages
             var searchBox = sender as TextBox; // Cast the sender to a TextBox
             if (searchBox != null) // Check if the cast was successful
             {
-                var viewModel = DataContext as AdminDashVM; // Safely cast the DataContext to UserDashVM
+                var viewModel = DataContext as AdminDashVM; // cast the DataContext to UserDashVM
                 if (viewModel != null) // Check if the DataContext is of the expected type
                 {
                     viewModel.FilterTickets(searchBox.Text); // Call the FilterTickets method with the current text
                 }
                 else
                 {
-                    // handle where DataContext is not set or not of type UserDashVM
+
                 }
             }
         }

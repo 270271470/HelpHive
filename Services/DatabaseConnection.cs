@@ -7,6 +7,7 @@ using MySql.Data.MySqlClient;
 
 namespace HelpHive.Services
 {
+    // default connection string to connect to remote mysql database
     public class DatabaseConnection
     {
         private readonly string _connectionString;

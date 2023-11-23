@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Models
 {
+    // this model map to the tblticketreplies table in our database
+    // any updates to the ticket thread takes place using this model
     public class TicketReplyModel
     {
         public string Tid { get; set; }

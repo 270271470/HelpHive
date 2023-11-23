@@ -60,8 +60,6 @@ namespace HelpHive.ViewModels.Pages
             CreateTicketCommand = new RelayCommand(CreateTicket, CanCreateTicket);
         }
 
-
-
         // LoggedInUser - Bindable property for the View
         public UserModel LoggedInUser
         {
@@ -72,8 +70,6 @@ namespace HelpHive.ViewModels.Pages
                 OnPropertyChanged(nameof(LoggedInUser)); // Notify view of property change
             }
         }
-
-
 
         // Subject of ticket
         public string Subject
@@ -107,8 +103,6 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-
         // Public property to get and set the TicketModel. Raises property changed notifications
         public TicketModel Ticket
         {
@@ -125,8 +119,6 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-
         // Method to determine if the RegisterCommand can execute based on the current state of the UserModel props
         private bool CanCreateTicket(object parameter)
         {
@@ -138,7 +130,6 @@ namespace HelpHive.ViewModels.Pages
         {
             _navigationService.NavigateTo("UserDash");
         }
-
 
         // Method to handle ticket creation
         private void CreateTicket(object parameter)
@@ -183,8 +174,7 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-
+        // method to generate a random number for the ticketid
         private Random _random = new Random();
         private string GenerateTicketId()
         {
@@ -204,8 +194,6 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-
         //Populate the Departments collection from DB
         private void LoadDepartments()
         {
@@ -215,8 +203,6 @@ namespace HelpHive.ViewModels.Pages
                 Departments.Add(dept);
             }
         }
-
-
 
         // Collection of Dept prop to hold the selected department's ID
         public ObservableCollection<TicketDeptsModel> Departments { get; set; }
@@ -236,8 +222,6 @@ namespace HelpHive.ViewModels.Pages
                 }
             }
         }
-
-
 
         private string _selectedPriority;
         public string SelectedPriority

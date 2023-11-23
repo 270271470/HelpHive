@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Services
 {
+    // ticket service - determining current tickets
     public class TicketService : ITicketService
     {
         public TicketModel CurrentTicket { get; private set; }

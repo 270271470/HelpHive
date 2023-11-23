@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Models
 {
+    // the TicketModel class maps to the tbltickets table in our remote database
+    // this model creates and modifies all attributes of the original ticket
     public class TicketModel
     {
         public string TicketId { get; set; }

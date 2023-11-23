@@ -32,13 +32,14 @@ namespace HelpHive.Views.Pages
             DataContext = new UserDashVM(dataAccess, userService);
         }
 
+        // search box filtering
         private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox searchBox = sender as TextBox;
             if (searchBox.Text == "Search...")
             {
                 searchBox.Text = "";
-                searchBox.Foreground = Brushes.Black; // Or your default TextBox text color
+                searchBox.Foreground = Brushes.Black;
             }
         }
 
@@ -64,7 +65,7 @@ namespace HelpHive.Views.Pages
                 }
                 else
                 {
-                    // handle where DataContext is not set or not of type UserDashVM
+                    // where DataContext is not set or not of type UserDashVM
                 }
             }
         }

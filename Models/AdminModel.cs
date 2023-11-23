@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Models
 {
+    // the AdminModel maps to tbladmins in our remote database
     public class AdminModel
     {
         public int AdminId { get; set; }             // aid is auto-incremented by database
@@ -14,7 +15,7 @@ namespace HelpHive.Models
         public string Password { get; set; }        // Storing a hashed password, not plain text
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
+        public string FullName => $"{FirstName} {LastName}";    // combining the fname and lname into fullname for convenience
         public string Email { get; set; }
         public string Departments { get; set; }
         public string TicketNotifications { get; set; }
