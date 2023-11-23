@@ -3,6 +3,7 @@ using System.Windows.Input;
 
 namespace HelpHive.Commands
 {
+    // A practical way to handle commands in the ViewModel
     public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;

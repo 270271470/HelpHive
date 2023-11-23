@@ -4,6 +4,8 @@ using System.Windows.Data;
 
 namespace HelpHive.Converters
 {
+    // used to combine multiple source values into a single target
+    // we use this in your ticket reply thread to show who made the reply
     public class ReplyTypeConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

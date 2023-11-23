@@ -179,8 +179,6 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-
         // Collection of AdminRoles prop to hold the selected role's ID
         public ObservableCollection<AdminRolesModel> AdminRoles { get; set; }
 
@@ -200,8 +198,6 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-
         //Populate the Departments collection from DB
         private void LoadDepartments()
         {
@@ -211,7 +207,6 @@ namespace HelpHive.ViewModels.Pages
                 Departments.Add(dept);
             }
         }
-
 
         // Collection of Dept prop to hold the selected department's ID
         public ObservableCollection<TicketDeptsModel> Departments { get; set; }

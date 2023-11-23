@@ -7,6 +7,8 @@ using HelpHive.ViewModels.Pages;
 
 namespace HelpHive.Services
 {
+    // this is the navigation service - responsible for handling all navigation between pages
+    // we register each page in the NavigateTo function and use a siwtch case to hand the actual navigation
     public class AppNavigationService : INavigationService
     {
         private Frame _frame;

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Services
 {
+    // interface for the user service
     public interface IUserService
     {
         UserModel CurrentUser { get; }

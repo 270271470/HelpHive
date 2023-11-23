@@ -25,6 +25,7 @@ namespace HelpHive.Views.Pages
     /// Interaction logic for UserLogin.xaml
     public partial class UserLogin : Page
     {
+        // monitor when password box changes
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (this.DataContext != null)
@@ -33,6 +34,7 @@ namespace HelpHive.Views.Pages
             }
         }
 
+        // handle the login
         public UserLogin()
         {
             InitializeComponent();

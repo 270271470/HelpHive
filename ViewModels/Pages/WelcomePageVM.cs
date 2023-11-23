@@ -27,6 +27,7 @@ namespace HelpHive.ViewModels.Pages
             NavigateToAdminLoginCommand = new RelayCommand(ExecuteNavigateToAdminLogin);
         }
 
+        // navigation for buttons on welcomepage
         private void ExecuteNavigateToNewUser(object parameter)
         {
             _navigationService.NavigateTo("NewUser");

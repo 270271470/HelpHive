@@ -60,7 +60,7 @@
                 Grid.Row="2"
                 Grid.Column="1">
             <StackPanel Margin="20">
-                <!-- Form elements go here -->
+                <!-- Form elements  -->
                 <TextBlock Foreground="#808598" FontSize="16" Text="Subject"/>
                 <TextBox Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" Foreground="#808598" Margin="0,5" Height="25" FontSize="16"/>
                 <TextBlock Foreground="#808598" FontSize="16" Text="Department" />

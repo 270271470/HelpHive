@@ -322,7 +322,6 @@ namespace HelpHive.Views
                     MainFrame.Navigate(new UserLogin());
                 };
                 SidebarStackPanel.Children.Add(logoutButton);
-
                 // End of UserNewTicket button links
             }
 
@@ -388,7 +387,6 @@ namespace HelpHive.Views
                     MainFrame.Navigate(new UserLogin());
                 };
                 SidebarStackPanel.Children.Add(logoutButton);
-
                 // End of UserTicketHistory button links
             }
 
@@ -652,11 +650,8 @@ namespace HelpHive.Views
                     MainFrame.Navigate(new AdminLogin());
                 };
                 SidebarStackPanel.Children.Add(logoutButton);
-
                 // End of AdminViewLogs button links
             }
-
-
 
 
             // Start WelcomeScreen button links
@@ -760,13 +755,7 @@ namespace HelpHive.Views
                 };
                 SidebarStackPanel.Children.Add(CreateAdminButton);
                 // End of Create New User button links
-
             }
-
-
-
-
-
 
             else if (e.Content is NewAdmin)
             {
@@ -817,12 +806,7 @@ namespace HelpHive.Views
                 SidebarStackPanel.Children.Add(AdminLoginButton);
                 // End of UserNewTicket button links
 
-
             }
-
-
-
-
 
         }
 

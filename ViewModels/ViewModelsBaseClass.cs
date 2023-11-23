@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace HelpHive.ViewModels
 {
+    // default ViewModelBaseClass - facilitates property change notifications.
     public class ViewModelBaseClass : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

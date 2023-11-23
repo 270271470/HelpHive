@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace HelpHive.Converters
 {
+    // to convert an int value to a boolean value
     public class NonZeroLengthToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

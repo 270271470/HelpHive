@@ -8,6 +8,7 @@ using System.Windows.Data;
 
 namespace HelpHive.Converters
 {
+    // used for the star rating feature - converts int rating to bool
     public class RatingToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

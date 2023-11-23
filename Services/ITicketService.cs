@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Services
 {
+    // interface for ticketservice
     public interface ITicketService
     {
         TicketModel CurrentTicket { get; }

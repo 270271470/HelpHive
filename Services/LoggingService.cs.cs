@@ -6,6 +6,7 @@ using System.Data;
 
 namespace HelpHive.Services
 {
+    // the logging service - responsible to handling the logging of system events
     public class LoggingService : ILoggingService
     {
         private readonly IDataAccessService _dataAccessService;

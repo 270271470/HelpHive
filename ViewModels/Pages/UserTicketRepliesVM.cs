@@ -57,6 +57,7 @@ namespace HelpHive.ViewModels.Pages
             UpdateTicketCommand = new RelayCommand(UpdateTicket, CanUpdateTicket);
         }
 
+        // user ticket rating update method
         private void ExecuteStarRating(object parameter)
         {
             var reply = parameter as TicketReplyModel;
@@ -66,13 +67,13 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
-
-
+        // nothing special here, just return true
         private bool CanExecuteStarRating(object parameter)
         {
             return true; // no special requirements
         }
 
+        // get the original posted information  for By, Date, Message
         private string _origPostedBy;
         public string OrigPostedBy
         {
@@ -129,6 +130,7 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
+        // handle the vlosing of tickets by users
         private void CloseTicket(object parameter)
         {
             CurrentTicket.TicketStatus = "Closed";
@@ -137,6 +139,7 @@ namespace HelpHive.ViewModels.Pages
             NavigateToUserDash();
         }
 
+        // handle the marking as resolved by users
         private void MarkTicketResolved(object parameter)
         {
             CurrentTicket.TicketStatus = "Closed";
@@ -146,11 +149,13 @@ namespace HelpHive.ViewModels.Pages
             NavigateToUserDash();
         }
 
+        // update ticket status
         private void UpdateTicket()
         {
             _dataAccess.UpdateTicketStatus(CurrentTicket);
         }
 
+        // navigate to user dash by usign the navigation service
         private void NavigateToUserDash()
         {
             _navigationService.NavigateTo("UserDash");
@@ -167,6 +172,7 @@ namespace HelpHive.ViewModels.Pages
             }
         }
 
+        //check if the tickcet can be updated
         private bool CanUpdateTicket(object parameter)
         {
             // Updated validation logic
@@ -247,12 +253,11 @@ namespace HelpHive.ViewModels.Pages
 
         }
 
-
+        // exe user dash navigation
         private void ExecuteNavigateToUserDash(object parameter)
         {
             _navigationService.NavigateTo("UserDash");
         }
-
 
         private string _userMessage;
         public string UserMessage

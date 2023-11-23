@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Models
 {
+    // the UserModel map to the tblusers table in our database and is used to create new users and verify logins
     public class UserModel
     {
         public int UserId { get; set; }             // uid is auto-incremented by database

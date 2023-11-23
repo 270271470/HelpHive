@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HelpHive.Services
 {
+    // interface for AdminService
     public interface IAdminService
     {
         AdminModel CurrentAdmin { get; }
